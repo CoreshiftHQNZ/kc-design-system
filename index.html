@@ -261,26 +261,37 @@
 
   /* STATUS BADGE */
   .badge {
-    display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px;
+    display: inline-flex; align-items: center; padding: 4px 12px;
     border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap;
-    transition: transform 0.15s ease;
+    position: relative; cursor: default;
+    transition: all 0.15s ease;
   }
-  .badge:hover { transform: scale(1.05); }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
   .badge-draft { background: var(--bg-secondary); color: var(--text-03); }
-  .badge-draft .badge-dot { background: var(--text-03); }
   .badge-generating { background: var(--primary-light); color: var(--primary); animation: pulse 2s ease infinite; }
-  .badge-generating .badge-dot { background: var(--primary); animation: blink 1s ease infinite; }
   .badge-approved { background: var(--success-light); color: #059669; }
-  .badge-approved .badge-dot { background: var(--success); }
   .badge-failed { background: var(--error-light); color: var(--error); }
-  .badge-failed .badge-dot { background: var(--error); }
   .badge-scheduled { background: var(--purple-light); color: #7C3AED; }
-  .badge-scheduled .badge-dot { background: var(--purple); }
   .badge-published { background: var(--blue-light); color: #2563EB; }
-  .badge-published .badge-dot { background: var(--blue); }
   .badge-review { background: var(--warning-light); color: #D97706; }
-  .badge-review .badge-dot { background: var(--warning); }
+
+  /* Badge tooltip popup */
+  .badge-tip {
+    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+    background: var(--text-01); color: white; font-size: 12px; font-weight: 500;
+    padding: 8px 12px; border-radius: 10px; white-space: nowrap;
+    opacity: 0; pointer-events: none; z-index: 10;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .badge-tip::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--text-01);
+  }
+  .badge:hover .badge-tip { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .badge-tip-action {
+    color: var(--primary); font-weight: 600; margin-left: 4px; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
 
   /* PLATFORM BADGE */
   .platform-badge {
@@ -289,11 +300,11 @@
     transition: all 0.15s ease;
   }
   .platform-badge:hover { border-color: var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
-  .platform-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .platform-logo { width: 16px; height: 16px; flex-shrink: 0; }
+  .platform-logo svg { width: 16px; height: 16px; }
   .platform-badge.connected { background: var(--success-light); border-color: #BBF7D0; }
-  .platform-badge.connected .platform-dot { background: var(--success); }
   .platform-badge.disconnected { background: var(--bg-secondary); }
-  .platform-badge.disconnected .platform-dot { background: var(--text-03); }
+  .platform-badge.disconnected .platform-logo { opacity: 0.4; }
 
   /* AVATAR */
   .avatar {
@@ -520,7 +531,7 @@
               <td class="cell-primary">Spring Product Launch Blog</td>
               <td>Storepro</td>
               <td>Blog</td>
-              <td><span class="badge badge-approved"><span class="badge-dot"></span>Approved</span></td>
+              <td><span class="badge badge-approved">Approved</span></td>
               <td>Mar 20</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -528,7 +539,7 @@
               <td class="cell-primary">Social Campaign Q2</td>
               <td>Growth Partners</td>
               <td>Social Image</td>
-              <td><span class="badge badge-generating"><span class="badge-dot"></span>Generating</span></td>
+              <td><span class="badge badge-generating">Generating</span></td>
               <td>Mar 22</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -536,7 +547,7 @@
               <td class="cell-primary">Brand Story Video</td>
               <td>Storepro</td>
               <td>Social Video</td>
-              <td><span class="badge badge-draft"><span class="badge-dot"></span>Draft</span></td>
+              <td><span class="badge badge-draft">Draft</span></td>
               <td>Mar 23</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -544,7 +555,7 @@
               <td class="cell-primary">Weekly Newsletter</td>
               <td>Coreshift HQ</td>
               <td>Blog</td>
-              <td><span class="badge badge-scheduled"><span class="badge-dot"></span>Scheduled</span></td>
+              <td><span class="badge badge-scheduled">Scheduled</span></td>
               <td>Mar 18</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -552,7 +563,7 @@
               <td class="cell-primary">Product Feature Update</td>
               <td>Storepro</td>
               <td>Blog</td>
-              <td><span class="badge badge-failed"><span class="badge-dot"></span>Failed</span></td>
+              <td><span class="badge badge-failed">Failed</span></td>
               <td>Mar 17</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -560,7 +571,7 @@
               <td class="cell-primary">Year in Review Post</td>
               <td>Growth Partners</td>
               <td>Blog</td>
-              <td><span class="badge badge-review"><span class="badge-dot"></span>In Review</span></td>
+              <td><span class="badge badge-review">In Review</span></td>
               <td>Mar 15</td>
               <td class="cell-link">View →</td>
             </tr>
@@ -572,16 +583,16 @@
     <!-- STATUS BADGE -->
     <div class="section" id="status-badge">
       <h2 class="section-title">Status Badge</h2>
-      <p class="section-desc">Subtle scale on hover. "Generating" pulses. All job lifecycle states.</p>
+      <p class="section-desc">Hover to see contextual info popup with action link. "Generating" pulses.</p>
       <div class="demo-card">
         <div style="display:flex;flex-wrap:wrap;gap:10px;">
-          <span class="badge badge-draft"><span class="badge-dot"></span>Draft</span>
-          <span class="badge badge-generating"><span class="badge-dot"></span>Generating</span>
-          <span class="badge badge-review"><span class="badge-dot"></span>In Review</span>
-          <span class="badge badge-approved"><span class="badge-dot"></span>Approved</span>
-          <span class="badge badge-scheduled"><span class="badge-dot"></span>Scheduled</span>
-          <span class="badge badge-published"><span class="badge-dot"></span>Published</span>
-          <span class="badge badge-failed"><span class="badge-dot"></span>Failed</span>
+          <span class="badge badge-draft">Draft<span class="badge-tip">Not yet submitted</span></span>
+          <span class="badge badge-generating">Generating<span class="badge-tip">72% complete — ~2 min left</span></span>
+          <span class="badge badge-review">In Review<span class="badge-tip">Sent to client 2h ago.<span class="badge-tip-action">Resend</span></span></span>
+          <span class="badge badge-approved">Approved<span class="badge-tip">By Ricky J. on Mar 21.<span class="badge-tip-action">Schedule →</span></span></span>
+          <span class="badge badge-scheduled">Scheduled<span class="badge-tip">Mar 28 at 9:00 AM.<span class="badge-tip-action">Reschedule</span></span></span>
+          <span class="badge badge-published">Published<span class="badge-tip">Live since Mar 20</span></span>
+          <span class="badge badge-failed">Failed<span class="badge-tip">Token limit exceeded.<span class="badge-tip-action">Retry</span></span></span>
         </div>
       </div>
     </div>
@@ -593,15 +604,15 @@
       <div class="demo-card">
         <div class="variant-label">Connected</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
-          <span class="platform-badge connected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743);border-radius:3px;display:inline-block"></span>Instagram</span>
-          <span class="platform-badge connected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:#0077B5;border-radius:3px;display:inline-block"></span>LinkedIn</span>
-          <span class="platform-badge connected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:#1877F2;border-radius:3px;display:inline-block"></span>Facebook</span>
+          <span class="platform-badge connected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#E4405F" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#E4405F" stroke-width="2"/><circle cx="18" cy="6" r="1.5" fill="#E4405F"/></svg></span>Instagram</span>
+          <span class="platform-badge connected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="3" stroke="#0A66C2" stroke-width="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke="#0A66C2" stroke-width="2" stroke-linecap="round"/></svg></span>LinkedIn</span>
+          <span class="platform-badge connected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke="#1877F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Facebook</span>
         </div>
         <div class="variant-label">Disconnected</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span class="platform-badge disconnected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:#FF0000;border-radius:3px;display:inline-block;opacity:0.4"></span>YouTube</span>
-          <span class="platform-badge disconnected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:#1DA1F2;border-radius:3px;display:inline-block;opacity:0.4"></span>X (Twitter)</span>
-          <span class="platform-badge disconnected"><span class="platform-dot"></span><span style="width:14px;height:14px;background:#00BF63;border-radius:3px;display:inline-block;opacity:0.4"></span>Google Business</span>
+          <span class="platform-badge disconnected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2c.312-1.732.466-3.49.46-5.25a29.005 29.005 0 0 0-.46-5.33z" stroke="#FF0000" stroke-width="1.5"/><polygon points="9.75,8.27 15.5,11.75 9.75,15.23" stroke="#FF0000" stroke-width="1.5" fill="none"/></svg></span>YouTube</span>
+          <span class="platform-badge disconnected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-8M20 4l-6.768 8" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>X (Twitter)</span>
+          <span class="platform-badge disconnected"><span class="platform-logo"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#4285F4" stroke-width="1.5"/><path d="M12 7v4l3 2" stroke="#4285F4" stroke-width="1.5" stroke-linecap="round"/><path d="M6.5 14.5h4v4" stroke="#4285F4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Google</span>
         </div>
       </div>
     </div>
