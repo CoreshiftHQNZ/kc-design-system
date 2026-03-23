@@ -220,25 +220,25 @@
     background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px;
     padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     transition: all 0.2s ease; cursor: default;
+    display: flex; flex-direction: column; min-height: 180px;
   }
   .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
-  .stat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .stat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+  .stat-top-label { font-size: 14px; font-weight: 500; color: var(--text-01); line-height: 1.3; }
   .stat-icon {
-    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    font-size: 20px; transition: transform 0.2s ease;
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s ease; flex-shrink: 0;
   }
   .stat-card:hover .stat-icon { transform: scale(1.1); }
+  .stat-icon svg { width: 20px; height: 20px; stroke: var(--primary); stroke-width: 1.8; fill: none; }
   .stat-icon.orange { background: var(--primary-light); }
-  .stat-icon.green { background: var(--success-light); }
-  .stat-icon.purple { background: var(--purple-light); }
-  .stat-icon.blue { background: var(--blue-light); }
-  .stat-value { font-size: 32px; font-weight: 700; color: var(--text-01); line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 14px; color: var(--text-03); margin-bottom: 12px; }
-  .stat-link { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500; transition: color 0.15s ease; }
+  .stat-icon.orange svg { stroke: var(--primary); }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--text-01); line-height: 1; margin-bottom: 4px; }
+  .stat-detail { font-size: 13px; color: var(--text-03); line-height: 1.4; }
+  .stat-detail-sub { font-size: 12px; color: var(--text-03); margin-top: 2px; }
+  .stat-bottom { margin-top: auto; padding-top: 12px; display: flex; justify-content: flex-end; }
+  .stat-link { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500; transition: all 0.15s ease; }
   .stat-link:hover { color: var(--primary-hover); text-decoration: underline; }
-  .stat-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
-  .stat-trend.up { color: #059669; background: var(--success-light); }
-  .stat-trend.down { color: var(--error); background: var(--error-light); }
 
   /* DATA TABLE */
   .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
@@ -456,42 +456,45 @@
     <!-- STAT CARD -->
     <div class="section" id="stat-card">
       <h2 class="section-title">Stat Card</h2>
-      <p class="section-desc">Lifts on hover. Icon scales. Use on dashboard top row.</p>
+      <p class="section-desc">Label top-left, icon top-right, value + detail below, action link bottom-right. Lifts on hover.</p>
       <div class="grid-4">
         <div class="stat-card">
           <div class="stat-top">
-            <div class="stat-icon orange">📝</div>
-            <span class="stat-trend up">↑ 12%</span>
+            <div class="stat-top-label">Next Up to Publish</div>
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
           </div>
-          <div class="stat-value">24</div>
-          <div class="stat-label">Active Jobs</div>
-          <a href="#" class="stat-link">View all →</a>
+          <div class="stat-value">2 h 15 min</div>
+          <div class="stat-detail">Until deadline</div>
+          <div class="stat-detail-sub">: [Yumi LTD] Blog / Instagram Post</div>
+          <div class="stat-bottom"><a href="#" class="stat-link">Send Reminders</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
-            <div class="stat-icon green">✅</div>
-            <span class="stat-trend up">↑ 8%</span>
+            <div class="stat-top-label">Awaiting Client Approval</div>
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           </div>
-          <div class="stat-value">156</div>
-          <div class="stat-label">Published</div>
-          <a href="#" class="stat-link">View all →</a>
+          <div class="stat-value">4</div>
+          <div class="stat-detail">Pending Posts</div>
+          <div class="stat-bottom"><a href="#" class="stat-link">Send Reminders</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
-            <div class="stat-icon purple">👥</div>
+            <div class="stat-top-label">High-Priority Feedback</div>
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           </div>
-          <div class="stat-value">12</div>
-          <div class="stat-label">Clients</div>
-          <a href="#" class="stat-link">Manage →</a>
+          <div class="stat-value">4</div>
+          <div class="stat-detail">New tone adjustment requested by</div>
+          <div class="stat-detail-sub">: Client A LTD/ Client ABCDEFGG ...</div>
+          <div class="stat-bottom"><a href="#" class="stat-link">Send Reminders</a></div>
         </div>
         <div class="stat-card">
           <div class="stat-top">
-            <div class="stat-icon blue">📅</div>
-            <span class="stat-trend down">↓ 3%</span>
+            <div class="stat-top-label">Daily Goal</div>
+            <div class="stat-icon orange"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           </div>
-          <div class="stat-value">8</div>
-          <div class="stat-label">Scheduled</div>
-          <a href="#" class="stat-link">Calendar →</a>
+          <div class="stat-value">80%</div>
+          <div class="stat-detail">12/16 Posts Drafted.</div>
+          <div class="stat-bottom"><a href="#" class="stat-link">Send Reminders</a></div>
         </div>
       </div>
     </div>
