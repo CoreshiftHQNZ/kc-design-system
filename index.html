@@ -782,6 +782,93 @@
   .time-picker-date { font-size: 14px; color: var(--text-02); margin-bottom: 20px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 10px; }
 
   /* ═══════════════════════════════════════════ */
+  /* PLATFORM MOCKUPS                           */
+  /* ═══════════════════════════════════════════ */
+  .mock-frame { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); background: white; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .mock-frame:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .mock-header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
+  .mock-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+  .mock-user { font-size: 13px; font-weight: 600; }
+  .mock-sub { font-size: 11px; color: #999; }
+  .mock-dots { margin-left: auto; letter-spacing: 2px; color: #999; font-weight: 700; }
+  .mock-img { width: 100%; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
+  .mock-img svg { opacity: 0.3; }
+  .mock-actions { display: flex; align-items: center; gap: 14px; padding: 10px 12px; }
+  .mock-actions svg { cursor: pointer; transition: transform 0.15s ease; }
+  .mock-actions svg:hover { transform: scale(1.15); }
+  .mock-caption { padding: 4px 12px 12px; font-size: 13px; line-height: 1.5; color: #262626; }
+  .mock-caption strong { font-weight: 600; }
+  /* Vertical frames */
+  .mock-vertical { width: 270px; aspect-ratio: 9/16; position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, #1a1a2e, #16213e); color: white; }
+  .mock-vertical .mock-img { aspect-ratio: 9/16; background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #16213e 100%); }
+
+  /* ═══════════════════════════════════════════ */
+  /* AUTH PAGES                                 */
+  /* ═══════════════════════════════════════════ */
+  .auth-page {
+    display: flex; min-height: 500px; border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .auth-left {
+    flex: 1; background: linear-gradient(135deg, rgba(240,226,255,0.5), rgba(147,180,230,0.3)); 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px; position: relative; overflow: hidden;
+  }
+  .auth-left::before {
+    content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255,107,53,0.08); top: -50px; left: -80px;
+  }
+  .auth-left::after {
+    content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(186,163,245,0.12); bottom: -40px; right: -60px;
+  }
+  .auth-left-logo { font-size: 24px; font-weight: 700; color: var(--text-01); z-index: 1; margin-bottom: 12px; }
+  .auth-left-tagline { font-size: 14px; color: var(--text-02); text-align: center; z-index: 1; max-width: 240px; line-height: 1.5; }
+  .auth-right {
+    flex: 1; background: var(--bg-card); padding: 40px; display: flex;
+    flex-direction: column; justify-content: center;
+  }
+  .auth-title { font-size: 24px; font-weight: 700; color: var(--text-01); margin-bottom: 4px; }
+  .auth-subtitle { font-size: 14px; color: var(--text-03); margin-bottom: 28px; }
+  .auth-divider {
+    display: flex; align-items: center; gap: 12px; margin: 20px 0;
+    font-size: 12px; color: var(--text-03);
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+  .auth-google-btn {
+    width: 100%; padding: 11px; border-radius: 10px; border: 1.5px solid var(--border);
+    background: var(--bg-card); cursor: pointer; font-family: 'Satoshi', sans-serif;
+    font-size: 14px; font-weight: 500; color: var(--text-01);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s ease;
+  }
+  .auth-google-btn:hover { background: var(--bg-secondary); border-color: var(--text-03); }
+  .auth-link { color: var(--primary); font-weight: 500; text-decoration: none; font-size: 14px; }
+  .auth-link:hover { text-decoration: underline; }
+  .auth-footer { margin-top: 20px; font-size: 13px; color: var(--text-03); text-align: center; }
+
+  /* Review page */
+  .review-page {
+    background: var(--bg-page); border-radius: 20px; border: 1px solid var(--line);
+    overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .review-header {
+    background: var(--bg-card); padding: 20px 28px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .review-body { padding: 28px; }
+  .review-content-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 24px; margin-bottom: 16px;
+  }
+  .review-actions {
+    display: flex; gap: 8px; padding: 20px 28px; background: var(--bg-card);
+    border-top: 1px solid var(--line);
+  }
+
+  /* ═══════════════════════════════════════════ */
   /* OVERLAYS                                   */
   /* ═══════════════════════════════════════════ */
 
@@ -991,6 +1078,21 @@
     <a href="#cal-grid" class="sidebar-link">Calendar Grid</a>
     <a href="#cal-draft-tray" class="sidebar-link">Draft Tray</a>
     <a href="#cal-time-picker" class="sidebar-link">Time Picker</a>
+
+    <div class="sidebar-cat">Platform Mockups</div>
+    <a href="#mock-ig" class="sidebar-link">Instagram</a>
+    <a href="#mock-fb" class="sidebar-link">Facebook</a>
+    <a href="#mock-li" class="sidebar-link">LinkedIn</a>
+    <a href="#mock-x" class="sidebar-link">X / Twitter</a>
+    <a href="#mock-tiktok" class="sidebar-link">TikTok</a>
+    <a href="#mock-yt" class="sidebar-link">YouTube Shorts</a>
+    <a href="#mock-gbiz" class="sidebar-link">Google Business</a>
+
+    <div class="sidebar-cat">Auth Pages</div>
+    <a href="#auth-login" class="sidebar-link">Login</a>
+    <a href="#auth-signup" class="sidebar-link">Signup</a>
+    <a href="#auth-invite" class="sidebar-link">Invite Accept</a>
+    <a href="#auth-review" class="sidebar-link">Review Page</a>
 
     <div class="sidebar-cat">Overlays</div>
     <a href="#modal" class="sidebar-link">Modal / Dialog</a>
@@ -2055,6 +2157,313 @@
             </div>
             <button class="btn btn-primary" style="width:100%;">Schedule for 3:00 PM</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ -->
+    <!-- PLATFORM MOCKUPS               -->
+    <!-- ═══════════════════════════════ -->
+
+    <div class="section" id="mock-ig">
+      <h2 class="section-title">Platform Mockups</h2>
+      <p class="section-desc">How content previews on each platform. Used in job detail view.</p>
+
+      <div class="grid-3">
+        <!-- Instagram -->
+        <div>
+          <div class="variant-label">Instagram Post</div>
+          <div class="mock-frame" style="max-width:340px;">
+            <div class="mock-header">
+              <div class="mock-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
+              <div><div class="mock-user" style="color:#262626;">storepro_nz</div><div class="mock-sub">Auckland, NZ</div></div>
+              <div class="mock-dots">···</div>
+            </div>
+            <div class="mock-img" style="aspect-ratio:1/1;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div class="mock-actions">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" style="margin-left:auto;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="mock-caption"><strong>storepro_nz</strong> Revolutionise your retail game! #RetailTech #NZBusiness</div>
+          </div>
+        </div>
+
+        <!-- Facebook -->
+        <div id="mock-fb">
+          <div class="variant-label">Facebook Post</div>
+          <div class="mock-frame" style="max-width:340px;">
+            <div class="mock-header">
+              <div class="mock-avatar" style="background:#1877F2;"></div>
+              <div><div class="mock-user" style="color:#050505;">Storepro NZ</div><div class="mock-sub">2h · 🌐</div></div>
+              <div class="mock-dots">···</div>
+            </div>
+            <div style="padding:0 12px 10px;font-size:14px;color:#050505;line-height:1.5;">Transform your business with our latest POS solution. Link in bio! 🚀</div>
+            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#E8EEFF,#F0E2FF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:8px 12px;border-top:1px solid #E4E6EB;display:flex;justify-content:space-around;font-size:13px;color:#65676B;">
+              <span>👍 Like</span><span>💬 Comment</span><span>↗️ Share</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LinkedIn -->
+        <div id="mock-li">
+          <div class="variant-label">LinkedIn Post</div>
+          <div class="mock-frame" style="max-width:340px;">
+            <div class="mock-header">
+              <div class="mock-avatar" style="background:#0A66C2;"></div>
+              <div><div class="mock-user" style="color:#000;">Storepro</div><div class="mock-sub">1,234 followers · 3h</div></div>
+              <div class="mock-dots">···</div>
+            </div>
+            <div style="padding:0 12px 10px;font-size:14px;color:#333;line-height:1.5;">Excited to announce our new retail technology initiative across New Zealand. 🇳🇿</div>
+            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#EDF4FE,#E8EEFF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:8px 12px;border-top:1px solid #E5E5E5;display:flex;justify-content:space-around;font-size:13px;color:#666;">
+              <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span><span>✉️ Send</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px;" id="mock-x">
+        <!-- X / Twitter -->
+        <div>
+          <div class="variant-label">X / Twitter Post</div>
+          <div class="mock-frame" style="max-width:400px;">
+            <div class="mock-header">
+              <div class="mock-avatar" style="background:#000;"></div>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span class="mock-user" style="color:#0F1419;">Storepro</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>
+                <span style="color:#536471;font-size:13px;">@storepro_nz · 2h</span>
+              </div>
+              <div class="mock-dots">···</div>
+            </div>
+            <div style="padding:0 12px 10px;font-size:15px;color:#0F1419;line-height:1.45;">New POS terminals shipping across NZ next week! 📦 Who's ready to upgrade? #RetailTech</div>
+            <div class="mock-img" style="aspect-ratio:16/9;border-radius:16px;margin:0 12px;background:linear-gradient(135deg,#F0E2FF,#EDF4FE);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:10px 12px;display:flex;justify-content:space-around;color:#536471;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Business -->
+        <div id="mock-gbiz">
+          <div class="variant-label">Google Business Post</div>
+          <div class="mock-frame" style="max-width:400px;">
+            <div class="mock-header" style="padding:14px;">
+              <div class="mock-avatar" style="background:#4285F4;border-radius:8px;"></div>
+              <div><div class="mock-user" style="color:#202124;">Storepro NZ</div><div class="mock-sub">Auckland, New Zealand · 4.8 ★</div></div>
+            </div>
+            <div class="mock-img" style="aspect-ratio:4/3;background:linear-gradient(135deg,#E8F5E9,#FFF0E6);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:14px;">
+              <div style="font-size:15px;color:#202124;line-height:1.5;margin-bottom:10px;">Visit our Auckland showroom for a demo of the latest POS technology. Open Monday–Saturday.</div>
+              <button class="btn btn-primary btn-sm" style="border-radius:20px;">Learn more</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertical frames -->
+      <div class="grid-3" style="margin-top:24px;" id="mock-tiktok">
+        <div>
+          <div class="variant-label">TikTok</div>
+          <div class="mock-vertical">
+            <div class="mock-img" style="aspect-ratio:9/16;background:linear-gradient(180deg,#1a1a2e,#0f3460,#16213e);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="position:absolute;bottom:60px;left:12px;right:60px;z-index:2;">
+              <div style="font-size:14px;font-weight:600;">@storepro_nz</div>
+              <div style="font-size:12px;opacity:0.8;margin-top:4px;">Check out our new POS setup! #RetailTech #NZBusiness</div>
+              <div style="font-size:11px;opacity:0.6;margin-top:6px;display:flex;align-items:center;gap:4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none"><circle cx="12" cy="12" r="10"/></svg>
+                Original sound — storepro_nz
+              </div>
+            </div>
+            <div style="position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:2;">
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><div style="font-size:11px;margin-top:2px;">12.4K</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:11px;margin-top:2px;">238</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6" stroke="white" fill="none" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="15" stroke="white" stroke-width="2"/></svg><div style="font-size:11px;margin-top:2px;">1.2K</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- YouTube Shorts -->
+        <div id="mock-yt">
+          <div class="variant-label">YouTube Shorts</div>
+          <div class="mock-vertical" style="background:linear-gradient(180deg,#0f0f0f,#1a1a1a,#0f0f0f);">
+            <div class="mock-img" style="aspect-ratio:9/16;background:linear-gradient(180deg,#1a1a2e,#16213e,#0f3460);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="position:absolute;bottom:60px;left:12px;right:60px;z-index:2;">
+              <div style="font-size:14px;font-weight:600;">@StoreproNZ</div>
+              <div style="font-size:12px;opacity:0.8;margin-top:4px;">POS demo — 30 seconds of magic ✨</div>
+            </div>
+            <div style="position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:2;">
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg><div style="font-size:11px;margin-top:2px;">5.6K</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:11px;margin-top:2px;">89</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><div style="font-size:11px;margin-top:2px;">Share</div></div>
+            </div>
+            <div style="position:absolute;top:12px;right:12px;z-index:2;">
+              <div style="background:red;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">Shorts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder for aspect ratio reference -->
+        <div>
+          <div class="variant-label">Aspect Ratios</div>
+          <div class="kc-card" style="font-size:13px;color:var(--text-02);line-height:2;">
+            <div><strong>Instagram</strong> — 1:1 (1080×1080)</div>
+            <div><strong>Facebook</strong> — 1.91:1 (1200×628)</div>
+            <div><strong>LinkedIn</strong> — 1.91:1 (1200×628)</div>
+            <div><strong>X / Twitter</strong> — 16:9 (1200×675)</div>
+            <div><strong>TikTok</strong> — 9:16 (1080×1920)</div>
+            <div><strong>YouTube Shorts</strong> — 9:16 (1080×1920)</div>
+            <div><strong>Google Biz</strong> — 4:3 (1200×900)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ -->
+    <!-- AUTH PAGES                     -->
+    <!-- ═══════════════════════════════ -->
+
+    <!-- LOGIN -->
+    <div class="section" id="auth-login">
+      <h2 class="section-title">Auth Pages</h2>
+      <p class="section-desc">Login, signup, invite acceptance, and review pages. Split layout with gradient left panel.</p>
+      <div class="variant-label">Login</div>
+      <div class="auth-page">
+        <div class="auth-left">
+          <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style="z-index:1;margin-bottom:16px;"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <div class="auth-left-logo">KeyContent</div>
+          <div class="auth-left-tagline">AI-powered content creation for agencies and businesses.</div>
+        </div>
+        <div class="auth-right">
+          <div class="auth-title">Welcome back</div>
+          <div class="auth-subtitle">Sign in to your account to continue.</div>
+          <button class="auth-google-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+          <div class="auth-divider">or</div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" class="kc-input" placeholder="you@company.com"></div>
+          <div class="form-group"><label class="form-label">Password</label><input type="password" class="kc-input" placeholder="••••••••"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <label class="checkbox-label" onclick="this.querySelector('.checkbox-box').classList.toggle('checked')" style="font-size:13px;">
+              <div class="checkbox-box" style="width:16px;height:16px;"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <span class="checkbox-text" style="font-size:13px;">Remember me</span>
+            </label>
+            <a href="#" class="auth-link" style="font-size:13px;">Forgot password?</a>
+          </div>
+          <button class="btn btn-dark" style="width:100%;justify-content:center;">Sign In</button>
+          <div class="auth-divider">or</div>
+          <button class="auth-google-btn" style="border-style:dashed;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M4 4l20 16M24 4L4 20" stroke-linecap="round"/></svg>
+            Send Magic Link
+          </button>
+          <div class="auth-footer">Don't have an account? <a href="#" class="auth-link">Sign up</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="section" id="auth-signup">
+      <div class="variant-label">Signup</div>
+      <div class="auth-page">
+        <div class="auth-left">
+          <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style="z-index:1;margin-bottom:16px;"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <div class="auth-left-logo">KeyContent</div>
+          <div class="auth-left-tagline">Start creating AI-powered content in minutes.</div>
+        </div>
+        <div class="auth-right">
+          <div class="auth-title">Create your account</div>
+          <div class="auth-subtitle">Start your 14-day free trial.</div>
+          <button class="auth-google-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Sign up with Google
+          </button>
+          <div class="auth-divider">or</div>
+          <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="kc-input" placeholder="Ricky Jack"></div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" class="kc-input" placeholder="you@company.com"></div>
+          <div class="form-group"><label class="form-label">Password</label><input type="password" class="kc-input" placeholder="Min 8 characters"></div>
+          <div class="form-group"><label class="form-label">I am a...</label>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;border-color:var(--primary);color:var(--primary);background:var(--primary-light);">Agency</button>
+              <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Business</button>
+            </div>
+          </div>
+          <button class="btn btn-dark" style="width:100%;justify-content:center;">Create Account</button>
+          <div class="auth-footer">Already have an account? <a href="#" class="auth-link">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVITE ACCEPT -->
+    <div class="section" id="auth-invite">
+      <div class="variant-label">Invite Acceptance (Public)</div>
+      <div class="auth-page" style="max-width:500px;margin:0 auto;">
+        <div class="auth-right" style="text-align:center;padding:48px 40px;">
+          <svg width="48" height="48" viewBox="0 0 28 28" fill="none" style="margin:0 auto 16px;"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <div class="auth-title" style="margin-bottom:8px;">You've been invited!</div>
+          <div class="auth-subtitle" style="margin-bottom:8px;">Ricky Jack invited you to join <strong style="color:var(--text-01);">Storepro</strong> on KeyContent.</div>
+          <div style="background:var(--bg-secondary);border-radius:12px;padding:16px;margin-bottom:24px;">
+            <div style="font-size:13px;color:var(--text-03);margin-bottom:4px;">Your role</div>
+            <div style="font-size:16px;font-weight:600;color:var(--text-01);">Team Member</div>
+          </div>
+          <button class="auth-google-btn" style="margin-bottom:12px;">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Accept with Google
+          </button>
+          <div class="auth-footer">This invite expires in 7 days.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW PAGE -->
+    <div class="section" id="auth-review">
+      <div class="variant-label">Content Review / Approval (Public — Magic Link)</div>
+      <div class="review-page">
+        <div class="review-header">
+          <div>
+            <div style="font-size:18px;font-weight:700;color:var(--text-01);">Content Review</div>
+            <div style="font-size:13px;color:var(--text-03);">Storepro · Spring Product Launch Blog</div>
+          </div>
+          <span class="badge badge-review">Awaiting Review</span>
+        </div>
+        <div class="review-body">
+          <div class="review-content-card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <div style="width:24px;height:24px;border-radius:6px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </div>
+              <span style="font-size:14px;font-weight:600;color:var(--text-01);">Blog Post</span>
+            </div>
+            <div style="font-size:14px;color:var(--text-02);line-height:1.7;">
+              <p style="margin-bottom:12px;">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions, modern POS systems are enabling store owners to focus on what matters most — their customers.</p>
+              <p>In this guide, we explore the top 5 POS features that are driving growth for NZ retailers in 2026...</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Feedback (optional)</label>
+            <textarea class="kc-input" placeholder="Leave any comments or requested changes..." rows="3"></textarea>
+          </div>
+        </div>
+        <div class="review-actions">
+          <button class="btn btn-sm" style="background:var(--success);color:white;flex:1;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Approve
+          </button>
+          <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Request Changes</button>
+          <button class="btn btn-sm" style="background:var(--error);color:white;flex:1;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Decline
+          </button>
         </div>
       </div>
     </div>
