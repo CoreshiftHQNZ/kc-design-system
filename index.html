@@ -494,12 +494,54 @@
   .kc-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
   .kc-card-clickable:hover { transform: translateY(-2px); cursor: pointer; }
 
-  /* Client Card */
-  .client-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .client-card-info { display: flex; align-items: center; gap: 12px; }
-  .client-card-name { font-size: 16px; font-weight: 600; color: var(--text-01); }
-  .client-card-industry { font-size: 13px; color: var(--text-03); }
-  .client-card-actions { display: flex; gap: 8px; margin-top: 16px; }
+  /* Client Row (table-style) */
+  .client-row {
+    display: flex; align-items: center; gap: 0; padding: 18px 20px;
+    border-bottom: 1px solid var(--line-02); transition: background 0.15s ease;
+  }
+  .client-row:hover { background: var(--bg-secondary); }
+  .client-row:last-child { border-bottom: none; }
+  .client-col { display: flex; align-items: center; gap: 12px; }
+  .client-col-name { flex: 0 0 200px; }
+  .client-col-industry { flex: 0 0 120px; font-size: 13px; color: var(--text-02); }
+  .client-col-stats { flex: 1; display: flex; gap: 0; }
+  .client-stat-cell {
+    flex: 1; padding: 0 12px; border-left: 1px solid var(--line-02);
+    text-align: left;
+  }
+  .client-stat-cell:first-child { border-left: none; }
+  .client-stat-num { font-size: 16px; font-weight: 700; color: var(--text-01); }
+  .client-stat-label { font-size: 11px; color: var(--text-03); }
+  .client-col-sns { flex: 0 0 160px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .client-sns-dot {
+    width: 24px; height: 24px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: 10px; color: white;
+  }
+  .client-sns-status { font-size: 11px; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+  .client-col-actions { flex: 0 0 80px; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .client-action-btn {
+    width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease; background: transparent; color: var(--text-03);
+  }
+  .client-action-btn:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .client-action-btn.view { background: var(--primary-light); color: var(--primary); }
+  .client-action-btn.view:hover { background: var(--primary); color: white; }
+  .client-logo-img {
+    width: 40px; height: 40px; border-radius: 8px; object-fit: contain;
+    background: var(--bg-secondary); padding: 4px;
+  }
+  .client-name { font-size: 14px; font-weight: 500; color: var(--text-01); }
+  .client-table-header {
+    display: flex; align-items: center; gap: 0; padding: 12px 20px;
+    border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-03);
+  }
+  .client-table-header > span:nth-child(1) { flex: 0 0 200px; }
+  .client-table-header > span:nth-child(2) { flex: 0 0 120px; }
+  .client-table-header > span:nth-child(3) { flex: 1; display: flex; gap: 0; }
+  .client-table-header > span:nth-child(4) { flex: 0 0 160px; }
+  .client-table-header > span:nth-child(5) { flex: 0 0 80px; }
 
   /* Product Card */
   .product-card-img {
@@ -525,6 +567,8 @@
   .pill:hover { background: var(--line); }
   .pill-primary { background: var(--primary-light); color: var(--primary); border-color: transparent; }
   .pill-purple { background: var(--purple-light); color: #7C3AED; border-color: transparent; }
+  .pill-blue { background: var(--blue-light); color: #2563EB; border-color: transparent; }
+  .pill-gradient { background: linear-gradient(135deg, var(--purple-light), var(--blue-light)); color: #5B21B6; border-color: transparent; }
 
   /* Topic Card */
   .topic-card-title { font-size: 16px; font-weight: 600; color: var(--text-01); margin-bottom: 8px; }
@@ -1222,44 +1266,105 @@
       </div>
     </div>
 
-    <!-- CLIENT CARD -->
+    <!-- CLIENT CARD (Table Row Style) -->
     <div class="section" id="client-card">
       <h2 class="section-title">Client Card</h2>
-      <p class="section-desc">Shows client avatar, name, industry, status, and action links.</p>
-      <div class="grid-2">
-        <div class="demo-card"><div class="variant-label">Active Client</div>
-          <div class="kc-card kc-card-clickable">
-            <div class="client-card-header">
-              <div class="client-card-info">
-                <div class="avatar avatar-md avatar-orange">SP</div>
-                <div><div class="client-card-name">Storepro</div><div class="client-card-industry">Retail · Auckland, NZ</div></div>
+      <p class="section-desc">Table row format matching your Figma. Logo + name, industry, activity stats, SNS status, actions.</p>
+      <div class="kc-card" style="padding:0;overflow:hidden;">
+        <div class="client-table-header">
+          <span>Client Name ↕</span>
+          <span>Industry</span>
+          <span>
+            <span style="flex:1;padding:0 12px;">Content Activity Summary</span>
+          </span>
+          <span>SNS Linked</span>
+          <span>Actions</span>
+        </div>
+        <div class="client-row">
+          <div class="client-col client-col-name">
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--purple-light),var(--bg-secondary));display:flex;align-items:center;justify-content:center;font-size:16px;">🏪</div>
+            <div class="client-name">Storepro</div>
+          </div>
+          <div class="client-col-industry">Technology & SaaS</div>
+          <div class="client-col-stats">
+            <div class="client-stat-cell"><div class="client-stat-num">123</div><div class="client-stat-label">Scheduled</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">16</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">8</div><div class="client-stat-label">Drafts</div></div>
+          </div>
+          <div class="client-col-sns">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;gap:2px;">
+                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
+                <div class="client-sns-dot" style="background:#1877F2;">f</div>
+                <div class="client-sns-dot" style="background:#E4405F;">📷</div>
+                <div class="client-sns-dot" style="background:#0077B5;">in</div>
+                <div class="client-sns-dot" style="background:#1DA1F2;">𝕏</div>
+                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
               </div>
-              <span class="badge badge-approved">Active</span>
-            </div>
-            <div style="display:flex;gap:16px;font-size:13px;color:var(--text-03);margin-bottom:12px;">
-              <span>📝 12 jobs</span><span>📅 3 scheduled</span><span>🔗 4 platforms</span>
-            </div>
-            <div class="client-card-actions">
-              <button class="btn btn-outline btn-sm">View Details</button>
-              <button class="btn btn-primary btn-sm">＋ New Job</button>
+              <div class="client-sns-status" style="color:var(--success);">✅ All Connected</div>
             </div>
           </div>
+          <div class="client-col-actions">
+            <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
         </div>
-        <div class="demo-card"><div class="variant-label">Pending Setup</div>
-          <div class="kc-card kc-card-clickable">
-            <div class="client-card-header">
-              <div class="client-card-info">
-                <div class="avatar avatar-md avatar-purple">GP</div>
-                <div><div class="client-card-name">Growth Partners</div><div class="client-card-industry">Marketing Agency</div></div>
+        <div class="client-row">
+          <div class="client-col client-col-name">
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--primary-light),#FFF0E6);display:flex;align-items:center;justify-content:center;font-size:16px;">🏢</div>
+            <div class="client-name">Growth Partners</div>
+          </div>
+          <div class="client-col-industry">Marketing</div>
+          <div class="client-col-stats">
+            <div class="client-stat-cell"><div class="client-stat-num">45</div><div class="client-stat-label">Scheduled</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">3</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">12</div><div class="client-stat-label">Drafts</div></div>
+          </div>
+          <div class="client-col-sns">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;gap:2px;">
+                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
+                <div class="client-sns-dot" style="background:#1877F2;">f</div>
+                <div class="client-sns-dot" style="background:#ccc;">📷</div>
+                <div class="client-sns-dot" style="background:#ccc;">in</div>
+                <div class="client-sns-dot" style="background:#ccc;">𝕏</div>
+                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
               </div>
-              <span class="badge badge-review">Setup</span>
+              <div class="client-sns-status" style="color:var(--error);">❌ 5 Disconnected</div>
             </div>
-            <div style="display:flex;gap:16px;font-size:13px;color:var(--text-03);margin-bottom:12px;">
-              <span>📝 0 jobs</span><span>📅 0 scheduled</span><span>🔗 0 platforms</span>
+          </div>
+          <div class="client-col-actions">
+            <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
+        </div>
+        <div class="client-row">
+          <div class="client-col client-col-name">
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--blue-light),#EFF6FF);display:flex;align-items:center;justify-content:center;font-size:16px;">⚡</div>
+            <div class="client-name">Coreshift HQ</div>
+          </div>
+          <div class="client-col-industry">Technology & SaaS</div>
+          <div class="client-col-stats">
+            <div class="client-stat-cell"><div class="client-stat-num">89</div><div class="client-stat-label">Scheduled</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">5</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">2</div><div class="client-stat-label">Drafts</div></div>
+          </div>
+          <div class="client-col-sns">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;gap:2px;">
+                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
+                <div class="client-sns-dot" style="background:#1877F2;">f</div>
+                <div class="client-sns-dot" style="background:#E4405F;">📷</div>
+                <div class="client-sns-dot" style="background:#0077B5;">in</div>
+                <div class="client-sns-dot" style="background:#1DA1F2;">𝕏</div>
+                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
+              </div>
+              <div class="client-sns-status" style="color:var(--success);">✅ All Connected</div>
             </div>
-            <div class="client-card-actions">
-              <button class="btn btn-outline btn-sm">Complete Setup</button>
-            </div>
+          </div>
+          <div class="client-col-actions">
+            <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
           </div>
         </div>
       </div>
@@ -1280,7 +1385,7 @@
           </a>
         </div>
         <div class="kc-card kc-card-clickable">
-          <div class="product-card-img" style="background:linear-gradient(135deg,#E0E7FF,#EEF2FF);display:flex;align-items:center;justify-content:center;font-size:40px;">📡</div>
+          <div class="product-card-img" style="background:linear-gradient(135deg,var(--purple-light),#E0E7FF);display:flex;align-items:center;justify-content:center;font-size:40px;">📡</div>
           <div class="product-card-name">Mobile Scanner</div>
           <div class="product-card-desc">Bluetooth barcode scanner for inventory management.</div>
           <a href="#" class="product-card-download">
@@ -1309,9 +1414,9 @@
           <div class="topic-card-title">How Retail Tech is Changing NZ Small Business</div>
           <div class="topic-card-pills">
             <span class="pill pill-primary">retail tech</span>
-            <span class="pill pill-primary">NZ small business</span>
-            <span class="pill pill-primary">POS</span>
-            <span class="pill">modernisation</span>
+            <span class="pill pill-purple">NZ small business</span>
+            <span class="pill pill-blue">POS</span>
+            <span class="pill pill-gradient">modernisation</span>
           </div>
           <div class="topic-card-pain">Pain point: Store owners spending 3+ hours daily on manual inventory counts instead of serving customers.</div>
           <a href="#" class="topic-card-action">Create Job →</a>
@@ -1319,10 +1424,10 @@
         <div class="kc-card kc-card-clickable">
           <div class="topic-card-title">5 Signs Your Business Needs a Digital Upgrade</div>
           <div class="topic-card-pills">
-            <span class="pill pill-primary">digital transformation</span>
+            <span class="pill pill-purple">digital transformation</span>
             <span class="pill pill-primary">SMB</span>
-            <span class="pill">efficiency</span>
-            <span class="pill">ROI</span>
+            <span class="pill pill-blue">efficiency</span>
+            <span class="pill pill-gradient">ROI</span>
           </div>
           <div class="topic-card-pain">Pain point: Paper-based processes causing order errors and customer complaints.</div>
           <a href="#" class="topic-card-action">Create Job →</a>
