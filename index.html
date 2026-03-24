@@ -643,6 +643,163 @@
     object-fit: cover; margin-top: 16px;
   }
 
+  /* ═══════════════════════════════════════════ */
+  /* OVERLAYS                                   */
+  /* ═══════════════════════════════════════════ */
+
+  /* Modal Backdrop */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(17,24,39,0.5); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  }
+  .modal-backdrop.show { opacity: 1; pointer-events: auto; }
+
+  /* Modal */
+  .modal {
+    background: var(--bg-card); border-radius: 20px; width: 100%; max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15); transform: translateY(16px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  .modal-backdrop.show .modal { transform: translateY(0) scale(1); }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px 0;
+  }
+  .modal-title { font-size: 18px; font-weight: 700; color: var(--text-01); }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--text-03); font-size: 18px; transition: all 0.15s ease;
+  }
+  .modal-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .modal-body { padding: 16px 24px 24px; }
+  .modal-desc { font-size: 14px; color: var(--text-02); margin-bottom: 20px; line-height: 1.5; }
+  .modal-footer {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding: 16px 24px; border-top: 1px solid var(--line);
+  }
+  .modal-icon-wrap {
+    width: 48px; height: 48px; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; margin-bottom: 16px; font-size: 24px;
+  }
+
+  /* Inline modal demo (not fixed positioned) */
+  .modal-demo {
+    position: relative; background: rgba(17,24,39,0.06); border-radius: 20px;
+    padding: 32px; display: flex; align-items: center; justify-content: center;
+    min-height: 360px;
+  }
+  .modal-demo .modal { position: relative; transform: none; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+
+  /* Dropdown Menu */
+  .dropdown-wrap { position: relative; display: inline-block; }
+  .dropdown-trigger {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--bg-card); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-02); font-size: 18px; font-weight: 700;
+    transition: all 0.15s ease;
+  }
+  .dropdown-trigger:hover { background: var(--bg-secondary); }
+  .dropdown-menu {
+    position: absolute; top: calc(100% + 6px); right: 0; min-width: 200px;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 6px; z-index: 20;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dropdown-wrap.open .dropdown-menu { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .dropdown-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+    border-radius: 10px; font-size: 14px; color: var(--text-02); cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .dropdown-item:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .dropdown-item.danger { color: var(--error); }
+  .dropdown-item.danger:hover { background: var(--error-light); }
+  .dropdown-item svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .dropdown-divider { height: 1px; background: var(--line); margin: 4px 8px; }
+
+  /* Notification Panel (dropdown style) */
+  .notif-panel {
+    position: absolute; top: calc(100% + 6px); right: 0; width: 360px;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 20;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;
+  }
+  .dropdown-wrap.open .notif-panel { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .notif-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+  }
+  .notif-panel-title { font-size: 16px; font-weight: 700; color: var(--text-01); }
+  .notif-panel-mark { font-size: 13px; color: var(--primary); cursor: pointer; font-weight: 500; }
+  .notif-panel-mark:hover { text-decoration: underline; }
+  .notif-panel-body { max-height: 320px; overflow-y: auto; }
+  .notif-panel-item {
+    display: flex; align-items: flex-start; gap: 10px; padding: 12px 20px;
+    border-bottom: 1px solid var(--line-02); cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .notif-panel-item:hover { background: var(--bg-secondary); }
+  .notif-panel-item.unread { background: var(--primary-light); }
+  .notif-panel-item.unread:hover { background: #FFF0E6; }
+
+  /* Toast */
+  .toast {
+    display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px;
+    border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    background: var(--bg-card); border: 1px solid var(--line);
+    min-width: 320px; max-width: 420px;
+    animation: toastIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .toast-icon {
+    width: 32px; height: 32px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px;
+  }
+  .toast-body { flex: 1; }
+  .toast-title { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 2px; }
+  .toast-msg { font-size: 13px; color: var(--text-02); line-height: 1.4; }
+  .toast-close {
+    width: 24px; height: 24px; border-radius: 50%; border: none; background: transparent;
+    cursor: pointer; color: var(--text-03); font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .toast-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .toast-progress {
+    position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 16px 16px;
+    animation: toastProgress 4s linear;
+  }
+  .toast.success .toast-icon { background: var(--success-light); }
+  .toast.success .toast-progress { background: var(--success); }
+  .toast.error .toast-icon { background: var(--error-light); }
+  .toast.error .toast-progress { background: var(--error); }
+  .toast.info .toast-icon { background: var(--blue-light); }
+  .toast.info .toast-progress { background: var(--blue); }
+  .toast.warning .toast-icon { background: var(--warning-light); }
+  .toast.warning .toast-progress { background: var(--warning); }
+
+  /* Confirm Dialog */
+  .confirm-demo { position: relative; background: rgba(17,24,39,0.06); border-radius: 20px; padding: 32px; display: flex; align-items: center; justify-content: center; min-height: 280px; }
+  .confirm-dialog {
+    background: var(--bg-card); border-radius: 20px; width: 100%; max-width: 400px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.12); text-align: center; padding: 32px 28px 24px;
+  }
+  .confirm-icon {
+    width: 56px; height: 56px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px;
+  }
+  .confirm-title { font-size: 18px; font-weight: 700; color: var(--text-01); margin-bottom: 8px; }
+  .confirm-msg { font-size: 14px; color: var(--text-02); margin-bottom: 24px; line-height: 1.5; }
+  .confirm-actions { display: flex; gap: 8px; justify-content: center; }
+
+  @keyframes toastIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
+
   /* ═══ ANIMATIONS ═══ */
   @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(2px)} }
   @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
@@ -691,6 +848,12 @@
     <a href="#biz-context-card" class="sidebar-link">Business Context</a>
     <a href="#notification-card" class="sidebar-link">Notification Card</a>
     <a href="#job-step-card" class="sidebar-link">Job Step Card</a>
+
+    <div class="sidebar-cat">Overlays</div>
+    <a href="#modal" class="sidebar-link">Modal / Dialog</a>
+    <a href="#dropdown-menu" class="sidebar-link">Dropdown Menu</a>
+    <a href="#toast" class="sidebar-link">Toast / Alert</a>
+    <a href="#confirm-dialog" class="sidebar-link">Confirm Dialog</a>
 
     <div class="sidebar-cat">Actions</div>
     <a href="#buttons" class="sidebar-link">Buttons</a>
@@ -1580,6 +1743,221 @@
               </div>
               <div>
                 <div class="accordion-preview" style="background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-03);">No preview</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ -->
+    <!-- OVERLAYS                       -->
+    <!-- ═══════════════════════════════ -->
+
+    <!-- MODAL -->
+    <div class="section" id="modal">
+      <h2 class="section-title">Modal / Dialog</h2>
+      <p class="section-desc">Slides up with scale. Backdrop blurs. Click buttons to try live modals.</p>
+      <div class="grid-2">
+        <div class="demo-card"><div class="variant-label">Generate Topics</div>
+          <div class="modal-demo">
+            <div class="modal">
+              <div class="modal-header">
+                <div class="modal-title">Generate Topics</div>
+                <button class="modal-close">✕</button>
+              </div>
+              <div class="modal-body">
+                <div class="modal-icon-wrap" style="background:linear-gradient(135deg,var(--purple-light),var(--blue-light));">✨</div>
+                <div class="modal-desc">AI will analyse your business context and generate 5 blog topic suggestions with keywords and pain points.</div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Number of Topics</label>
+                  <div class="select-wrap"><select class="kc-select"><option>5 topics</option><option>3 topics</option><option>1 topic</option></select><span class="select-arrow">▾</span></div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline btn-sm">Cancel</button>
+                <button class="btn btn-primary btn-sm">✨ Generate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Add Product</div>
+          <div class="modal-demo">
+            <div class="modal">
+              <div class="modal-header">
+                <div class="modal-title">Add Product</div>
+                <button class="modal-close">✕</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="kc-input" placeholder="e.g. POS Terminal"></div>
+                <div class="form-group"><label class="form-label">Description</label><textarea class="kc-input" rows="2" placeholder="Brief product description..."></textarea></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Tech Specs (optional)</label>
+                  <div class="upload-zone" style="padding:20px;border-radius:10px;" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')">
+                    <div style="font-size:20px;margin-bottom:4px;">📎</div>
+                    <div style="font-size:13px;color:var(--text-02)">Drop file or <span style="color:var(--primary);font-weight:600;">browse</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline btn-sm">Cancel</button>
+                <button class="btn btn-primary btn-sm">Add Product</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:24px;">
+        <div class="demo-card"><div class="variant-label">Invite Team Member</div>
+          <div class="modal-demo">
+            <div class="modal">
+              <div class="modal-header">
+                <div class="modal-title">Invite Member</div>
+                <button class="modal-close">✕</button>
+              </div>
+              <div class="modal-body">
+                <div class="modal-icon-wrap" style="background:var(--purple-light);">👤</div>
+                <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="kc-input" placeholder="team@company.com"></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Role</label>
+                  <div class="select-wrap"><select class="kc-select"><option>Member</option><option>Admin</option><option>Viewer</option></select><span class="select-arrow">▾</span></div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline btn-sm">Cancel</button>
+                <button class="btn btn-sm" style="background:var(--purple);color:white;">Send Invite</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Live Modal (click to open)</div>
+          <div style="text-align:center;padding:40px;">
+            <button class="btn btn-primary" onclick="document.getElementById('live-modal').classList.add('show')">Open Modal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Live modal -->
+    <div class="modal-backdrop" id="live-modal" onclick="if(event.target===this)this.classList.remove('show')">
+      <div class="modal">
+        <div class="modal-header"><div class="modal-title">Live Modal</div><button class="modal-close" onclick="document.getElementById('live-modal').classList.remove('show')">✕</button></div>
+        <div class="modal-body"><div class="modal-icon-wrap" style="background:linear-gradient(135deg,var(--primary-light),var(--purple-light));">🎉</div><div class="modal-desc">This modal slides in with a scale animation and blurs the backdrop. Click outside or ✕ to close.</div></div>
+        <div class="modal-footer"><button class="btn btn-outline btn-sm" onclick="document.getElementById('live-modal').classList.remove('show')">Close</button><button class="btn btn-primary btn-sm" onclick="document.getElementById('live-modal').classList.remove('show')">Got it!</button></div>
+      </div>
+    </div>
+
+    <!-- DROPDOWN MENU -->
+    <div class="section" id="dropdown-menu">
+      <h2 class="section-title">Dropdown Menu</h2>
+      <p class="section-desc">Click triggers to toggle. Smooth slide-in animation. Danger items turn red.</p>
+      <div class="grid-2">
+        <div class="demo-card"><div class="variant-label">Actions Menu (click ⋯)</div>
+          <div style="display:flex;justify-content:flex-end;">
+            <div class="dropdown-wrap" onclick="this.classList.toggle('open')">
+              <button class="dropdown-trigger">⋯</button>
+              <div class="dropdown-menu">
+                <div class="dropdown-item"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</div>
+                <div class="dropdown-item"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Duplicate</div>
+                <div class="dropdown-item"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Export</div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item danger"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Notification Panel (click 🔔)</div>
+          <div style="display:flex;justify-content:flex-end;">
+            <div class="dropdown-wrap" onclick="this.classList.toggle('open')">
+              <button class="dropdown-trigger" style="position:relative;font-size:16px;">🔔<span style="position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--error);border:2px solid white;"></span></button>
+              <div class="notif-panel">
+                <div class="notif-panel-header">
+                  <div class="notif-panel-title">Notifications</div>
+                  <span class="notif-panel-mark">Mark all read</span>
+                </div>
+                <div class="notif-panel-body">
+                  <div class="notif-panel-item unread">
+                    <div class="notif-icon success" style="width:28px;height:28px;border-radius:8px;font-size:12px;">✅</div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Blog approved</strong> — Spring Launch Blog</div><div class="notif-time">2m ago</div></div>
+                  </div>
+                  <div class="notif-panel-item unread">
+                    <div class="notif-icon error" style="width:28px;height:28px;border-radius:8px;font-size:12px;">⚠️</div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Generation failed</strong> — Token limit</div><div class="notif-time">15m ago</div></div>
+                  </div>
+                  <div class="notif-panel-item">
+                    <div class="notif-icon info" style="width:28px;height:28px;border-radius:8px;font-size:12px;">📅</div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Scheduled</strong> — Newsletter at 9 AM</div><div class="notif-time">1h ago</div></div>
+                  </div>
+                  <div class="notif-panel-item">
+                    <div class="notif-icon warning" style="width:28px;height:28px;border-radius:8px;font-size:12px;">💬</div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Feedback</strong> — Growth Partners commented</div><div class="notif-time">3h ago</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="section" id="toast">
+      <h2 class="section-title">Toast / Alert</h2>
+      <p class="section-desc">Slides in from right. Auto-dismiss progress bar. 4 variants.</p>
+      <div class="demo-card">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="toast success">
+            <div class="toast-icon">✅</div>
+            <div class="toast-body"><div class="toast-title">Content Published</div><div class="toast-msg">Your blog post is now live on all platforms.</div></div>
+            <button class="toast-close">✕</button>
+            <div class="toast-progress"></div>
+          </div>
+          <div class="toast error">
+            <div class="toast-icon">❌</div>
+            <div class="toast-body"><div class="toast-title">Generation Failed</div><div class="toast-msg">Token limit exceeded. Try shorter context.</div></div>
+            <button class="toast-close">✕</button>
+            <div class="toast-progress"></div>
+          </div>
+          <div class="toast info">
+            <div class="toast-icon">ℹ️</div>
+            <div class="toast-body"><div class="toast-title">Job Scheduled</div><div class="toast-msg">Will publish Mar 28 at 9:00 AM.</div></div>
+            <button class="toast-close">✕</button>
+            <div class="toast-progress"></div>
+          </div>
+          <div class="toast warning">
+            <div class="toast-icon">⚠️</div>
+            <div class="toast-body"><div class="toast-title">Approval Pending</div><div class="toast-msg">Client hasn't reviewed in 48 hours.</div></div>
+            <button class="toast-close">✕</button>
+            <div class="toast-progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIRM DIALOG -->
+    <div class="section" id="confirm-dialog">
+      <h2 class="section-title">Confirm Dialog</h2>
+      <p class="section-desc">Destructive action confirmation. Red icon, clear messaging, cancel/confirm buttons.</p>
+      <div class="grid-2">
+        <div class="demo-card"><div class="variant-label">Delete Confirmation</div>
+          <div class="confirm-demo">
+            <div class="confirm-dialog">
+              <div class="confirm-icon" style="background:var(--error-light);">🗑️</div>
+              <div class="confirm-title">Delete this job?</div>
+              <div class="confirm-msg">This will permanently remove "Spring Launch Blog" and all generated content. This action cannot be undone.</div>
+              <div class="confirm-actions">
+                <button class="btn btn-outline btn-sm">Cancel</button>
+                <button class="btn btn-sm" style="background:var(--error);color:white;">Delete Job</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Remove Client</div>
+          <div class="confirm-demo">
+            <div class="confirm-dialog">
+              <div class="confirm-icon" style="background:var(--warning-light);">⚠️</div>
+              <div class="confirm-title">Remove client?</div>
+              <div class="confirm-msg">Storepro will be unlinked from your agency. Their data will remain but you'll lose access. You can re-link later.</div>
+              <div class="confirm-actions">
+                <button class="btn btn-outline btn-sm">Keep Client</button>
+                <button class="btn btn-sm" style="background:var(--error);color:white;">Remove</button>
               </div>
             </div>
           </div>
