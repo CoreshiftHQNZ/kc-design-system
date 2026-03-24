@@ -643,6 +643,145 @@
   }
 
   /* ═══════════════════════════════════════════ */
+  /* CALENDAR                                   */
+  /* ═══════════════════════════════════════════ */
+
+  .cal-wrap { background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+
+  /* Calendar top bar */
+  .cal-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+  }
+  .cal-today-badge {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cal-date-box {
+    background: var(--primary); color: white; border-radius: 10px;
+    padding: 6px 10px; text-align: center; min-width: 44px;
+  }
+  .cal-date-box-day { font-size: 18px; font-weight: 700; line-height: 1; }
+  .cal-date-box-month { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+  .cal-today-text { font-size: 14px; font-weight: 600; color: var(--text-01); }
+  .cal-today-sub { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 6px; }
+  .cal-today-sub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+  .cal-nav { display: flex; align-items: center; gap: 8px; }
+  .cal-nav-group {
+    display: flex; align-items: center; gap: 0; border: 1px solid var(--line);
+    border-radius: 10px; overflow: hidden;
+  }
+  .cal-nav-btn {
+    padding: 6px 10px; background: var(--bg-card); border: none; cursor: pointer;
+    font-size: 14px; color: var(--text-02); font-family: 'Satoshi', sans-serif;
+    transition: background 0.12s ease;
+  }
+  .cal-nav-btn:hover { background: var(--bg-secondary); }
+  .cal-nav-label { padding: 6px 12px; font-size: 14px; font-weight: 600; color: var(--text-01); border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  .cal-view-toggle {
+    display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .cal-view-btn {
+    padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer;
+    background: var(--bg-card); border: none; color: var(--text-03);
+    font-family: 'Satoshi', sans-serif; display: flex; align-items: center; gap: 4px;
+    transition: all 0.15s ease;
+  }
+  .cal-view-btn.active { background: var(--text-01); color: white; }
+  .cal-view-btn:hover:not(.active) { background: var(--bg-secondary); }
+
+  /* Calendar grid */
+  .cal-header-row {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+  .cal-header-cell {
+    padding: 10px 8px; text-align: center; font-size: 12px;
+    font-weight: 600; color: var(--text-03); text-transform: uppercase;
+  }
+  .cal-body { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .cal-cell {
+    min-height: 100px; padding: 8px; border-right: 1px solid var(--line-02);
+    border-bottom: 1px solid var(--line-02); position: relative;
+    transition: background 0.12s ease; cursor: pointer;
+  }
+  .cal-cell:nth-child(7n) { border-right: none; }
+  .cal-cell:hover { background: rgba(255,107,53,0.03); }
+  .cal-cell.today { background: var(--primary-light); }
+  .cal-cell.today .cal-cell-day { color: var(--primary); font-weight: 700; }
+  .cal-cell.other-month { opacity: 0.35; }
+  .cal-cell-day {
+    font-size: 13px; font-weight: 500; color: var(--text-01); margin-bottom: 6px;
+  }
+
+  /* Event pills inside cells */
+  .cal-event {
+    display: flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 500;
+    margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .cal-event:hover { transform: translateX(2px); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .cal-event svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .cal-event.ig { background: #FFEEF2; color: #DC2743; }
+  .cal-event.li { background: #EDF4FE; color: #0A66C2; }
+  .cal-event.fb { background: #EEF2FF; color: #1877F2; }
+  .cal-event.blog { background: var(--primary-light); color: var(--primary); }
+  .cal-event.yt { background: #FEE2E2; color: #DC2626; }
+
+  /* Draft tray */
+  .draft-tray {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px;
+    overflow: hidden; width: 280px;
+  }
+  .draft-tray-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--line);
+    font-size: 16px; font-weight: 700; color: var(--text-01);
+  }
+  .draft-tray-sub { font-size: 12px; color: var(--text-03); font-weight: 400; margin-top: 2px; }
+  .draft-tray-body { padding: 8px; max-height: 400px; overflow-y: auto; }
+  .draft-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border-radius: 12px; border: 1px solid var(--line-02); margin-bottom: 6px;
+    cursor: grab; transition: all 0.15s ease; background: var(--bg-card);
+  }
+  .draft-item:hover { background: var(--bg-secondary); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .draft-item:active { cursor: grabbing; transform: scale(0.98); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .draft-item-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .draft-item-title { font-size: 13px; font-weight: 500; color: var(--text-01); }
+  .draft-item-sub { font-size: 11px; color: var(--text-03); }
+  .draft-item-drag { color: var(--text-03); margin-left: auto; }
+
+  /* Time picker */
+  .time-picker {
+    background: var(--bg-card); border-radius: 20px; padding: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 320px;
+  }
+  .time-picker-title { font-size: 16px; font-weight: 700; color: var(--text-01); margin-bottom: 4px; }
+  .time-picker-sub { font-size: 13px; color: var(--text-03); margin-bottom: 20px; }
+  .time-picker-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .time-picker-select {
+    flex: 1; padding: 10px 14px; font-size: 20px; font-weight: 700; text-align: center;
+    border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg-secondary);
+    font-family: 'Satoshi', sans-serif; color: var(--text-01); appearance: none; cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .time-picker-select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px var(--primary-ring); }
+  .time-picker-colon { font-size: 24px; font-weight: 700; color: var(--text-01); }
+  .time-picker-ampm {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .time-picker-ampm-btn {
+    padding: 6px 12px; font-size: 12px; font-weight: 600; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--bg-card); cursor: pointer;
+    font-family: 'Satoshi', sans-serif; color: var(--text-03);
+    transition: all 0.15s ease;
+  }
+  .time-picker-ampm-btn.active { background: var(--text-01); color: white; border-color: var(--text-01); }
+  .time-picker-ampm-btn:hover:not(.active) { background: var(--bg-secondary); }
+  .time-picker-date { font-size: 14px; color: var(--text-02); margin-bottom: 20px; padding: 10px 14px; background: var(--bg-secondary); border-radius: 10px; }
+
+  /* ═══════════════════════════════════════════ */
   /* OVERLAYS                                   */
   /* ═══════════════════════════════════════════ */
 
@@ -847,6 +986,11 @@
     <a href="#biz-context-card" class="sidebar-link">Business Context</a>
     <a href="#notification-card" class="sidebar-link">Notification Card</a>
     <a href="#job-step-card" class="sidebar-link">Job Step Card</a>
+
+    <div class="sidebar-cat">Calendar</div>
+    <a href="#cal-grid" class="sidebar-link">Calendar Grid</a>
+    <a href="#cal-draft-tray" class="sidebar-link">Draft Tray</a>
+    <a href="#cal-time-picker" class="sidebar-link">Time Picker</a>
 
     <div class="sidebar-cat">Overlays</div>
     <a href="#modal" class="sidebar-link">Modal / Dialog</a>
@@ -1747,6 +1891,174 @@
     </div>
 
     <!-- ═══════════════════════════════ -->
+    <!-- ═══════════════════════════════ -->
+    <!-- CALENDAR                       -->
+    <!-- ═══════════════════════════════ -->
+
+    <!-- CALENDAR GRID -->
+    <div class="section" id="cal-grid">
+      <h2 class="section-title">Calendar Grid</h2>
+      <p class="section-desc">Month view with event pills, today highlight, navigation. Matching your Figma layout.</p>
+      <div class="cal-wrap">
+        <!-- Top bar -->
+        <div class="cal-topbar">
+          <div class="cal-today-badge">
+            <div class="cal-date-box"><div class="cal-date-box-day">24</div><div class="cal-date-box-month">Feb</div></div>
+            <div><div class="cal-today-text">24th February 2026, Tuesday</div><div class="cal-today-sub"><span class="dot"></span> 3 jobs scheduled to be upload in this week</div></div>
+          </div>
+          <div class="cal-nav">
+            <div class="cal-nav-group"><button class="cal-nav-btn">←</button><span class="cal-nav-label">February</span><button class="cal-nav-btn">→</button></div>
+            <div class="cal-nav-group"><button class="cal-nav-btn">←</button><span class="cal-nav-label">2026</span><button class="cal-nav-btn">→</button></div>
+            <div class="cal-view-toggle">
+              <button class="cal-view-btn" onclick="this.parentElement.querySelectorAll('.cal-view-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                List
+              </button>
+              <button class="cal-view-btn active" onclick="this.parentElement.querySelectorAll('.cal-view-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Calendar
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Header -->
+        <div class="cal-header-row">
+          <div class="cal-header-cell">Mon</div><div class="cal-header-cell">Tue</div><div class="cal-header-cell">Wed</div><div class="cal-header-cell">Thu</div><div class="cal-header-cell">Fri</div><div class="cal-header-cell">Sat</div><div class="cal-header-cell">Sun</div>
+        </div>
+        <!-- Grid -->
+        <div class="cal-body">
+          <!-- Week 1 -->
+          <div class="cal-cell other-month"><div class="cal-cell-day">26</div></div>
+          <div class="cal-cell other-month"><div class="cal-cell-day">27</div></div>
+          <div class="cal-cell other-month"><div class="cal-cell-day">28</div></div>
+          <div class="cal-cell other-month"><div class="cal-cell-day">29</div></div>
+          <div class="cal-cell other-month"><div class="cal-cell-day">30</div></div>
+          <div class="cal-cell other-month"><div class="cal-cell-day">31</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">1</div></div>
+          <!-- Week 2 -->
+          <div class="cal-cell"><div class="cal-cell-day">2</div><div class="cal-event ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg>Storepro Post</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">3</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">4</div><div class="cal-event blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Spring Blog</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">5</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">6</div><div class="cal-event li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg>GP Update</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">7</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">8</div></div>
+          <!-- Week 3 -->
+          <div class="cal-cell"><div class="cal-cell-day">9</div><div class="cal-event fb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook Ad</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">10</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">11</div><div class="cal-event ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg>Reel Launch</div><div class="cal-event blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>NZ Retail Tech</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">12</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">13</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">14</div><div class="cal-event yt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2 29 29 0 0 0-.46 5.33 29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg>Teaser</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">15</div></div>
+          <!-- Week 4 -->
+          <div class="cal-cell"><div class="cal-cell-day">16</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">17</div><div class="cal-event li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg>CS Article</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">18</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">19</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">20</div><div class="cal-event ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg>Product Shot</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">21</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">22</div></div>
+          <!-- Week 5 -->
+          <div class="cal-cell"><div class="cal-cell-day">23</div></div>
+          <div class="cal-cell today"><div class="cal-cell-day">24</div><div class="cal-event blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Weekly Post</div><div class="cal-event ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg>Story Set</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">25</div><div class="cal-event fb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>GP Campaign</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">26</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">27</div></div>
+          <div class="cal-cell"><div class="cal-cell-day">28</div><div class="cal-event li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg>Newsletter</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRAFT TRAY -->
+    <div class="section" id="cal-draft-tray">
+      <h2 class="section-title">Draft Tray</h2>
+      <p class="section-desc">Sidebar with approved content ready to schedule. Drag items onto the calendar.</p>
+      <div class="grid-2">
+        <div class="demo-card" style="display:flex;justify-content:center;">
+          <div class="draft-tray">
+            <div class="draft-tray-header">Ready to Schedule<div class="draft-tray-sub">Drag onto the calendar to schedule</div></div>
+            <div class="draft-tray-body">
+              <div class="draft-item">
+                <div class="draft-item-icon" style="background:#FFEEF2;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2743" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+                <div><div class="draft-item-title">Spring Product Reel</div><div class="draft-item-sub">Storepro · Instagram</div></div>
+                <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+              </div>
+              <div class="draft-item">
+                <div class="draft-item-icon" style="background:var(--primary-light);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                <div><div class="draft-item-title">Digital Upgrade Guide</div><div class="draft-item-sub">Coreshift · Blog</div></div>
+                <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+              </div>
+              <div class="draft-item">
+                <div class="draft-item-icon" style="background:#EDF4FE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg></div>
+                <div><div class="draft-item-title">GP Case Study</div><div class="draft-item-sub">Growth Partners · LinkedIn</div></div>
+                <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+              </div>
+              <div class="draft-item">
+                <div class="draft-item-icon" style="background:#FEE2E2;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2 29 29 0 0 0-.46 5.33 29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg></div>
+                <div><div class="draft-item-title">Teaser Video</div><div class="draft-item-sub">Storepro · YouTube</div></div>
+                <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Empty State</div>
+          <div class="draft-tray" style="width:100%;">
+            <div class="draft-tray-header">Ready to Schedule<div class="draft-tray-sub">Drag onto the calendar to schedule</div></div>
+            <div style="padding:32px;text-align:center;">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.5" style="margin-bottom:12px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+              <div style="font-size:14px;font-weight:600;color:var(--text-01);margin-bottom:4px;">No approved content</div>
+              <div style="font-size:13px;color:var(--text-03);">Approve content in Jobs to see it here.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIME PICKER -->
+    <div class="section" id="cal-time-picker">
+      <h2 class="section-title">Time Picker Modal</h2>
+      <p class="section-desc">Schedule post time. Hour/minute selectors with AM/PM toggle.</p>
+      <div class="grid-2">
+        <div class="demo-card" style="display:flex;justify-content:center;">
+          <div class="time-picker">
+            <div class="time-picker-title">Schedule Post</div>
+            <div class="time-picker-sub">Choose when to publish this content.</div>
+            <div class="time-picker-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Tuesday, 24 February 2026
+            </div>
+            <div class="time-picker-row">
+              <select class="time-picker-select"><option>09</option><option>10</option><option>11</option><option>12</option><option>01</option><option>02</option></select>
+              <span class="time-picker-colon">:</span>
+              <select class="time-picker-select"><option>00</option><option>15</option><option>30</option><option>45</option></select>
+              <div class="time-picker-ampm">
+                <button class="time-picker-ampm-btn active" onclick="this.parentElement.querySelectorAll('.time-picker-ampm-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">AM</button>
+                <button class="time-picker-ampm-btn" onclick="this.parentElement.querySelectorAll('.time-picker-ampm-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">PM</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-outline" style="flex:1;">Cancel</button>
+              <button class="btn btn-primary" style="flex:1;">Schedule</button>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card"><div class="variant-label">Quick Time Slots</div>
+          <div class="time-picker" style="width:100%;">
+            <div class="time-picker-title">Quick Schedule</div>
+            <div class="time-picker-sub">Pick a popular time slot.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+              <button class="btn btn-outline btn-sm" style="justify-content:center;">9:00 AM</button>
+              <button class="btn btn-outline btn-sm" style="justify-content:center;">12:00 PM</button>
+              <button class="btn btn-outline btn-sm" style="justify-content:center;border-color:var(--primary);color:var(--primary);background:var(--primary-light);">3:00 PM</button>
+              <button class="btn btn-outline btn-sm" style="justify-content:center;">6:00 PM</button>
+            </div>
+            <button class="btn btn-primary" style="width:100%;">Schedule for 3:00 PM</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- OVERLAYS                       -->
     <!-- ═══════════════════════════════ -->
 
