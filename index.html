@@ -209,6 +209,10 @@
   .btn-disabled:hover { transform: none; box-shadow: none; }
   .btn-disabled:active { transform: none; }
   .btn-disabled::after { display: none; }
+  .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .btn[disabled]:hover { transform: none; box-shadow: none; }
+  .btn[disabled]:active { transform: none; }
+  .btn[disabled]::after { display: none; }
   .btn-sm { padding: 7px 16px; font-size: 14px; }
   .btn-lg { padding: 14px 32px; font-size: 16px; font-weight: 600; }
   .btn-icon { width: 40px; height: 40px; padding: 0; }
@@ -2363,7 +2367,7 @@
             </label>
             <a href="#" class="auth-link" style="font-size:13px;">Forgot password?</a>
           </div>
-          <button class="btn btn-dark" style="width:100%;justify-content:center;">Sign In</button>
+          <button class="btn btn-outline" id="login-submit" style="width:100%;justify-content:center;opacity:0.6;cursor:not-allowed;" disabled>Sign In</button>
           <div class="auth-footer">Don't have an account? <a href="#" class="auth-link">Sign up</a></div>
         </div>
       </div>
@@ -2395,7 +2399,7 @@
               <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">Business</button>
             </div>
           </div>
-          <button class="btn btn-dark" style="width:100%;justify-content:center;">Create Account</button>
+          <button class="btn btn-outline" id="signup-submit" style="width:100%;justify-content:center;opacity:0.6;cursor:not-allowed;" disabled>Create Account</button>
           <div class="auth-footer">Already have an account? <a href="#" class="auth-link">Sign in</a></div>
         </div>
       </div>
@@ -2724,6 +2728,33 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 sections.forEach(s => observer.observe(s));
+// Form-complete button activation
+function watchFormButton(formContainer, buttonId) {
+  const btn = document.getElementById(buttonId);
+  if (!btn || !formContainer) return;
+  const inputs = formContainer.querySelectorAll('.kc-input, .kc-select');
+  function check() {
+    const allFilled = Array.from(inputs).every(i => i.value && i.value.trim().length > 0 && !i.disabled);
+    if (allFilled) {
+      btn.disabled = false;
+      btn.className = 'btn btn-dark';
+      btn.style.cssText = 'width:100%;justify-content:center;opacity:1;cursor:pointer;transition:all 0.25s ease;';
+    } else {
+      btn.disabled = true;
+      btn.className = 'btn btn-outline';
+      btn.style.cssText = 'width:100%;justify-content:center;opacity:0.6;cursor:not-allowed;transition:all 0.25s ease;';
+    }
+  }
+  inputs.forEach(i => { i.addEventListener('input', check); i.addEventListener('change', check); });
+  check();
+}
+// Apply to login form
+const loginForm = document.getElementById('login-submit')?.closest('.auth-right');
+watchFormButton(loginForm, 'login-submit');
+// Apply to signup form
+const signupForm = document.getElementById('signup-submit')?.closest('.auth-right');
+watchFormButton(signupForm, 'signup-submit');
+
 // Auto-apply filled state to all inputs/textareas/selects when they have content
 function applyFilledState(el) {
   if (el.value && el.value.trim().length > 0) {
