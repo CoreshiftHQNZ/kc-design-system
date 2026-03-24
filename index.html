@@ -496,28 +496,31 @@
 
   /* Client Row (table-style) */
   .client-row {
-    display: flex; align-items: center; gap: 0; padding: 18px 20px;
+    display: flex; align-items: center; gap: 0; padding: 16px 20px;
     border-bottom: 1px solid var(--line-02); transition: background 0.15s ease;
+    cursor: pointer;
   }
   .client-row:hover { background: var(--bg-secondary); }
   .client-row:last-child { border-bottom: none; }
   .client-col { display: flex; align-items: center; gap: 12px; }
-  .client-col-name { flex: 0 0 200px; }
-  .client-col-industry { flex: 0 0 120px; font-size: 13px; color: var(--text-02); }
+  .client-col-name { flex: 0 0 220px; }
   .client-col-stats { flex: 1; display: flex; gap: 0; }
   .client-stat-cell {
-    flex: 1; padding: 0 12px; border-left: 1px solid var(--line-02);
-    text-align: left;
+    flex: 1; padding: 0 12px; border-left: 1px solid var(--line-02); text-align: left;
   }
   .client-stat-cell:first-child { border-left: none; }
   .client-stat-num { font-size: 16px; font-weight: 700; color: var(--text-01); }
   .client-stat-label { font-size: 11px; color: var(--text-03); }
-  .client-col-sns { flex: 0 0 160px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .client-sns-dot {
-    width: 24px; height: 24px; border-radius: 50%; display: flex;
-    align-items: center; justify-content: center; font-size: 10px; color: white;
+  .client-col-sns { flex: 0 0 140px; }
+  .client-sns-compact {
+    display: flex; align-items: center; gap: 8px;
   }
-  .client-sns-status { font-size: 11px; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+  .client-sns-bar {
+    flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden;
+    max-width: 60px;
+  }
+  .client-sns-fill { height: 100%; border-radius: 3px; transition: width 0.3s ease; }
+  .client-sns-text { font-size: 13px; font-weight: 600; white-space: nowrap; }
   .client-col-actions { flex: 0 0 80px; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
   .client-action-btn {
     width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
@@ -528,20 +531,16 @@
   .client-action-btn.view { background: var(--primary-light); color: var(--primary); }
   .client-action-btn.view:hover { background: var(--primary); color: white; }
   .client-logo-img {
-    width: 40px; height: 40px; border-radius: 8px; object-fit: contain;
+    width: 40px; height: 40px; border-radius: 10px; object-fit: contain;
     background: var(--bg-secondary); padding: 4px;
   }
-  .client-name { font-size: 14px; font-weight: 500; color: var(--text-01); }
+  .client-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
+  .client-subtitle { font-size: 12px; color: var(--text-03); margin-top: 1px; }
   .client-table-header {
     display: flex; align-items: center; gap: 0; padding: 12px 20px;
-    border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600;
+    border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-03);
   }
-  .client-table-header > span:nth-child(1) { flex: 0 0 200px; }
-  .client-table-header > span:nth-child(2) { flex: 0 0 120px; }
-  .client-table-header > span:nth-child(3) { flex: 1; display: flex; gap: 0; }
-  .client-table-header > span:nth-child(4) { flex: 0 0 160px; }
-  .client-table-header > span:nth-child(5) { flex: 0 0 80px; }
 
   /* Product Card */
   .product-card-img {
@@ -1434,100 +1433,82 @@
       <h2 class="section-title">Client Card</h2>
       <p class="section-desc">Table row format matching your Figma. Logo + name, industry, activity stats, SNS status, actions.</p>
       <div class="kc-card" style="padding:0;overflow:hidden;">
-        <div class="client-table-header">
-          <span>Client Name ↕</span>
-          <span>Industry</span>
-          <span>
-            <span style="flex:1;padding:0 12px;">Content Activity Summary</span>
-          </span>
-          <span>SNS Linked</span>
-          <span>Actions</span>
+        <div class="client-table-header" style="display:flex;">
+          <span style="flex:0 0 220px;">Client</span>
+          <span style="flex:1;display:flex;"><span style="flex:1;padding:0 12px;">Scheduled</span><span style="flex:1;padding:0 12px;">Pending</span><span style="flex:1;padding:0 12px;">Drafts</span></span>
+          <span style="flex:0 0 140px;">Platforms</span>
+          <span style="flex:0 0 80px;text-align:right;"></span>
         </div>
+        <!-- Storepro — all connected -->
         <div class="client-row">
           <div class="client-col client-col-name">
-            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--purple-light),var(--bg-secondary));display:flex;align-items:center;justify-content:center;font-size:16px;">🏪</div>
-            <div class="client-name">Storepro</div>
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--purple-light),var(--bg-secondary));display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div><div class="client-name">Storepro</div><div class="client-subtitle">Retail · Auckland</div></div>
           </div>
-          <div class="client-col-industry">Technology & SaaS</div>
           <div class="client-col-stats">
             <div class="client-stat-cell"><div class="client-stat-num">123</div><div class="client-stat-label">Scheduled</div></div>
-            <div class="client-stat-cell"><div class="client-stat-num">16</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">16</div><div class="client-stat-label">Pending</div></div>
             <div class="client-stat-cell"><div class="client-stat-num">8</div><div class="client-stat-label">Drafts</div></div>
           </div>
           <div class="client-col-sns">
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;gap:2px;">
-                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
-                <div class="client-sns-dot" style="background:#1877F2;">f</div>
-                <div class="client-sns-dot" style="background:#E4405F;">📷</div>
-                <div class="client-sns-dot" style="background:#0077B5;">in</div>
-                <div class="client-sns-dot" style="background:#1DA1F2;">𝕏</div>
-                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
-              </div>
-              <div class="client-sns-status" style="color:var(--success);">✅ All Connected</div>
+            <div class="client-sns-compact">
+              <div class="client-sns-bar"><div class="client-sns-fill" style="width:100%;background:var(--success);"></div></div>
+              <span class="client-sns-text" style="color:var(--success);">6/6</span>
             </div>
           </div>
           <div class="client-col-actions">
             <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
-            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
         </div>
+        <!-- Growth Partners — partial -->
         <div class="client-row">
           <div class="client-col client-col-name">
-            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--primary-light),#FFF0E6);display:flex;align-items:center;justify-content:center;font-size:16px;">🏢</div>
-            <div class="client-name">Growth Partners</div>
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--primary-light),#FFF0E6);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div><div class="client-name">Growth Partners</div><div class="client-subtitle">Marketing Agency</div></div>
           </div>
-          <div class="client-col-industry">Marketing</div>
           <div class="client-col-stats">
             <div class="client-stat-cell"><div class="client-stat-num">45</div><div class="client-stat-label">Scheduled</div></div>
-            <div class="client-stat-cell"><div class="client-stat-num">3</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num" style="color:var(--primary);">3</div><div class="client-stat-label">Pending</div></div>
             <div class="client-stat-cell"><div class="client-stat-num">12</div><div class="client-stat-label">Drafts</div></div>
           </div>
           <div class="client-col-sns">
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;gap:2px;">
-                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
-                <div class="client-sns-dot" style="background:#1877F2;">f</div>
-                <div class="client-sns-dot" style="background:#ccc;">📷</div>
-                <div class="client-sns-dot" style="background:#ccc;">in</div>
-                <div class="client-sns-dot" style="background:#ccc;">𝕏</div>
-                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
-              </div>
-              <div class="client-sns-status" style="color:var(--error);">❌ 5 Disconnected</div>
+            <div class="client-sns-compact">
+              <div class="client-sns-bar"><div class="client-sns-fill" style="width:33%;background:var(--error);"></div></div>
+              <span class="client-sns-text" style="color:var(--error);">2/6</span>
             </div>
           </div>
           <div class="client-col-actions">
             <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
-            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
         </div>
+        <!-- Coreshift — all connected -->
         <div class="client-row">
           <div class="client-col client-col-name">
-            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--blue-light),#EFF6FF);display:flex;align-items:center;justify-content:center;font-size:16px;">⚡</div>
-            <div class="client-name">Coreshift HQ</div>
+            <div class="client-logo-img" style="background:linear-gradient(135deg,var(--blue-light),#EFF6FF);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div><div class="client-name">Coreshift HQ</div><div class="client-subtitle">Technology · NZ</div></div>
           </div>
-          <div class="client-col-industry">Technology & SaaS</div>
           <div class="client-col-stats">
             <div class="client-stat-cell"><div class="client-stat-num">89</div><div class="client-stat-label">Scheduled</div></div>
-            <div class="client-stat-cell"><div class="client-stat-num">5</div><div class="client-stat-label">Pending Approval</div></div>
+            <div class="client-stat-cell"><div class="client-stat-num">5</div><div class="client-stat-label">Pending</div></div>
             <div class="client-stat-cell"><div class="client-stat-num">2</div><div class="client-stat-label">Drafts</div></div>
           </div>
           <div class="client-col-sns">
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;gap:2px;">
-                <div class="client-sns-dot" style="background:linear-gradient(45deg,#f09433,#dc2743);">IG</div>
-                <div class="client-sns-dot" style="background:#1877F2;">f</div>
-                <div class="client-sns-dot" style="background:#E4405F;">📷</div>
-                <div class="client-sns-dot" style="background:#0077B5;">in</div>
-                <div class="client-sns-dot" style="background:#1DA1F2;">𝕏</div>
-                <div class="client-sns-dot" style="background:var(--text-03);">+</div>
-              </div>
-              <div class="client-sns-status" style="color:var(--success);">✅ All Connected</div>
+            <div class="client-sns-compact">
+              <div class="client-sns-bar"><div class="client-sns-fill" style="width:83%;background:var(--success);"></div></div>
+              <span class="client-sns-text" style="color:var(--success);">5/6</span>
             </div>
           </div>
           <div class="client-col-actions">
             <button class="client-action-btn" title="Website"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
-            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="client-action-btn view" title="View"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
         </div>
       </div>
