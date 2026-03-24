@@ -177,6 +177,8 @@
   .kc-search:focus { border-color: var(--primary); background: var(--bg-card); box-shadow: 0 0 0 3px var(--primary-ring); }
   .kc-search:focus::placeholder { opacity: 0.5; }
   .kc-search:focus ~ .search-icon { color: var(--primary); transform: translateY(-50%) scale(1.1); }
+  .kc-search.filled { border-color: var(--text-01); border-width: 2px; background: var(--bg-card); }
+  .kc-search.filled:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-ring); }
   .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; border-radius: 50%; border: none; background: var(--line); color: var(--text-03); cursor: pointer; font-size: 11px; display: none; align-items: center; justify-content: center; transition: all 0.15s ease; }
   .search-clear:hover { background: var(--border); color: var(--text-01); }
   .search-wrap.has-value .search-clear { display: flex; }
@@ -2362,11 +2364,6 @@
             <a href="#" class="auth-link" style="font-size:13px;">Forgot password?</a>
           </div>
           <button class="btn btn-dark" style="width:100%;justify-content:center;">Sign In</button>
-          <div class="auth-divider">or</div>
-          <button class="auth-google-btn" style="border-style:dashed;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M4 4l20 16M24 4L4 20" stroke-linecap="round"/></svg>
-            Send Magic Link
-          </button>
           <div class="auth-footer">Don't have an account? <a href="#" class="auth-link">Sign up</a></div>
         </div>
       </div>
@@ -2427,7 +2424,7 @@
 
     <!-- REVIEW PAGE -->
     <div class="section" id="auth-review">
-      <div class="variant-label">Content Review / Approval (Public — Magic Link)</div>
+      <div class="variant-label">Content Review / Approval (Public Link)</div>
       <div class="review-page">
         <div class="review-header">
           <div>
@@ -2727,6 +2724,19 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 sections.forEach(s => observer.observe(s));
+// Auto-apply filled state to all inputs/textareas/selects when they have content
+function applyFilledState(el) {
+  if (el.value && el.value.trim().length > 0) {
+    el.classList.add('filled');
+  } else {
+    el.classList.remove('filled');
+  }
+}
+document.querySelectorAll('.kc-input, .kc-select, .kc-search').forEach(el => {
+  applyFilledState(el);
+  el.addEventListener('input', () => applyFilledState(el));
+  el.addEventListener('change', () => applyFilledState(el));
+});
 </script>
 
 </body>
