@@ -22,7 +22,7 @@
     --text-03: #9CA3AF;
     --disabled: #9CA3AF;
     --success: #27C87D;
-    --success-light: #ECFDF5;
+    --success-light: #E5F9EF;
     --error: #EF4444;
     --error-ring: rgba(239, 68, 68, 0.12);
     --error-bg: #FEF2F2;
@@ -33,7 +33,7 @@
     --line-02: #F1F5F9;
     --border: #D1D5DB;
     --purple: #BAA3F5;
-    --purple-light: #F3EEFF;
+    --purple-light: #F0E2FF;
     --blue: #93B4E6;
     --blue-light: #EFF6FF;
   }
@@ -45,14 +45,14 @@
     padding: 20px 10px; position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;
     z-index: 10;
   }
-  .sidebar-brand { font-size: 15px; font-weight: 700; color: var(--primary); padding: 4px 12px 20px; }
+  .sidebar-brand { font-size: 14px; font-weight: 700; color: var(--primary); padding: 4px 12px 20px; }
   .sidebar-brand span { color: var(--text-01); }
   .sidebar-cat {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
     color: var(--text-03); padding: 16px 12px 6px; margin-top: 4px;
   }
   .sidebar-link {
-    display: block; padding: 7px 12px; font-size: 13px; color: var(--text-02);
+    display: block; padding: 7px 12px; font-size: 12px; color: var(--text-02);
     text-decoration: none; border-radius: 8px; margin-bottom: 1px;
     transition: all 0.15s ease;
   }
@@ -67,7 +67,7 @@
   .section-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
   .section-desc { font-size: 14px; color: var(--text-03); margin-bottom: 24px; }
   .variant-label {
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
     color: var(--text-03); margin-bottom: 12px; margin-top: 24px;
   }
   .variant-label:first-child { margin-top: 0; }
@@ -80,7 +80,7 @@
     padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .card-label {
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
     color: var(--text-03); margin-bottom: 16px;
   }
 
@@ -99,7 +99,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   }
   .kc-input::placeholder { color: var(--text-03); transition: opacity 0.2s ease; }
-  .kc-input:hover { border-color: #A0AEC0; }
+  .kc-input:hover { border-color: #9CA3AF; }
   .kc-input:focus { border-color: var(--primary); background: var(--bg-card); box-shadow: 0 0 0 3px var(--primary-ring); }
   .kc-input:focus::placeholder { opacity: 0.5; }
   .kc-input.error { border-color: var(--error); background: var(--error-bg); animation: shake 0.35s ease; }
@@ -117,7 +117,7 @@
     border-radius: 10px; appearance: none; cursor: pointer; outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   }
-  .kc-select:hover { border-color: #A0AEC0; }
+  .kc-select:hover { border-color: #9CA3AF; }
   .kc-select:focus { border-color: var(--primary); background: var(--bg-card); box-shadow: 0 0 0 3px var(--primary-ring); }
   .kc-select:disabled { background: var(--line-02); color: var(--disabled); cursor: not-allowed; opacity: 0.7; }
   .kc-select.filled { border-color: var(--text-01); border-width: 2px; background: var(--bg-card); }
@@ -173,13 +173,13 @@
   .search-icon svg { width: 18px; height: 18px; stroke: currentColor; }
   .kc-search { width: 100%; padding: 11px 14px 11px 42px; font-size: 16px; font-family: 'Satoshi', sans-serif; color: var(--text-01); background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: 10px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; }
   .kc-search::placeholder { color: var(--text-03); transition: opacity 0.2s ease; }
-  .kc-search:hover { border-color: #A0AEC0; }
+  .kc-search:hover { border-color: #9CA3AF; }
   .kc-search:focus { border-color: var(--primary); background: var(--bg-card); box-shadow: 0 0 0 3px var(--primary-ring); }
   .kc-search:focus::placeholder { opacity: 0.5; }
   .kc-search:focus ~ .search-icon { color: var(--primary); transform: translateY(-50%) scale(1.1); }
   .kc-search.filled { border-color: var(--text-01); border-width: 2px; background: var(--bg-card); }
   .kc-search.filled:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-ring); }
-  .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; border-radius: 50%; border: none; background: var(--line); color: var(--text-03); cursor: pointer; font-size: 11px; display: none; align-items: center; justify-content: center; transition: all 0.15s ease; }
+  .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; border-radius: 50%; border: none; background: var(--line); color: var(--text-03); cursor: pointer; font-size: 12px; display: none; align-items: center; justify-content: center; transition: all 0.15s ease; }
   .search-clear:hover { background: var(--border); color: var(--text-01); }
   .search-wrap.has-value .search-clear { display: flex; }
 
@@ -200,7 +200,7 @@
   .btn-primary { background: var(--primary); color: white; }
   .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 4px 12px rgba(255,107,53,0.25); transform: translateY(-1px); }
   .btn-dark { background: var(--text-01); color: white; }
-  .btn-dark:hover { background: #1F2937; box-shadow: 0 4px 12px rgba(17,24,39,0.2); transform: translateY(-1px); }
+  .btn-dark:hover { background: #111827; box-shadow: 0 4px 12px rgba(17,24,39,0.2); transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--text-01); border-color: var(--border); }
   .btn-outline:hover { border-color: var(--text-01); background: var(--bg-secondary); }
   .btn-ghost { background: transparent; color: var(--primary); border-color: transparent; }
@@ -239,11 +239,11 @@
   .stat-icon svg { width: 20px; height: 20px; stroke: var(--primary); stroke-width: 1.8; fill: none; }
   .stat-icon.orange { background: var(--primary-light); }
   .stat-icon.orange svg { stroke: var(--primary); }
-  .stat-value { font-size: 28px; font-weight: 700; color: var(--text-01); line-height: 1; margin-bottom: 4px; }
-  .stat-detail { font-size: 13px; color: var(--text-03); line-height: 1.4; }
+  .stat-value { font-size: 24px; font-weight: 700; color: var(--text-01); line-height: 1; margin-bottom: 4px; }
+  .stat-detail { font-size: 12px; color: var(--text-03); line-height: 1.4; }
   .stat-detail-sub { font-size: 12px; color: var(--text-03); margin-top: 2px; }
   .stat-bottom { margin-top: auto; padding-top: 12px; display: flex; justify-content: flex-end; }
-  .stat-link { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500; transition: all 0.15s ease; }
+  .stat-link { font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 500; transition: all 0.15s ease; }
   .stat-link:hover { color: var(--primary-hover); text-decoration: underline; }
 
   /* DATA TABLE */
@@ -274,11 +274,11 @@
   }
   .badge-draft { background: var(--bg-secondary); color: var(--text-03); }
   .badge-generating { background: var(--primary-light); color: var(--primary); animation: pulse 2s ease infinite; }
-  .badge-approved { background: var(--success-light); color: #059669; }
+  .badge-approved { background: var(--success-light); color: #27C87D; }
   .badge-failed { background: var(--error-light); color: var(--error); }
-  .badge-scheduled { background: var(--purple-light); color: #7C3AED; }
-  .badge-published { background: var(--blue-light); color: #2563EB; }
-  .badge-review { background: var(--warning-light); color: #D97706; }
+  .badge-scheduled { background: var(--purple-light); color: #BAA3F5; }
+  .badge-published { background: var(--blue-light); color: #93B4E6; }
+  .badge-review { background: var(--warning-light); color: #FFC43A; }
 
   /* Badge tooltip popup */
   .badge-tip {
@@ -308,7 +308,7 @@
   .platform-badge:hover { border-color: var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
   .platform-logo { width: 16px; height: 16px; flex-shrink: 0; }
   .platform-logo svg { width: 16px; height: 16px; }
-  .platform-badge.connected { background: var(--success-light); border-color: #BBF7D0; }
+  .platform-badge.connected { background: var(--success-light); border-color: #E5F9EF; }
   .platform-badge.disconnected { background: var(--bg-secondary); }
   .platform-badge.disconnected .platform-logo { opacity: 0.4; }
 
@@ -320,15 +320,15 @@
     flex-shrink: 0;
   }
   .avatar:hover { transform: scale(1.08); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  .avatar-xs { width: 24px; height: 24px; font-size: 10px; }
+  .avatar-xs { width: 24px; height: 24px; font-size: 12px; }
   .avatar-sm { width: 32px; height: 32px; font-size: 12px; }
   .avatar-md { width: 40px; height: 40px; font-size: 14px; }
   .avatar-lg { width: 56px; height: 56px; font-size: 18px; }
   .avatar-xl { width: 72px; height: 72px; font-size: 24px; }
   .avatar-orange { background: var(--primary-light); color: var(--primary); }
-  .avatar-purple { background: var(--purple-light); color: #7C3AED; }
-  .avatar-blue { background: var(--blue-light); color: #2563EB; }
-  .avatar-green { background: var(--success-light); color: #059669; }
+  .avatar-purple { background: var(--purple-light); color: #BAA3F5; }
+  .avatar-blue { background: var(--blue-light); color: #93B4E6; }
+  .avatar-green { background: var(--success-light); color: #27C87D; }
   .avatar-grey { background: var(--bg-secondary); color: var(--text-03); }
   .avatar-group { display: flex; }
   .avatar-group .avatar { margin-left: -8px; border: 2px solid var(--bg-card); }
@@ -365,7 +365,7 @@
   .kc-sidebar-logo {
     display: flex; align-items: center; gap: 10px; padding: 8px 8px 20px; min-height: 48px;
   }
-  .kc-sidebar-brand { font-size: 15px; font-weight: 700; color: var(--text-01); letter-spacing: 1px; }
+  .kc-sidebar-brand { font-size: 14px; font-weight: 700; color: var(--text-01); letter-spacing: 1px; }
   .kc-sidebar.collapsed .kc-sidebar-brand { display: none; }
   .kc-sidebar.collapsed .kc-sidebar-logo { justify-content: center; padding: 8px 0 20px; }
   /* Toggle button lives in the header, between sidebar and content */
@@ -416,7 +416,7 @@
   }
   .kc-header-collapse-btn:hover { background: var(--bg-secondary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   .kc-header-welcome { font-size: 16px; font-weight: 700; color: var(--text-01); }
-  .kc-header-subtitle { font-size: 13px; color: var(--text-03); margin-top: 2px; }
+  .kc-header-subtitle { font-size: 12px; color: var(--text-03); margin-top: 2px; }
   .kc-header-right { display: flex; align-items: center; gap: 16px; }
   .kc-header-notif {
     width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent;
@@ -481,7 +481,7 @@
   }
   .kc-client-dropdown-item {
     display: flex; align-items: center; gap: 8px; padding: 8px 10px;
-    border-radius: 10px; font-size: 13px; color: var(--text-02);
+    border-radius: 10px; font-size: 12px; color: var(--text-02);
     transition: background 0.15s ease; cursor: pointer;
   }
   .kc-client-dropdown-item:hover { background: var(--bg-secondary); }
@@ -516,7 +516,7 @@
   }
   .client-stat-cell:first-child { border-left: none; }
   .client-stat-num { font-size: 16px; font-weight: 700; color: var(--text-01); }
-  .client-stat-label { font-size: 11px; color: var(--text-03); }
+  .client-stat-label { font-size: 12px; color: var(--text-03); }
   .client-col-sns { flex: 0 0 140px; }
   .client-sns-compact {
     display: flex; align-items: center; gap: 8px;
@@ -526,7 +526,7 @@
     max-width: 60px;
   }
   .client-sns-fill { height: 100%; border-radius: 3px; transition: width 0.3s ease; }
-  .client-sns-text { font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .client-sns-text { font-size: 12px; font-weight: 600; white-space: nowrap; }
   .client-col-actions { flex: 0 0 80px; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
   .client-action-btn {
     width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
@@ -544,7 +544,7 @@
   .client-subtitle { font-size: 12px; color: var(--text-03); margin-top: 1px; }
   .client-table-header {
     display: flex; align-items: center; gap: 0; padding: 12px 20px;
-    border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 600;
+    border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-03);
   }
 
@@ -556,7 +556,7 @@
   .product-card-name { font-size: 16px; font-weight: 600; color: var(--text-01); margin-bottom: 4px; }
   .product-card-desc { font-size: 14px; color: var(--text-02); margin-bottom: 12px; line-height: 1.5; }
   .product-card-download {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 13px;
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
     color: var(--primary); font-weight: 500; text-decoration: none;
     transition: color 0.15s ease;
   }
@@ -571,14 +571,14 @@
   }
   .pill:hover { background: var(--line); }
   .pill-primary { background: var(--primary-light); color: var(--primary); border-color: transparent; }
-  .pill-purple { background: var(--purple-light); color: #7C3AED; border-color: transparent; }
-  .pill-blue { background: var(--blue-light); color: #2563EB; border-color: transparent; }
+  .pill-purple { background: var(--purple-light); color: #BAA3F5; border-color: transparent; }
+  .pill-blue { background: var(--blue-light); color: #93B4E6; border-color: transparent; }
   .pill-gradient { background: linear-gradient(135deg, var(--purple-light), var(--blue-light)); color: #5B21B6; border-color: transparent; }
 
   /* Topic Card */
   .topic-card-title { font-size: 16px; font-weight: 600; color: var(--text-01); margin-bottom: 8px; }
   .topic-card-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .topic-card-pain { font-size: 13px; color: var(--text-02); line-height: 1.5; margin-bottom: 16px; }
+  .topic-card-pain { font-size: 12px; color: var(--text-02); line-height: 1.5; margin-bottom: 16px; }
   .topic-card-action {
     display: inline-flex; align-items: center; gap: 4px; font-size: 14px;
     font-weight: 600; color: var(--primary); text-decoration: none;
@@ -667,7 +667,7 @@
     padding: 6px 10px; text-align: center; min-width: 44px;
   }
   .cal-date-box-day { font-size: 18px; font-weight: 700; line-height: 1; }
-  .cal-date-box-month { font-size: 10px; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+  .cal-date-box-month { font-size: 12px; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
   .cal-today-text { font-size: 14px; font-weight: 600; color: var(--text-01); }
   .cal-today-sub { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 6px; }
   .cal-today-sub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
@@ -688,7 +688,7 @@
     display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
   }
   .cal-view-btn {
-    padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer;
+    padding: 6px 14px; font-size: 12px; font-weight: 500; cursor: pointer;
     background: var(--bg-card); border: none; color: var(--text-03);
     font-family: 'Satoshi', sans-serif; display: flex; align-items: center; gap: 4px;
     transition: all 0.15s ease;
@@ -717,20 +717,20 @@
   .cal-cell.today .cal-cell-day { color: var(--primary); font-weight: 700; }
   .cal-cell.other-month { opacity: 0.35; }
   .cal-cell-day {
-    font-size: 13px; font-weight: 500; color: var(--text-01); margin-bottom: 6px;
+    font-size: 12px; font-weight: 500; color: var(--text-01); margin-bottom: 6px;
   }
 
   /* Event pills inside cells */
   .cal-event {
     display: flex; align-items: center; gap: 4px;
-    padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 500;
+    padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 500;
     margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     cursor: pointer; transition: all 0.15s ease;
   }
   .cal-event:hover { transform: translateX(2px); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
   .cal-event svg { width: 12px; height: 12px; flex-shrink: 0; }
   .cal-event.ig { background: #FFEEF2; color: #DC2743; }
-  .cal-event.li { background: #EDF4FE; color: #0A66C2; }
+  .cal-event.li { background: #EFF6FF; color: #0A66C2; }
   .cal-event.fb { background: #EEF2FF; color: #1877F2; }
   .cal-event.blog { background: var(--primary-light); color: var(--primary); }
   .cal-event.yt { background: #FEE2E2; color: #DC2626; }
@@ -754,8 +754,8 @@
   .draft-item:hover { background: var(--bg-secondary); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .draft-item:active { cursor: grabbing; transform: scale(0.98); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   .draft-item-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .draft-item-title { font-size: 13px; font-weight: 500; color: var(--text-01); }
-  .draft-item-sub { font-size: 11px; color: var(--text-03); }
+  .draft-item-title { font-size: 12px; font-weight: 500; color: var(--text-01); }
+  .draft-item-sub { font-size: 12px; color: var(--text-03); }
   .draft-item-drag { color: var(--text-03); margin-left: auto; }
 
   /* Time picker */
@@ -764,10 +764,10 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 320px;
   }
   .time-picker-title { font-size: 16px; font-weight: 700; color: var(--text-01); margin-bottom: 4px; }
-  .time-picker-sub { font-size: 13px; color: var(--text-03); margin-bottom: 20px; }
+  .time-picker-sub { font-size: 12px; color: var(--text-03); margin-bottom: 20px; }
   .time-picker-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
   .time-picker-select {
-    flex: 1; padding: 10px 14px; font-size: 20px; font-weight: 700; text-align: center;
+    flex: 1; padding: 10px 14px; font-size: 18px; font-weight: 700; text-align: center;
     border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg-secondary);
     font-family: 'Satoshi', sans-serif; color: var(--text-01); appearance: none; cursor: pointer;
     transition: border-color 0.15s ease;
@@ -794,15 +794,15 @@
   .mock-frame:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
   .mock-header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; }
   .mock-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
-  .mock-user { font-size: 13px; font-weight: 600; }
-  .mock-sub { font-size: 11px; color: #999; }
+  .mock-user { font-size: 12px; font-weight: 600; }
+  .mock-sub { font-size: 12px; color: #999; }
   .mock-dots { margin-left: auto; letter-spacing: 2px; color: #999; font-weight: 700; }
   .mock-img { width: 100%; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
   .mock-img svg { opacity: 0.3; }
   .mock-actions { display: flex; align-items: center; gap: 14px; padding: 10px 12px; }
   .mock-actions svg { cursor: pointer; transition: transform 0.15s ease; }
   .mock-actions svg:hover { transform: scale(1.15); }
-  .mock-caption { padding: 4px 12px 12px; font-size: 13px; line-height: 1.5; color: #262626; }
+  .mock-caption { padding: 4px 12px 12px; font-size: 12px; line-height: 1.5; color: #262626; }
   .mock-caption strong { font-weight: 600; }
   /* Vertical frames */
   .mock-vertical { width: 270px; aspect-ratio: 9/16; position: relative; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, #1a1a2e, #16213e); color: white; }
@@ -853,7 +853,7 @@
   .auth-google-btn:hover { background: var(--bg-secondary); border-color: var(--text-03); }
   .auth-link { color: var(--primary); font-weight: 500; text-decoration: none; font-size: 14px; }
   .auth-link:hover { text-decoration: underline; }
-  .auth-footer { margin-top: 20px; font-size: 13px; color: var(--text-03); text-align: center; }
+  .auth-footer { margin-top: 20px; font-size: 12px; color: var(--text-03); text-align: center; }
 
   /* Review page */
   .review-page {
@@ -966,7 +966,7 @@
     padding: 16px 20px; border-bottom: 1px solid var(--line);
   }
   .notif-panel-title { font-size: 16px; font-weight: 700; color: var(--text-01); }
-  .notif-panel-mark { font-size: 13px; color: var(--primary); cursor: pointer; font-weight: 500; }
+  .notif-panel-mark { font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 500; }
   .notif-panel-mark:hover { text-decoration: underline; }
   .notif-panel-body { max-height: 320px; overflow-y: auto; }
   .notif-panel-item {
@@ -993,7 +993,7 @@
   }
   .toast-body { flex: 1; }
   .toast-title { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 2px; }
-  .toast-msg { font-size: 13px; color: var(--text-02); line-height: 1.4; }
+  .toast-msg { font-size: 12px; color: var(--text-02); line-height: 1.4; }
   .toast-close {
     width: 24px; height: 24px; border-radius: 50%; border: none; background: transparent;
     cursor: pointer; color: var(--text-03); font-size: 14px;
@@ -1022,7 +1022,7 @@
   }
   .confirm-icon {
     width: 56px; height: 56px; border-radius: 50%; display: flex;
-    align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px;
+    align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 24px;
   }
   .confirm-title { font-size: 18px; font-weight: 700; color: var(--text-01); margin-bottom: 8px; }
   .confirm-msg { font-size: 14px; color: var(--text-02); margin-bottom: 24px; line-height: 1.5; }
@@ -1377,7 +1377,7 @@
             <div class="avatar avatar-md avatar-purple">YK</div>
             <div class="avatar avatar-md avatar-blue">MJ</div>
             <div class="avatar avatar-md avatar-green">KS</div>
-            <div class="avatar avatar-md avatar-grey" style="font-size:11px">+3</div>
+            <div class="avatar avatar-md avatar-grey" style="font-size:12px">+3</div>
           </div>
           <div class="variant-label" style="margin-top:24px">With Name</div>
           <div style="display:flex;flex-direction:column;gap:12px;">
@@ -1614,15 +1614,15 @@
             <div class="kc-client-dropdown-menu">
               <div class="kc-client-dropdown-item active">
                 <div class="avatar avatar-xs avatar-orange">SP</div>
-                <div><div style="font-weight:500;">Storepro</div><div style="font-size:11px;color:var(--text-03);">Retail</div></div>
+                <div><div style="font-weight:500;">Storepro</div><div style="font-size:12px;color:var(--text-03);">Retail</div></div>
               </div>
               <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
                 <div class="avatar avatar-xs avatar-purple">GP</div>
-                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:11px;color:var(--text-03);">Marketing</div></div>
+                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:12px;color:var(--text-03);">Marketing</div></div>
               </div>
               <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
                 <div class="avatar avatar-xs avatar-blue">CS</div>
-                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:11px;color:var(--text-03);">Technology</div></div>
+                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:12px;color:var(--text-03);">Technology</div></div>
               </div>
               <div class="kc-client-dropdown-divider"></div>
               <div class="kc-client-dropdown-item add" onclick="event.stopPropagation()">
@@ -1642,15 +1642,15 @@
             <div class="kc-client-dropdown-menu">
               <div class="kc-client-dropdown-item active">
                 <div class="avatar avatar-xs avatar-orange">SP</div>
-                <div><div style="font-weight:500;">Storepro</div><div style="font-size:11px;color:var(--text-03);">Retail</div></div>
+                <div><div style="font-weight:500;">Storepro</div><div style="font-size:12px;color:var(--text-03);">Retail</div></div>
               </div>
               <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
                 <div class="avatar avatar-xs avatar-purple">GP</div>
-                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:11px;color:var(--text-03);">Marketing</div></div>
+                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:12px;color:var(--text-03);">Marketing</div></div>
               </div>
               <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
                 <div class="avatar avatar-xs avatar-blue">CS</div>
-                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:11px;color:var(--text-03);">Technology</div></div>
+                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:12px;color:var(--text-03);">Technology</div></div>
               </div>
               <div class="kc-client-dropdown-divider"></div>
               <div class="kc-client-dropdown-item add" onclick="event.stopPropagation()">
@@ -1772,7 +1772,7 @@
       <p class="section-desc">Product image, name, description, and tech specs download link.</p>
       <div class="grid-3">
         <div class="kc-card kc-card-clickable">
-          <div class="product-card-img" style="background:linear-gradient(135deg,#FFE0CC,#FFF0E6);display:flex;align-items:center;justify-content:center;font-size:40px;">📱</div>
+          <div class="product-card-img" style="background:linear-gradient(135deg,#FFE0CC,#FFF0E6);display:flex;align-items:center;justify-content:center;font-size:32px;">📱</div>
           <div class="product-card-name">POS Terminal</div>
           <div class="product-card-desc">All-in-one point of sale with built-in receipt printer.</div>
           <a href="#" class="product-card-download">
@@ -1781,7 +1781,7 @@
           </a>
         </div>
         <div class="kc-card kc-card-clickable">
-          <div class="product-card-img" style="background:linear-gradient(135deg,var(--purple-light),#E0E7FF);display:flex;align-items:center;justify-content:center;font-size:40px;">📡</div>
+          <div class="product-card-img" style="background:linear-gradient(135deg,var(--purple-light),#EFF6FF);display:flex;align-items:center;justify-content:center;font-size:32px;">📡</div>
           <div class="product-card-name">Mobile Scanner</div>
           <div class="product-card-desc">Bluetooth barcode scanner for inventory management.</div>
           <a href="#" class="product-card-download">
@@ -1790,7 +1790,7 @@
           </a>
         </div>
         <div class="kc-card kc-card-clickable">
-          <div class="product-card-img" style="background:linear-gradient(135deg,#D1FAE5,#ECFDF5);display:flex;align-items:center;justify-content:center;font-size:40px;">🗄️</div>
+          <div class="product-card-img" style="background:linear-gradient(135deg,#E5F9EF,#E5F9EF);display:flex;align-items:center;justify-content:center;font-size:32px;">🗄️</div>
           <div class="product-card-name">Inventory Hub</div>
           <div class="product-card-desc">Cloud-connected stock management dashboard.</div>
           <a href="#" class="product-card-download">
@@ -1878,7 +1878,7 @@
       <div class="demo-card" style="max-width:600px;">
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div class="notif-card unread">
-            <div class="notif-icon success"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="notif-icon success"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
             <div class="notif-body">
               <div class="notif-msg"><strong>Blog post approved</strong> — "Spring Launch Blog" was approved by Ricky J.</div>
               <div class="notif-time">2 minutes ago</div>
@@ -1894,14 +1894,14 @@
             <div class="notif-dot"></div>
           </div>
           <div class="notif-card">
-            <div class="notif-icon info"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="notif-icon info"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93B4E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
             <div class="notif-body">
               <div class="notif-msg"><strong>Scheduled post</strong> — "Weekly Newsletter" will publish tomorrow at 9:00 AM.</div>
               <div class="notif-time">1 hour ago</div>
             </div>
           </div>
           <div class="notif-card">
-            <div class="notif-icon warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div class="notif-icon warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFC43A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
             <div class="notif-body">
               <div class="notif-msg"><strong>Feedback received</strong> — Growth Partners left a comment on "Social Campaign Q2".</div>
               <div class="notif-time">3 hours ago</div>
@@ -1925,19 +1925,19 @@
               </div>
               <span style="font-size:14px;font-weight:600;color:var(--text-01);">Instagram Post</span>
             </div>
-            <span class="badge badge-approved" style="font-size:11px;">Approved</span>
+            <span class="badge badge-approved" style="font-size:12px;">Approved</span>
           </div>
           <!-- IG Mockup -->
           <div style="background:white;border:1px solid #DBDBDB;border-radius:8px;margin:16px;overflow:hidden;">
             <!-- Header -->
             <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;">
               <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(45deg,#f09433,#dc2743);border:2px solid #E1306C;"></div>
-              <div style="font-size:13px;font-weight:600;color:#262626;">storepro_nz</div>
+              <div style="font-size:12px;font-weight:600;color:#262626;">storepro_nz</div>
               <div style="margin-left:auto;color:#262626;font-size:16px;letter-spacing:2px;">···</div>
             </div>
             <!-- Image -->
             <div style="width:100%;aspect-ratio:1/1;background:linear-gradient(135deg,#FFE0CC,#F0E2FF);display:flex;align-items:center;justify-content:center;">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </div>
             <!-- Actions -->
             <div style="padding:10px 12px;display:flex;align-items:center;gap:14px;">
@@ -1947,7 +1947,7 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" style="margin-left:auto;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
             </div>
             <!-- Caption -->
-            <div style="padding:0 12px 12px;font-size:13px;color:#262626;line-height:1.5;">
+            <div style="padding:0 12px 12px;font-size:12px;color:#262626;line-height:1.5;">
               <span style="font-weight:600;">storepro_nz</span> Revolutionise your retail game! Our POS Terminal handles everything from sales to stock. #RetailTech #NZBusiness
             </div>
           </div>
@@ -1962,7 +1962,7 @@
               </div>
               <span style="font-size:14px;font-weight:600;color:var(--text-01);">LinkedIn Post</span>
             </div>
-            <span class="badge badge-generating" style="font-size:11px;">Generating</span>
+            <span class="badge badge-generating" style="font-size:12px;">Generating</span>
           </div>
           <!-- LI Mockup -->
           <div style="background:white;border:1px solid #E5E5E5;border-radius:8px;margin:16px;overflow:hidden;">
@@ -1971,15 +1971,15 @@
               <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue-light),var(--purple-light));"></div>
               <div>
                 <div style="font-size:14px;font-weight:600;color:#000;">Storepro</div>
-                <div style="font-size:12px;color:#666;">Retail Technology · 1,234 followers</div>
-                <div style="font-size:11px;color:#999;">Just now · 🌐</div>
+                <div style="font-size:12px;color:#4B5563;">Retail Technology · 1,234 followers</div>
+                <div style="font-size:12px;color:#9CA3AF;">Just now · 🌐</div>
               </div>
-              <div style="margin-left:auto;color:#666;font-size:16px;">···</div>
+              <div style="margin-left:auto;color:#4B5563;font-size:16px;">···</div>
             </div>
             <!-- Text -->
-            <div style="padding:0 14px 12px;font-size:14px;color:#333;line-height:1.5;">
+            <div style="padding:0 14px 12px;font-size:14px;color:#111827;line-height:1.5;">
               <div style="height:60px;display:flex;align-items:center;justify-content:center;">
-                <div style="text-align:center;color:var(--text-03);font-size:13px;">
+                <div style="text-align:center;color:var(--text-03);font-size:12px;">
                   <div style="height:6px;background:var(--bg-secondary);border-radius:3px;width:200px;margin-bottom:6px;overflow:hidden;"><div style="height:100%;width:65%;background:var(--primary);border-radius:3px;animation:pulse 2s ease infinite;"></div></div>
                   Content generating... 65%
                 </div>
@@ -1987,10 +1987,10 @@
             </div>
             <!-- Image placeholder -->
             <div style="width:100%;aspect-ratio:1.91/1;background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             </div>
             <!-- Reactions -->
-            <div style="padding:8px 14px;border-top:1px solid #E5E5E5;display:flex;gap:16px;font-size:13px;color:#666;">
+            <div style="padding:8px 14px;border-top:1px solid #E5E5E5;display:flex;gap:16px;font-size:12px;color:#4B5563;">
               <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span><span>✉️ Send</span>
             </div>
           </div>
@@ -2098,7 +2098,7 @@
                 <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
               </div>
               <div class="draft-item">
-                <div class="draft-item-icon" style="background:#EDF4FE;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg></div>
+                <div class="draft-item-icon" style="background:#EFF6FF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg></div>
                 <div><div class="draft-item-title">GP Case Study</div><div class="draft-item-sub">Growth Partners · LinkedIn</div></div>
                 <div class="draft-item-drag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
               </div>
@@ -2116,7 +2116,7 @@
             <div style="padding:32px;text-align:center;">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.5" style="margin-bottom:12px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
               <div style="font-size:14px;font-weight:600;color:var(--text-01);margin-bottom:4px;">No approved content</div>
-              <div style="font-size:13px;color:var(--text-03);">Approve content in Jobs to see it here.</div>
+              <div style="font-size:12px;color:var(--text-03);">Approve content in Jobs to see it here.</div>
             </div>
           </div>
         </div>
@@ -2185,7 +2185,7 @@
               <div><div class="mock-user" style="color:#262626;">storepro_nz</div><div class="mock-sub">Auckland, NZ</div></div>
               <div class="mock-dots">···</div>
             </div>
-            <div class="mock-img" style="aspect-ratio:1/1;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div class="mock-img" style="aspect-ratio:1/1;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <div class="mock-actions">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -2206,8 +2206,8 @@
               <div class="mock-dots">···</div>
             </div>
             <div style="padding:0 12px 10px;font-size:14px;color:#050505;line-height:1.5;">Transform your business with our latest POS solution. Link in bio! 🚀</div>
-            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#E8EEFF,#F0E2FF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-            <div style="padding:8px 12px;border-top:1px solid #E4E6EB;display:flex;justify-content:space-around;font-size:13px;color:#65676B;">
+            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#EFF6FF,#F0E2FF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:8px 12px;border-top:1px solid #E4E6EB;display:flex;justify-content:space-around;font-size:12px;color:#65676B;">
               <span>👍 Like</span><span>💬 Comment</span><span>↗️ Share</span>
             </div>
           </div>
@@ -2222,9 +2222,9 @@
               <div><div class="mock-user" style="color:#000;">Storepro</div><div class="mock-sub">1,234 followers · 3h</div></div>
               <div class="mock-dots">···</div>
             </div>
-            <div style="padding:0 12px 10px;font-size:14px;color:#333;line-height:1.5;">Excited to announce our new retail technology initiative across New Zealand. 🇳🇿</div>
-            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#EDF4FE,#E8EEFF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-            <div style="padding:8px 12px;border-top:1px solid #E5E5E5;display:flex;justify-content:space-around;font-size:13px;color:#666;">
+            <div style="padding:0 12px 10px;font-size:14px;color:#111827;line-height:1.5;">Excited to announce our new retail technology initiative across New Zealand. 🇳🇿</div>
+            <div class="mock-img" style="aspect-ratio:1.91/1;background:linear-gradient(135deg,#EFF6FF,#EFF6FF);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:8px 12px;border-top:1px solid #E5E5E5;display:flex;justify-content:space-around;font-size:12px;color:#4B5563;">
               <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span><span>✉️ Send</span>
             </div>
           </div>
@@ -2241,12 +2241,12 @@
               <div style="display:flex;align-items:center;gap:4px;">
                 <span class="mock-user" style="color:#0F1419;">Storepro</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>
-                <span style="color:#536471;font-size:13px;">@storepro_nz · 2h</span>
+                <span style="color:#536471;font-size:12px;">@storepro_nz · 2h</span>
               </div>
               <div class="mock-dots">···</div>
             </div>
-            <div style="padding:0 12px 10px;font-size:15px;color:#0F1419;line-height:1.45;">New POS terminals shipping across NZ next week! 📦 Who's ready to upgrade? #RetailTech</div>
-            <div class="mock-img" style="aspect-ratio:16/9;border-radius:16px;margin:0 12px;background:linear-gradient(135deg,#F0E2FF,#EDF4FE);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div style="padding:0 12px 10px;font-size:14px;color:#0F1419;line-height:1.45;">New POS terminals shipping across NZ next week! 📦 Who's ready to upgrade? #RetailTech</div>
+            <div class="mock-img" style="aspect-ratio:16/9;border-radius:16px;margin:0 12px;background:linear-gradient(135deg,#F0E2FF,#EFF6FF);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <div style="padding:10px 12px;display:flex;justify-content:space-around;color:#536471;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
@@ -2264,9 +2264,9 @@
               <div class="mock-avatar" style="background:#4285F4;border-radius:8px;"></div>
               <div><div class="mock-user" style="color:#202124;">Storepro NZ</div><div class="mock-sub">Auckland, New Zealand · 4.8 ★</div></div>
             </div>
-            <div class="mock-img" style="aspect-ratio:4/3;background:linear-gradient(135deg,#E8F5E9,#FFF0E6);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            <div class="mock-img" style="aspect-ratio:4/3;background:linear-gradient(135deg,#E8F5E9,#FFF0E6);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
             <div style="padding:14px;">
-              <div style="font-size:15px;color:#202124;line-height:1.5;margin-bottom:10px;">Visit our Auckland showroom for a demo of the latest POS technology. Open Monday–Saturday.</div>
+              <div style="font-size:14px;color:#202124;line-height:1.5;margin-bottom:10px;">Visit our Auckland showroom for a demo of the latest POS technology. Open Monday–Saturday.</div>
               <button class="btn btn-primary btn-sm" style="border-radius:20px;">Learn more</button>
             </div>
           </div>
@@ -2284,15 +2284,15 @@
             <div style="position:absolute;bottom:60px;left:12px;right:60px;z-index:2;">
               <div style="font-size:14px;font-weight:600;">@storepro_nz</div>
               <div style="font-size:12px;opacity:0.8;margin-top:4px;">Check out our new POS setup! #RetailTech #NZBusiness</div>
-              <div style="font-size:11px;opacity:0.6;margin-top:6px;display:flex;align-items:center;gap:4px;">
+              <div style="font-size:12px;opacity:0.6;margin-top:6px;display:flex;align-items:center;gap:4px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none"><circle cx="12" cy="12" r="10"/></svg>
                 Original sound — storepro_nz
               </div>
             </div>
             <div style="position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:2;">
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><div style="font-size:11px;margin-top:2px;">12.4K</div></div>
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:11px;margin-top:2px;">238</div></div>
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6" stroke="white" fill="none" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="15" stroke="white" stroke-width="2"/></svg><div style="font-size:11px;margin-top:2px;">1.2K</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><div style="font-size:12px;margin-top:2px;">12.4K</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:12px;margin-top:2px;">238</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6" stroke="white" fill="none" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="15" stroke="white" stroke-width="2"/></svg><div style="font-size:12px;margin-top:2px;">1.2K</div></div>
             </div>
           </div>
         </div>
@@ -2309,12 +2309,12 @@
               <div style="font-size:12px;opacity:0.8;margin-top:4px;">POS demo — 30 seconds of magic ✨</div>
             </div>
             <div style="position:absolute;right:10px;bottom:80px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:2;">
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg><div style="font-size:11px;margin-top:2px;">5.6K</div></div>
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:11px;margin-top:2px;">89</div></div>
-              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><div style="font-size:11px;margin-top:2px;">Share</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg><div style="font-size:12px;margin-top:2px;">5.6K</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-size:12px;margin-top:2px;">89</div></div>
+              <div style="text-align:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><div style="font-size:12px;margin-top:2px;">Share</div></div>
             </div>
             <div style="position:absolute;top:12px;right:12px;z-index:2;">
-              <div style="background:red;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">Shorts</div>
+              <div style="background:red;color:white;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;">Shorts</div>
             </div>
           </div>
         </div>
@@ -2322,7 +2322,7 @@
         <!-- Placeholder for aspect ratio reference -->
         <div>
           <div class="variant-label">Aspect Ratios</div>
-          <div class="kc-card" style="font-size:13px;color:var(--text-02);line-height:2;">
+          <div class="kc-card" style="font-size:12px;color:var(--text-02);line-height:2;">
             <div><strong>Instagram</strong> — 1:1 (1080×1080)</div>
             <div><strong>Facebook</strong> — 1.91:1 (1200×628)</div>
             <div><strong>LinkedIn</strong> — 1.91:1 (1200×628)</div>
@@ -2361,11 +2361,11 @@
           <div class="form-group"><label class="form-label">Email</label><input type="email" class="kc-input" placeholder="you@company.com"></div>
           <div class="form-group"><label class="form-label">Password</label><input type="password" class="kc-input" placeholder="••••••••"></div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-            <label class="checkbox-label" onclick="this.querySelector('.checkbox-box').classList.toggle('checked')" style="font-size:13px;">
+            <label class="checkbox-label" onclick="this.querySelector('.checkbox-box').classList.toggle('checked')" style="font-size:12px;">
               <div class="checkbox-box" style="width:16px;height:16px;"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-              <span class="checkbox-text" style="font-size:13px;">Remember me</span>
+              <span class="checkbox-text" style="font-size:12px;">Remember me</span>
             </label>
-            <a href="#" class="auth-link" style="font-size:13px;">Forgot password?</a>
+            <a href="#" class="auth-link" style="font-size:12px;">Forgot password?</a>
           </div>
           <button class="btn btn-outline" id="login-submit" style="width:100%;justify-content:center;opacity:0.6;cursor:not-allowed;" disabled>Sign In</button>
           <div class="auth-footer">Don't have an account? <a href="#" class="auth-link">Sign up</a></div>
@@ -2414,7 +2414,7 @@
           <div class="auth-title" style="margin-bottom:8px;">You've been invited!</div>
           <div class="auth-subtitle" style="margin-bottom:8px;">Ricky Jack invited you to join <strong style="color:var(--text-01);">Storepro</strong> on KeyContent.</div>
           <div style="background:var(--bg-secondary);border-radius:12px;padding:16px;margin-bottom:24px;">
-            <div style="font-size:13px;color:var(--text-03);margin-bottom:4px;">Your role</div>
+            <div style="font-size:12px;color:var(--text-03);margin-bottom:4px;">Your role</div>
             <div style="font-size:16px;font-weight:600;color:var(--text-01);">Team Member</div>
           </div>
           <button class="auth-google-btn" style="margin-bottom:12px;">
@@ -2433,7 +2433,7 @@
         <div class="review-header">
           <div>
             <div style="font-size:18px;font-weight:700;color:var(--text-01);">Content Review</div>
-            <div style="font-size:13px;color:var(--text-03);">Storepro · Spring Product Launch Blog</div>
+            <div style="font-size:12px;color:var(--text-03);">Storepro · Spring Product Launch Blog</div>
           </div>
           <span class="badge badge-review">Awaiting Review</span>
         </div>
@@ -2485,7 +2485,7 @@
                 <button class="modal-close">✕</button>
               </div>
               <div class="modal-body">
-                <div class="modal-icon-wrap" style="background:linear-gradient(135deg,var(--purple-light),var(--blue-light));"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div class="modal-icon-wrap" style="background:linear-gradient(135deg,var(--purple-light),var(--blue-light));"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#BAA3F5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
                 <div class="modal-desc">AI will analyse your business context and generate 5 blog topic suggestions with keywords and pain points.</div>
                 <div class="form-group" style="margin-bottom:0;">
                   <label class="form-label">Number of Topics</label>
@@ -2512,7 +2512,7 @@
                 <div class="form-group" style="margin-bottom:0;"><label class="form-label">Tech Specs (optional)</label>
                   <div class="upload-zone" style="padding:20px;border-radius:10px;" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')">
                     <div style="margin-bottom:4px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-                    <div style="font-size:13px;color:var(--text-02)">Drop file or <span style="color:var(--primary);font-weight:600;">browse</span></div>
+                    <div style="font-size:12px;color:var(--text-02)">Drop file or <span style="color:var(--primary);font-weight:600;">browse</span></div>
                   </div>
                 </div>
               </div>
@@ -2533,7 +2533,7 @@
                 <button class="modal-close">✕</button>
               </div>
               <div class="modal-body">
-                <div class="modal-icon-wrap" style="background:var(--purple-light);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <div class="modal-icon-wrap" style="background:var(--purple-light);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#BAA3F5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                 <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="kc-input" placeholder="team@company.com"></div>
                 <div class="form-group" style="margin-bottom:0;"><label class="form-label">Role</label>
                   <div class="select-wrap"><select class="kc-select"><option>Member</option><option>Admin</option><option>Viewer</option></select><span class="select-arrow">▾</span></div>
@@ -2592,20 +2592,20 @@
                 </div>
                 <div class="notif-panel-body">
                   <div class="notif-panel-item unread">
-                    <div class="notif-icon success" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Blog approved</strong> — Spring Launch Blog</div><div class="notif-time">2m ago</div></div>
+                    <div class="notif-icon success" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:12px;"><strong>Blog approved</strong> — Spring Launch Blog</div><div class="notif-time">2m ago</div></div>
                   </div>
                   <div class="notif-panel-item unread">
                     <div class="notif-icon error" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Generation failed</strong> — Token limit</div><div class="notif-time">15m ago</div></div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:12px;"><strong>Generation failed</strong> — Token limit</div><div class="notif-time">15m ago</div></div>
                   </div>
                   <div class="notif-panel-item">
-                    <div class="notif-icon info" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Scheduled</strong> — Newsletter at 9 AM</div><div class="notif-time">1h ago</div></div>
+                    <div class="notif-icon info" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#93B4E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:12px;"><strong>Scheduled</strong> — Newsletter at 9 AM</div><div class="notif-time">1h ago</div></div>
                   </div>
                   <div class="notif-panel-item">
-                    <div class="notif-icon warning" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                    <div class="notif-body"><div class="notif-msg" style="font-size:13px;"><strong>Feedback</strong> — Growth Partners commented</div><div class="notif-time">3h ago</div></div>
+                    <div class="notif-icon warning" style="width:28px;height:28px;border-radius:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFC43A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <div class="notif-body"><div class="notif-msg" style="font-size:12px;"><strong>Feedback</strong> — Growth Partners commented</div><div class="notif-time">3h ago</div></div>
                   </div>
                 </div>
               </div>
@@ -2622,7 +2622,7 @@
       <div class="demo-card">
         <div style="display:flex;flex-direction:column;gap:12px;">
           <div class="toast success">
-            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
             <div class="toast-body"><div class="toast-title">Content Published</div><div class="toast-msg">Your blog post is now live on all platforms.</div></div>
             <button class="toast-close">✕</button>
             <div class="toast-progress"></div>
@@ -2634,13 +2634,13 @@
             <div class="toast-progress"></div>
           </div>
           <div class="toast info">
-            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93B4E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
             <div class="toast-body"><div class="toast-title">Job Scheduled</div><div class="toast-msg">Will publish Mar 28 at 9:00 AM.</div></div>
             <button class="toast-close">✕</button>
             <div class="toast-progress"></div>
           </div>
           <div class="toast warning">
-            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFC43A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
             <div class="toast-body"><div class="toast-title">Approval Pending</div><div class="toast-msg">Client hasn't reviewed in 48 hours.</div></div>
             <button class="toast-close">✕</button>
             <div class="toast-progress"></div>
@@ -2670,7 +2670,7 @@
         <div class="demo-card"><div class="variant-label">Remove Client</div>
           <div class="confirm-demo">
             <div class="confirm-dialog">
-              <div class="confirm-icon" style="background:var(--warning-light);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+              <div class="confirm-icon" style="background:var(--warning-light);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFC43A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
               <div class="confirm-title">Remove client?</div>
               <div class="confirm-msg">Storepro will be unlinked from your agency. Their data will remain but you'll lose access. You can re-link later.</div>
               <div class="confirm-actions">
