@@ -343,6 +343,147 @@
   .empty-title { font-size: 18px; font-weight: 700; color: var(--text-01); margin-bottom: 8px; }
   .empty-desc { font-size: 14px; color: var(--text-03); max-width: 320px; margin: 0 auto 24px; line-height: 1.5; }
 
+  /* ═══════════════════════════════════════════ */
+  /* NAVIGATION COMPONENTS                      */
+  /* ═══════════════════════════════════════════ */
+
+  /* SIDEBAR */
+  .kc-sidebar {
+    display: flex; flex-direction: column; height: 100%;
+    background: linear-gradient(180deg, #E8EEFF 0%, #F0F4FF 50%, #F9FAFF 100%);
+    border-right: 1px solid var(--line); padding: 16px 12px; position: relative;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .kc-sidebar.expanded { width: 200px; }
+  .kc-sidebar.collapsed { width: 64px; align-items: center; padding: 16px 8px; }
+  .kc-sidebar-logo {
+    display: flex; align-items: center; gap: 10px; padding: 8px 8px 20px;
+    min-height: 48px;
+  }
+  .kc-sidebar-brand { font-size: 15px; font-weight: 700; color: #0EA5E9; letter-spacing: 1px; }
+  .kc-sidebar.collapsed .kc-sidebar-brand { display: none; }
+  .kc-sidebar.collapsed .kc-sidebar-logo { justify-content: center; padding: 8px 0 20px; }
+  .kc-sidebar-toggle {
+    position: absolute; top: 24px; right: -12px; width: 24px; height: 24px;
+    border-radius: 50%; background: var(--bg-card); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    z-index: 2; transition: all 0.15s ease; color: var(--text-03);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .kc-sidebar-toggle:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .kc-sidebar.collapsed .kc-sidebar-toggle svg { transform: rotate(180deg); }
+  .kc-sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+  .kc-sidebar-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+    border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-02);
+    text-decoration: none; transition: all 0.15s ease; white-space: nowrap;
+  }
+  .kc-sidebar-item:hover { background: rgba(255,255,255,0.6); color: var(--text-01); }
+  .kc-sidebar-item.active {
+    background: rgba(255,255,255,0.8); color: var(--text-01); font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .kc-sidebar-item.active .kc-sidebar-icon { stroke: var(--primary); }
+  .kc-sidebar-icon { width: 20px; height: 20px; flex-shrink: 0; stroke: var(--text-03); transition: stroke 0.15s ease; }
+  .kc-sidebar-item:hover .kc-sidebar-icon { stroke: var(--text-02); }
+  .kc-sidebar.collapsed .kc-sidebar-item { justify-content: center; padding: 10px; }
+  .kc-sidebar.collapsed .kc-sidebar-item span { display: none; }
+  .kc-sidebar-spacer { flex: 1; }
+  .kc-sidebar-bottom { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; margin-top: 8px; }
+  .kc-sidebar-user {
+    display: flex; align-items: center; gap: 10px; padding: 8px;
+    border-radius: 10px; background: rgba(255,255,255,0.5);
+  }
+  .kc-sidebar-user-name { font-size: 13px; font-weight: 600; color: var(--text-01); }
+  .kc-sidebar-user-role { font-size: 11px; color: var(--text-03); }
+  .kc-sidebar.collapsed .kc-sidebar-user { justify-content: center; }
+  .kc-sidebar.collapsed .kc-sidebar-user-info { display: none; }
+
+  /* HEADER BAR */
+  .kc-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line);
+  }
+  .kc-header-left { display: flex; align-items: center; gap: 16px; }
+  .kc-header-collapse-btn {
+    width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--bg-card); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .kc-header-collapse-btn:hover { background: var(--bg-secondary); }
+  .kc-header-welcome { font-size: 16px; font-weight: 700; color: var(--text-01); }
+  .kc-header-subtitle { font-size: 13px; color: var(--text-03); margin-top: 2px; }
+  .kc-header-right { display: flex; align-items: center; gap: 16px; }
+  .kc-header-notif {
+    width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    position: relative; transition: all 0.15s ease;
+  }
+  .kc-header-notif:hover { background: var(--bg-secondary); }
+  .kc-header-notif-dot {
+    position: absolute; top: 8px; right: 10px; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--error); border: 2px solid var(--bg-card);
+    animation: pulse 2s ease infinite;
+  }
+
+  /* TAB BAR */
+  .kc-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+  .kc-tab {
+    padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-03);
+    background: none; border: none; cursor: pointer; position: relative;
+    font-family: 'Satoshi', sans-serif; transition: color 0.2s ease;
+  }
+  .kc-tab::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+    background: transparent; transition: background-color 0.2s ease;
+  }
+  .kc-tab:hover { color: var(--text-01); }
+  .kc-tab.active { color: var(--primary); font-weight: 600; }
+  .kc-tab.active::after { background: var(--primary); }
+
+  /* BREADCRUMB */
+  .kc-breadcrumb {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500;
+    color: var(--text-03); text-decoration: none; transition: all 0.15s ease;
+  }
+  .kc-breadcrumb:hover { color: var(--primary); }
+  .kc-breadcrumb:hover svg { transform: translateX(-3px); }
+  .kc-breadcrumb svg { transition: transform 0.2s ease; }
+
+  /* CLIENT DROPDOWN */
+  .kc-client-dropdown {
+    position: relative; width: 100%; cursor: pointer;
+  }
+  .kc-client-dropdown-selected {
+    display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+    background: rgba(255,255,255,0.6); border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14px; font-weight: 500; color: var(--text-01);
+    transition: all 0.15s ease;
+  }
+  .kc-client-dropdown-selected:hover { background: rgba(255,255,255,0.9); border-color: var(--border); }
+  .kc-client-dropdown-arrow {
+    margin-left: auto; transition: transform 0.2s ease; color: var(--text-03);
+  }
+  .kc-client-dropdown.open .kc-client-dropdown-arrow { transform: rotate(180deg); }
+  .kc-client-dropdown-menu {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 6px; z-index: 20;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .kc-client-dropdown.open .kc-client-dropdown-menu {
+    opacity: 1; transform: translateY(0); pointer-events: auto;
+  }
+  .kc-client-dropdown-item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border-radius: 10px; font-size: 13px; color: var(--text-02);
+    transition: background 0.15s ease; cursor: pointer;
+  }
+  .kc-client-dropdown-item:hover { background: var(--bg-secondary); }
+  .kc-client-dropdown-item.active { background: var(--primary-light); }
+  .kc-client-dropdown-divider { height: 1px; background: var(--line); margin: 4px 8px; }
+
   /* ═══ ANIMATIONS ═══ */
   @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(4px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(2px)} }
   @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
@@ -375,6 +516,13 @@
     <a href="#platform-badge" class="sidebar-link">Platform Badge</a>
     <a href="#avatar" class="sidebar-link">Avatar</a>
     <a href="#empty-state" class="sidebar-link">Empty State</a>
+
+    <div class="sidebar-cat">Navigation</div>
+    <a href="#nav-sidebar" class="sidebar-link">Sidebar</a>
+    <a href="#nav-header" class="sidebar-link">Header Bar</a>
+    <a href="#nav-tabs" class="sidebar-link">Tab Bar</a>
+    <a href="#nav-breadcrumb" class="sidebar-link">Breadcrumb</a>
+    <a href="#nav-client-dropdown" class="sidebar-link">Client Dropdown</a>
 
     <div class="sidebar-cat">Actions</div>
     <a href="#buttons" class="sidebar-link">Buttons</a>
@@ -700,6 +848,239 @@
             <div class="empty-title">Something went wrong</div>
             <div class="empty-desc">We couldn't load this content. Please try again or contact support.</div>
             <button class="btn btn-primary">Try Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ -->
+    <!-- NAVIGATION                     -->
+    <!-- ═══════════════════════════════ -->
+
+    <!-- SIDEBAR -->
+    <div class="section" id="nav-sidebar">
+      <h2 class="section-title">Sidebar</h2>
+      <p class="section-desc">Expanded + collapsed states. Lavender gradient background. Active item has pill highlight. Toggle with the arrow button.</p>
+      <div class="grid-2">
+        <!-- Expanded -->
+        <div class="demo-card" style="padding:0;overflow:hidden;background:transparent;">
+          <div class="variant-label" style="padding:16px 16px 0;">Expanded</div>
+          <div style="display:flex;height:640px;">
+            <div class="kc-sidebar expanded" id="sidebar-demo-expanded">
+              <div class="kc-sidebar-logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg>
+                <span class="kc-sidebar-brand">CORESHIFT</span>
+              </div>
+              <button class="kc-sidebar-toggle" onclick="this.closest('.kc-sidebar').classList.toggle('collapsed');this.closest('.kc-sidebar').classList.toggle('expanded')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <nav class="kc-sidebar-nav">
+                <a class="kc-sidebar-item active" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                  <span>Dashboard</span>
+                </a>
+                <a class="kc-sidebar-item" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4a1 1 0 0 1-1-1v-4H10v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/></svg>
+                  <span>Clients</span>
+                </a>
+                <a class="kc-sidebar-item" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span>Bulk Upload Topics</span>
+                </a>
+                <a class="kc-sidebar-item" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <span>Jobs</span>
+                </a>
+              </nav>
+              <div class="kc-sidebar-spacer"></div>
+              <nav class="kc-sidebar-nav">
+                <a class="kc-sidebar-item" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <span>Agency Settings</span>
+                </a>
+              </nav>
+              <div class="kc-sidebar-bottom">
+                <a class="kc-sidebar-item" href="#">
+                  <svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  <span>Log Out</span>
+                </a>
+                <div class="kc-sidebar-user">
+                  <div class="avatar avatar-sm avatar-blue" style="font-size:0;background-image:url('https://i.pravatar.cc/32?img=12');background-size:cover;"></div>
+                  <div class="kc-sidebar-user-info">
+                    <div class="kc-sidebar-user-name">Ricky Jack</div>
+                    <div class="kc-sidebar-user-role">Agency Owner</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;background:linear-gradient(180deg,#F0F4FF 0%,#F9FAFF 100%);border-radius:0 20px 20px 0;"></div>
+          </div>
+        </div>
+        <!-- Collapsed -->
+        <div class="demo-card" style="padding:0;overflow:hidden;background:transparent;">
+          <div class="variant-label" style="padding:16px 16px 0;">Collapsed (icon only)</div>
+          <div style="display:flex;height:640px;">
+            <div class="kc-sidebar collapsed">
+              <div class="kc-sidebar-logo">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg>
+              </div>
+              <button class="kc-sidebar-toggle" onclick="this.closest('.kc-sidebar').classList.toggle('collapsed');this.closest('.kc-sidebar').classList.toggle('expanded')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+              <nav class="kc-sidebar-nav">
+                <a class="kc-sidebar-item active" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a>
+                <a class="kc-sidebar-item" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4a1 1 0 0 1-1-1v-4H10v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/></svg></a>
+                <a class="kc-sidebar-item" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></a>
+                <a class="kc-sidebar-item" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></a>
+              </nav>
+              <div class="kc-sidebar-spacer"></div>
+              <nav class="kc-sidebar-nav">
+                <a class="kc-sidebar-item" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></a>
+              </nav>
+              <div class="kc-sidebar-bottom">
+                <a class="kc-sidebar-item" href="#"><svg class="kc-sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></a>
+                <div class="kc-sidebar-user">
+                  <div class="avatar avatar-sm avatar-blue" style="font-size:0;background-image:url('https://i.pravatar.cc/32?img=12');background-size:cover;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;background:linear-gradient(180deg,#F0F4FF 0%,#F9FAFF 100%);border-radius:0 20px 20px 0;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER BAR -->
+    <div class="section" id="nav-header">
+      <h2 class="section-title">Header Bar</h2>
+      <p class="section-desc">Welcome text left, notification bell + New Job CTA right. Sits above content area.</p>
+      <div class="demo-card" style="padding:0;overflow:hidden;">
+        <div class="kc-header">
+          <div class="kc-header-left">
+            <button class="kc-header-collapse-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            </button>
+            <div>
+              <div class="kc-header-welcome">Welcome Ricky,</div>
+              <div class="kc-header-subtitle">Manage your content and clients from here.</div>
+            </div>
+          </div>
+          <div class="kc-header-right">
+            <button class="kc-header-notif">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="kc-header-notif-dot"></span>
+            </button>
+            <button class="btn btn-dark" style="padding:10px 20px;font-size:14px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              New Job
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="section" id="nav-tabs">
+      <h2 class="section-title">Tab Bar</h2>
+      <p class="section-desc">Underline style tabs. Active tab has orange underline + bold text. Smooth slide transition.</p>
+      <div class="demo-card">
+        <div class="variant-label">Business Tabs</div>
+        <div class="kc-tabs">
+          <button class="kc-tab active" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Business Context</button>
+          <button class="kc-tab" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Products</button>
+          <button class="kc-tab" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Topics</button>
+        </div>
+        <div class="variant-label">Settings Tabs</div>
+        <div class="kc-tabs">
+          <button class="kc-tab active" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Business Details</button>
+          <button class="kc-tab" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Social Accounts</button>
+          <button class="kc-tab" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Billing</button>
+          <button class="kc-tab" onclick="this.parentElement.querySelectorAll('.kc-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Support</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <div class="section" id="nav-breadcrumb">
+      <h2 class="section-title">Breadcrumb</h2>
+      <p class="section-desc">Back navigation with arrow. Turns orange on hover.</p>
+      <div class="demo-card">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <a href="#" class="kc-breadcrumb">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Jobs
+          </a>
+          <a href="#" class="kc-breadcrumb">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Clients
+          </a>
+          <a href="#" class="kc-breadcrumb">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENT DROPDOWN -->
+    <div class="section" id="nav-client-dropdown">
+      <h2 class="section-title">Client Dropdown</h2>
+      <p class="section-desc">Agency client switcher. Shows in sidebar for agency users. Selected client highlighted.</p>
+      <div class="grid-2">
+        <div class="demo-card">
+          <div class="variant-label">Closed</div>
+          <div class="kc-client-dropdown" onclick="this.classList.toggle('open')">
+            <div class="kc-client-dropdown-selected">
+              <div class="avatar avatar-xs avatar-orange">SP</div>
+              <span>Storepro</span>
+              <svg class="kc-client-dropdown-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="kc-client-dropdown-menu">
+              <div class="kc-client-dropdown-item active">
+                <div class="avatar avatar-xs avatar-orange">SP</div>
+                <div><div style="font-weight:500;">Storepro</div><div style="font-size:11px;color:var(--text-03);">Retail</div></div>
+              </div>
+              <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
+                <div class="avatar avatar-xs avatar-purple">GP</div>
+                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:11px;color:var(--text-03);">Marketing</div></div>
+              </div>
+              <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
+                <div class="avatar avatar-xs avatar-blue">CS</div>
+                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:11px;color:var(--text-03);">Technology</div></div>
+              </div>
+              <div class="kc-client-dropdown-divider"></div>
+              <div class="kc-client-dropdown-item add" onclick="event.stopPropagation()">
+                <span style="color:var(--primary);font-weight:600;">＋ Add Client</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="variant-label">Open (click to toggle)</div>
+          <div class="kc-client-dropdown open" onclick="this.classList.toggle('open')">
+            <div class="kc-client-dropdown-selected">
+              <div class="avatar avatar-xs avatar-orange">SP</div>
+              <span>Storepro</span>
+              <svg class="kc-client-dropdown-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="kc-client-dropdown-menu">
+              <div class="kc-client-dropdown-item active">
+                <div class="avatar avatar-xs avatar-orange">SP</div>
+                <div><div style="font-weight:500;">Storepro</div><div style="font-size:11px;color:var(--text-03);">Retail</div></div>
+              </div>
+              <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
+                <div class="avatar avatar-xs avatar-purple">GP</div>
+                <div><div style="font-weight:500;">Growth Partners</div><div style="font-size:11px;color:var(--text-03);">Marketing</div></div>
+              </div>
+              <div class="kc-client-dropdown-item" onclick="event.stopPropagation()">
+                <div class="avatar avatar-xs avatar-blue">CS</div>
+                <div><div style="font-weight:500;">Coreshift HQ</div><div style="font-size:11px;color:var(--text-03);">Technology</div></div>
+              </div>
+              <div class="kc-client-dropdown-divider"></div>
+              <div class="kc-client-dropdown-item add" onclick="event.stopPropagation()">
+                <span style="color:var(--primary);font-weight:600;">＋ Add Client</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
