@@ -84,65 +84,63 @@
   .batch-count { font-size: 14px; font-weight: 600; color: var(--primary); }
   .batch-actions { margin-left: auto; display: flex; gap: 8px; }
 
-  /* Pinterest Masonry Grid */
-  .topics-grid-wrap { flex: 1; overflow-y: auto; padding: 20px 24px; }
-  .masonry { column-count: 4; column-gap: 16px; }
+  /* Topics list */
+  .topics-list-wrap { flex: 1; overflow-y: auto; background: var(--bg-card); }
 
-  /* Topic Card */
-  .topic-card {
-    break-inside: avoid; background: var(--bg-card); border: 1px solid var(--line);
-    border-radius: 16px; margin-bottom: 16px; overflow: hidden;
-    transition: all 0.2s ease; cursor: default; position: relative;
+  /* Topic row */
+  .topic-row {
+    display: flex; align-items: center; gap: 14px; padding: 14px 24px;
+    border-bottom: 1px solid var(--line-02); cursor: pointer;
+    transition: background 0.12s; position: relative;
   }
-  .topic-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
-  .topic-card.selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+  .topic-row:hover { background: var(--bg-secondary); }
+  .topic-row.selected { background: var(--primary-light); }
 
-  /* Card checkbox */
+  /* Checkbox */
   .tc-check {
-    position: absolute; top: 12px; right: 12px; width: 22px; height: 22px;
-    border-radius: 6px; border: 2px solid var(--border); background: white;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    transition: all 0.15s; z-index: 2; opacity: 0;
+    width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border);
+    background: white; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s; flex-shrink: 0;
   }
-  .topic-card:hover .tc-check { opacity: 1; }
-  .topic-card.selected .tc-check { opacity: 1; background: var(--primary); border-color: var(--primary); }
+  .topic-row.selected .tc-check { background: var(--primary); border-color: var(--primary); }
   .tc-check svg { width: 14px; height: 14px; stroke: white; stroke-width: 3; fill: none; opacity: 0; }
-  .topic-card.selected .tc-check svg { opacity: 1; }
+  .topic-row.selected .tc-check svg { opacity: 1; }
 
-  /* Card image area (gradient placeholder) */
-  .tc-image { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; position: relative; }
+  /* Badge (inline) */
+  .tc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .tc-badge.trending { background: var(--primary-light); color: var(--primary); }
+  .tc-badge.evergreen { background: var(--success-light); color: var(--success); }
+  .tc-badge.seasonal { background: var(--purple-light); color: var(--purple); }
+  .tc-badge.ai { background: var(--blue-light); color: var(--blue); }
+  .tc-badge.client { background: var(--warning-light); color: var(--warning); }
 
-  /* Badge */
-  .tc-badge { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); }
-  .tc-badge.trending { background: rgba(255,107,53,0.9); color: white; }
-  .tc-badge.evergreen { background: rgba(39,200,125,0.9); color: white; }
-  .tc-badge.seasonal { background: rgba(186,163,245,0.9); color: white; }
-  .tc-badge.ai { background: rgba(147,180,230,0.9); color: white; }
-  .tc-badge.client { background: rgba(255,196,58,0.9); color: #111827; }
-
-  .tc-body { padding: 14px 16px; }
-  .tc-title { font-size: 14px; font-weight: 700; color: var(--text-01); margin-bottom: 6px; line-height: 1.4; }
-  .tc-desc { font-size: 12px; color: var(--text-02); line-height: 1.5; margin-bottom: 10px; }
-  .tc-keywords { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
-  .tc-keyword { padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 500; background: var(--bg-secondary); color: var(--text-02); }
-
-  /* Pain point */
-  .tc-pain { font-size: 12px; color: var(--text-03); margin-bottom: 12px; padding: 8px 10px; background: var(--bg-secondary); border-radius: 8px; line-height: 1.4; }
-  .tc-pain svg { width: 12px; height: 12px; stroke: var(--text-03); fill: none; stroke-width: 2; display: inline; vertical-align: middle; margin-right: 4px; }
-
-  /* Calendar hint */
-  .tc-calendar { font-size: 12px; color: var(--text-03); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .tc-content { flex: 1; min-width: 0; }
+  .tc-title { font-size: 14px; font-weight: 600; color: var(--text-01); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tc-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .tc-keywords { display: flex; gap: 4px; flex-wrap: nowrap; overflow: hidden; }
+  .tc-keyword { padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--bg-secondary); color: var(--text-02); white-space: nowrap; }
+  .tc-calendar { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; }
   .tc-calendar svg { width: 14px; height: 14px; stroke: var(--text-03); fill: none; stroke-width: 1.8; }
-
-  /* Card actions */
-  .tc-actions { display: flex; gap: 6px; }
-  .tc-actions .btn { flex: 1; justify-content: center; }
-
-  /* Card footer meta */
-  .tc-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--line-02); }
-  .tc-source { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 4px; }
+  .tc-source { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 4px; flex-shrink: 0; white-space: nowrap; }
   .tc-source svg { width: 12px; height: 12px; stroke: var(--text-03); fill: none; stroke-width: 2; }
-  .tc-status { font-size: 12px; font-weight: 600; }
+  .tc-status { font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .tc-action-btn { flex-shrink: 0; }
+
+  /* Table header */
+  .topics-table-header {
+    display: flex; align-items: center; gap: 14px; padding: 10px 24px;
+    border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-03);
+    background: var(--bg-card); position: sticky; top: 0; z-index: 2;
+  }
+  .th-check { width: 20px; flex-shrink: 0; }
+  .th-badge { width: 80px; flex-shrink: 0; }
+  .th-title { flex: 1; }
+  .th-keywords { width: 180px; flex-shrink: 0; }
+  .th-date { width: 120px; flex-shrink: 0; }
+  .th-source { width: 100px; flex-shrink: 0; }
+  .th-status { width: 72px; flex-shrink: 0; }
+  .th-action { width: 140px; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -210,173 +208,107 @@
       </div>
     </div>
 
-    <!-- Pinterest Masonry Grid -->
-    <div class="topics-grid-wrap">
-      <div class="masonry" id="masonry">
-
-        <!-- Card 1 — Trending, tall -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#FF6B35,#FFB088);aspect-ratio:16/12;">
-            <div class="tc-badge trending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Trending Now</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">How Retail Tech is Transforming NZ Small Business in 2026</div>
-            <div class="tc-desc">An in-depth look at how point-of-sale systems, inventory automation, and AI-powered analytics are helping NZ retailers compete with global chains.</div>
-            <div class="tc-keywords"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ business</span><span class="tc-keyword">POS</span><span class="tc-keyword">automation</span></div>
-            <div class="tc-pain"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Store owners spend 3+ hours daily on manual inventory</div>
-            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Best publish: Week of Apr 7</div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 2 — Evergreen, short -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#27C87D,#6EE7B7);aspect-ratio:16/8;">
-            <div class="tc-badge evergreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg> Evergreen</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div>
-            <div class="tc-keywords"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span><span class="tc-keyword">efficiency</span></div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 3 — Seasonal -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#BAA3F5,#DDD6FE);aspect-ratio:16/10;">
-            <div class="tc-badge seasonal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Easter 2026</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div>
-            <div class="tc-desc">Seasonal marketing strategies for retail stores during the Easter shopping period in NZ.</div>
-            <div class="tc-keywords"><span class="tc-keyword">Easter</span><span class="tc-keyword">seasonal</span><span class="tc-keyword">retail</span></div>
-            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Deadline: Mar 30</div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 4 — AI Suggested -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#93B4E6,#BFDBFE);aspect-ratio:16/14;">
-            <div class="tc-badge ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Suggested</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">Behind the Counter: A Day in the Life of a Modern NZ Retailer</div>
-            <div class="tc-desc">Human-interest storytelling angle — follow a real store owner through their daily workflow with modern POS tech. Great for LinkedIn and IG reels.</div>
-            <div class="tc-keywords"><span class="tc-keyword">storytelling</span><span class="tc-keyword">day in life</span><span class="tc-keyword">NZ retail</span><span class="tc-keyword">video</span></div>
-            <div class="tc-pain"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Retailers feel invisible online — need relatable content</div>
-            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime — Evergreen angle</div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Suggested</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 5 — Client Requested -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#FFC43A,#FDE68A);aspect-ratio:16/8;">
-            <div class="tc-badge client"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Client Requested</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">New POS Terminal Launch Announcement</div>
-            <div class="tc-desc">Client wants a product launch post for their new terminal.</div>
-            <div class="tc-keywords"><span class="tc-keyword">product launch</span><span class="tc-keyword">POS</span></div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Requested by Sarah</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 6 — Trending -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#FF6B35,#FCA5A5);aspect-ratio:16/9;">
-            <div class="tc-badge trending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Trending Now</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">Contactless Payments: Why NZ Leads the World</div>
-            <div class="tc-keywords"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span><span class="tc-keyword">NZ</span></div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--success);">Approved</div>
-          </div>
-        </div>
-
-        <!-- Card 7 — Evergreen -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#34D399,#A7F3D0);aspect-ratio:16/11;">
-            <div class="tc-badge evergreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8"/></svg> Evergreen</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">The Complete Guide to Choosing a POS System</div>
-            <div class="tc-desc">Comprehensive buyer's guide covering features, pricing, and integration options for NZ businesses.</div>
-            <div class="tc-keywords"><span class="tc-keyword">POS guide</span><span class="tc-keyword">buyer's guide</span><span class="tc-keyword">comparison</span></div>
-            <div class="tc-actions">
-              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--warning);">Pending</div>
-          </div>
-        </div>
-
-        <!-- Card 8 — Approved / Used -->
-        <div class="topic-card" onclick="toggleSelect(this)">
-          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="tc-image" style="background:linear-gradient(135deg,#BAA3F5,#C4B5FD);aspect-ratio:16/8;">
-            <div class="tc-badge seasonal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/></svg> Q1 2026</div>
-          </div>
-          <div class="tc-body">
-            <div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div>
-            <div class="tc-keywords"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span><span class="tc-keyword">new year</span></div>
-            <div class="tc-actions">
-              <button class="btn btn-outline btn-xs" onclick="event.stopPropagation()" style="flex:1;">View Job</button>
-            </div>
-          </div>
-          <div class="tc-footer">
-            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
-            <div class="tc-status" style="color:var(--blue);">Used</div>
-          </div>
-        </div>
-
+    <!-- Topics List -->
+    <div class="topics-list-wrap">
+      <div class="topics-table-header">
+        <div class="th-check"></div>
+        <div class="th-badge">Type</div>
+        <div class="th-title">Topic</div>
+        <div class="th-keywords">Keywords</div>
+        <div class="th-date">Publish</div>
+        <div class="th-source">Source</div>
+        <div class="th-status">Status</div>
+        <div class="th-action"></div>
       </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge trending" style="width:80px;">🔥 Trending</div>
+        <div class="tc-content"><div class="tc-title">How Retail Tech is Transforming NZ Small Business</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ</span><span class="tc-keyword">POS</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 7</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge evergreen" style="width:80px;">🌿 Evergreen</div>
+        <div class="tc-content"><div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span><span class="tc-keyword">efficiency</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge seasonal" style="width:80px;">📅 Easter</div>
+        <div class="tc-content"><div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">Easter</span><span class="tc-keyword">seasonal</span><span class="tc-keyword">retail</span></div>
+        <div class="tc-calendar" style="width:120px;color:var(--error);"><svg viewBox="0 0 24 24" style="stroke:var(--error);"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Mar 30!</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge ai" style="width:80px;">💡 AI</div>
+        <div class="tc-content"><div class="tc-title">Behind the Counter: A Day in the Life of a NZ Retailer</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">storytelling</span><span class="tc-keyword">video</span><span class="tc-keyword">NZ</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge client" style="width:80px;">📌 Client</div>
+        <div class="tc-content"><div class="tc-title">New POS Terminal Launch Announcement</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">launch</span><span class="tc-keyword">POS</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 1</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Sarah</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge trending" style="width:80px;">🔥 Trending</div>
+        <div class="tc-content"><div class="tc-title">Contactless Payments: Why NZ Leads the World</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 14</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--success);width:72px;">Approved</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge evergreen" style="width:80px;">🌿 Evergreen</div>
+        <div class="tc-content"><div class="tc-title">The Complete Guide to Choosing a POS System</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">POS guide</span><span class="tc-keyword">comparison</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--warning);width:72px;">Pending</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+      </div>
+
+      <div class="topic-row" onclick="toggleSelect(this)">
+        <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tc-badge seasonal" style="width:80px;">📅 Q1</div>
+        <div class="tc-content"><div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div></div>
+        <div class="tc-keywords" style="width:180px;"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span><span class="tc-keyword">new year</span></div>
+        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Passed</div>
+        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
+        <div class="tc-status" style="color:var(--blue);width:72px;">Used</div>
+        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
+      </div>
+
     </div>
   </div>
 </div>
