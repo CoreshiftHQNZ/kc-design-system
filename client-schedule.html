@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyContent — Content Schedule</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', sans-serif; background: #F9FAFF; color: #111827; overflow: hidden; }
+  :root {
+    --primary: #FF6B35; --primary-light: #FFF0E6;
+    --bg-page: #F9FAFF; --bg-card: #FFFFFF; --bg-secondary: #F1F5F9;
+    --text-01: #111827; --text-02: #4B5563; --text-03: #9CA3AF;
+    --success: #27C87D; --success-light: #E5F9EF;
+    --error: #EF4444; --error-light: #FEF2F2;
+    --warning: #FFC43A; --warning-light: #FFFBEB;
+    --purple: #BAA3F5; --purple-light: #F0E2FF;
+    --blue: #93B4E6; --blue-light: #EFF6FF;
+    --line: #E5E7EB; --line-02: #F1F5F9; --border: #D1D5DB;
+  }
+  .app { display: flex; height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 200px; background: linear-gradient(180deg, rgba(240,226,255,0.4) 0%, rgba(147,180,230,0.4) 100%), #FFF; border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 8px 8px 24px; }
+  .sidebar-logo svg { width: 24px; height: 24px; }
+  .sidebar-brand { font-size: 14px; font-weight: 700; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-02); text-decoration: none; margin-bottom: 2px; transition: all 0.15s; }
+  .nav-item:hover { background: rgba(255,255,255,0.6); }
+  .nav-item.active { background: rgba(255,255,255,0.85); color: var(--text-01); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .nav-item.active svg { stroke: var(--primary); }
+  .nav-item svg { width: 18px; height: 18px; stroke: var(--text-03); stroke-width: 1.8; fill: none; }
+  .sidebar-spacer { flex: 1; }
+  .sidebar-bottom { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+  .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; margin-top: 8px; }
+  .sidebar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--purple-light); }
+  .sidebar-user-name { font-size: 14px; font-weight: 600; }
+  .sidebar-user-role { font-size: 12px; color: var(--text-03); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+  /* Header */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-logo { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; }
+  .header-name { font-size: 16px; font-weight: 700; }
+  .header-sub { font-size: 12px; color: var(--text-03); }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .header-bell { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .header-bell:hover { background: var(--bg-secondary); }
+  .header-bell-dot { position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--error); border: 2px solid white; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; }
+  .btn-dark { background: var(--text-01); color: white; }
+
+  .sub-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line-02); flex-shrink: 0; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-03); text-decoration: none; }
+  .back-link:hover { color: var(--primary); }
+
+  /* Calendar area */
+  .cal-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Calendar top bar with platform filters */
+  .cal-topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .cal-today { display: flex; align-items: center; gap: 12px; }
+  .cal-date-badge { background: var(--primary); color: white; border-radius: 10px; padding: 6px 10px; text-align: center; min-width: 40px; }
+  .cal-date-num { font-size: 18px; font-weight: 700; line-height: 1; }
+  .cal-date-month { font-size: 12px; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+  .cal-today-text { font-size: 14px; font-weight: 600; }
+  .cal-today-sub { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 4px; }
+  .cal-today-sub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+
+  .cal-controls { display: flex; align-items: center; gap: 12px; }
+
+  /* Platform filter */
+  .platform-filters { display: flex; align-items: center; gap: 4px; padding: 4px; background: var(--bg-secondary); border-radius: 10px; }
+  .pf-btn { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; background: transparent; transition: all 0.15s; position: relative; }
+  .pf-btn:hover { background: rgba(255,255,255,0.8); }
+  .pf-btn.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .pf-btn.active::after { content: ''; position: absolute; bottom: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); }
+  .pf-btn svg { width: 16px; height: 16px; }
+
+  .cal-nav { display: flex; align-items: center; gap: 6px; }
+  .cal-nav-group { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .cal-nav-btn { padding: 4px 8px; background: white; border: none; cursor: pointer; font-size: 14px; color: var(--text-02); font-family: 'Satoshi', sans-serif; }
+  .cal-nav-btn:hover { background: var(--bg-secondary); }
+  .cal-nav-label { padding: 4px 10px; font-size: 14px; font-weight: 600; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  .cal-view-toggle { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .cal-view-btn { padding: 4px 12px; font-size: 12px; font-weight: 500; cursor: pointer; background: white; border: none; color: var(--text-03); font-family: 'Satoshi', sans-serif; display: flex; align-items: center; gap: 4px; }
+  .cal-view-btn.active { background: var(--text-01); color: white; }
+
+  /* Calendar grid — full month */
+  .cal-grid-wrap { flex: 1; overflow-y: auto; background: var(--bg-card); }
+  .cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg-card); z-index: 2; }
+  .cal-header-cell { padding: 10px 8px; text-align: center; font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; }
+  .cal-body { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .cal-cell {
+    min-height: 110px; padding: 8px; border-right: 1px solid var(--line-02);
+    border-bottom: 1px solid var(--line-02); position: relative; transition: background 0.12s;
+  }
+  .cal-cell:nth-child(7n) { border-right: none; }
+  .cal-cell:hover { background: rgba(255,107,53,0.02); }
+  .cal-cell.today { background: var(--primary-light); }
+  .cal-cell.today .cal-cell-day { color: var(--primary); font-weight: 700; }
+  .cal-cell.other { opacity: 0.3; }
+  .cal-cell.drop-target { background: rgba(255,107,53,0.08); outline: 2px dashed var(--primary); outline-offset: -2px; }
+  .cal-cell-day { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 6px; }
+
+  /* Event pills — draggable */
+  .cal-event {
+    display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px;
+    font-size: 12px; font-weight: 500; margin-bottom: 4px; cursor: grab;
+    transition: all 0.15s; user-select: none; position: relative;
+  }
+  .cal-event:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
+  .cal-event:active { cursor: grabbing; opacity: 0.8; transform: scale(0.95); }
+  .cal-event svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .cal-event.ig { background: #FFEEF2; color: #DC2743; }
+  .cal-event.fb { background: var(--blue-light); color: #1877F2; }
+  .cal-event.li { background: var(--blue-light); color: #0A66C2; }
+  .cal-event.blog { background: var(--primary-light); color: var(--primary); }
+  .cal-event.yt { background: var(--error-light); color: var(--error); }
+  .cal-event.x { background: var(--bg-secondary); color: var(--text-01); }
+
+  /* Drag ghost */
+  .drag-ghost {
+    position: fixed; pointer-events: none; z-index: 100;
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15); transform: rotate(2deg);
+    opacity: 0.9;
+  }
+
+  /* Slide-over panel */
+  .slideover-backdrop {
+    position: fixed; inset: 0; background: rgba(17,24,39,0.3); z-index: 50;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+  }
+  .slideover-backdrop.show { opacity: 1; pointer-events: auto; }
+  .slideover {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 400px; background: var(--bg-card);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.1); z-index: 51;
+    transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .slideover-backdrop.show .slideover { transform: translateX(0); }
+  .slideover-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+  }
+  .slideover-title { font-size: 16px; font-weight: 700; }
+  .slideover-close {
+    width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--text-03); font-size: 18px; transition: all 0.15s;
+  }
+  .slideover-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .slideover-body { flex: 1; overflow-y: auto; padding: 24px; }
+  .slideover-preview {
+    width: 100%; aspect-ratio: 1/1; border-radius: 12px; margin-bottom: 18px;
+    background: linear-gradient(135deg, #FFE0CC, #F0E2FF);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .slideover-preview svg { opacity: 0.3; }
+  .slideover-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .slideover-value { font-size: 14px; color: var(--text-01); margin-bottom: 16px; line-height: 1.5; }
+  .slideover-caption {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: vertical; min-height: 100px; line-height: 1.5;
+    transition: border-color 0.15s;
+  }
+  .slideover-caption:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+  .slideover-footer {
+    padding: 16px 24px; border-top: 1px solid var(--line);
+    display: flex; gap: 8px;
+  }
+  .slideover-footer .btn { flex: 1; justify-content: center; }
+  .btn-outline { background: transparent; color: var(--text-02); border: 1px solid var(--border); }
+  .btn-primary { background: var(--primary); color: white; }
+  .slideover-meta { display: flex; gap: 12px; margin-bottom: 18px; }
+  .slideover-meta-item { flex: 1; padding: 10px 12px; background: var(--bg-secondary); border-radius: 10px; }
+  .slideover-meta-label { font-size: 12px; color: var(--text-03); margin-bottom: 2px; }
+  .slideover-meta-value { font-size: 14px; font-weight: 600; }
+  .slideover-platform-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 18px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg><span class="sidebar-brand">CORESHIFT</span></div>
+    <nav>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Clients</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Jobs</a>
+      <a class="nav-item active"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-bottom">
+      <a class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83"/></svg>Settings</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</a>
+    </div>
+    <div class="sidebar-user"><div class="sidebar-avatar"></div><div><div class="sidebar-user-name">Ricky Jack</div><div class="sidebar-user-role">Agency Owner</div></div></div>
+  </aside>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        <div><div class="header-name">Aero Filter</div><div class="header-sub">Content Schedule</div></div>
+      </div>
+      <div class="header-right">
+        <div class="header-bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="header-bell-dot"></span></div>
+        <button class="btn btn-dark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> New Job</button>
+      </div>
+    </div>
+    <div class="sub-bar">
+      <a href="#" class="back-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Dashboard</a>
+    </div>
+
+    <div class="cal-container">
+      <!-- Calendar controls with platform filter -->
+      <div class="cal-topbar">
+        <div class="cal-today">
+          <div class="cal-date-badge"><div class="cal-date-num">28</div><div class="cal-date-month">MAR</div></div>
+          <div><div class="cal-today-text">March 2026</div><div class="cal-today-sub"><span class="dot"></span> 8 posts scheduled this month</div></div>
+        </div>
+        <div class="cal-controls">
+          <!-- Platform Filter -->
+          <div class="platform-filters">
+            <button class="pf-btn active" title="All" onclick="filterPlatform('all',this)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-02)" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+            <button class="pf-btn" title="Instagram" onclick="filterPlatform('ig',this)"><svg viewBox="0 0 24 24" fill="none" stroke="#DC2743" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="18" cy="6" r="1" fill="#DC2743"/></svg></button>
+            <button class="pf-btn" title="LinkedIn" onclick="filterPlatform('li',this)"><svg viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg></button>
+            <button class="pf-btn" title="Facebook" onclick="filterPlatform('fb',this)"><svg viewBox="0 0 24 24" fill="none" stroke="#1877F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></button>
+            <button class="pf-btn" title="YouTube" onclick="filterPlatform('yt',this)"><svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2 29 29 0 0 0-.46 5.33 29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg></button>
+            <button class="pf-btn" title="X" onclick="filterPlatform('x',this)"><svg viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-8M20 4l-6.768 8"/></svg></button>
+          </div>
+
+          <div class="cal-nav">
+            <div class="cal-nav-group"><button class="cal-nav-btn">‹</button><span class="cal-nav-label">March</span><button class="cal-nav-btn">›</button></div>
+            <div class="cal-nav-group"><button class="cal-nav-btn">‹</button><span class="cal-nav-label">2026</span><button class="cal-nav-btn">›</button></div>
+            <div class="cal-view-toggle">
+              <button class="cal-view-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> List</button>
+              <button class="cal-view-btn active"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Calendar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calendar grid -->
+      <div class="cal-grid-wrap">
+        <div class="cal-header-row">
+          <div class="cal-header-cell">Mon</div><div class="cal-header-cell">Tue</div><div class="cal-header-cell">Wed</div><div class="cal-header-cell">Thu</div><div class="cal-header-cell">Fri</div><div class="cal-header-cell">Sat</div><div class="cal-header-cell">Sun</div>
+        </div>
+        <div class="cal-body" id="calBody">
+          <!-- Week 1 (prev month) -->
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">23</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">24</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">25</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">26</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">27</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">28</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">1</div></div>
+          <!-- Week 2 -->
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">2</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Storepro IG Post" data-caption="Revolutionise your retail! 🚀 #RetailTech"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Storepro Post</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">3</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">4</div><div class="cal-event blog" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="blog" data-title="Spring Product Blog" data-caption="How retail tech is transforming NZ small businesses in 2026..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Spring Blog</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">5</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">6</div><div class="cal-event li" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="li" data-title="GP LinkedIn Update" data-caption="Excited to announce our new partnership with leading NZ retailers..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg> GP Update</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">7</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">8</div></div>
+          <!-- Week 3 -->
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">9</div><div class="cal-event fb" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="fb" data-title="Facebook Campaign" data-caption="Transform your business with our latest POS solution 🚀"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> FB Campaign</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">10</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">11</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Reel Launch" data-caption="30 seconds of POS magic ✨"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Reel Launch</div><div class="cal-event blog" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="blog" data-title="NZ Retail Tech Blog" data-caption="The state of retail technology in New Zealand..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg> NZ Retail</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">12</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">13</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">14</div><div class="cal-event yt" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="yt" data-title="Teaser Video" data-caption="POS demo — quick teaser for the channel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg> Teaser</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">15</div></div>
+          <!-- Week 4 -->
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">16</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">17</div><div class="cal-event li" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="li" data-title="CS Article" data-caption="How Coreshift is building the future of business tech..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/></svg> CS Article</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">18</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">19</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">20</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Product Shot" data-caption="Clean product photography for spring range 📸"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Product Shot</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">21</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">22</div></div>
+          <!-- Week 5 -->
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">23</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">24</div><div class="cal-event x" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="x" data-title="X Thread" data-caption="5 ways POS tech will change retail in 2026 🧵"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/></svg> X Thread</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">25</div><div class="cal-event fb" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="fb" data-title="GP Campaign" data-caption="Growth Partners spring campaign launch 🌸"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> GP Campaign</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">26</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">27</div></div>
+          <div class="cal-cell today" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">28</div><div class="cal-event blog" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="blog" data-title="Weekly Newsletter" data-caption="This week's retail roundup for Storepro readers..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg> Newsletter</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">29</div></div>
+          <!-- Week 6 -->
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">30</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">31</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">1</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">2</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">3</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">4</div></div>
+          <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">5</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide-over Panel -->
+<div class="slideover-backdrop" id="slideoverBackdrop" onclick="closeSlide()">
+  <div class="slideover" onclick="event.stopPropagation()">
+    <div class="slideover-header">
+      <div class="slideover-title" id="slideTitle">Post Preview</div>
+      <button class="slideover-close" onclick="closeSlide()">✕</button>
+    </div>
+    <div class="slideover-body">
+      <div id="slidePlatformBadge" class="slideover-platform-badge"></div>
+      <div class="slideover-preview">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </div>
+      <div class="slideover-meta">
+        <div class="slideover-meta-item"><div class="slideover-meta-label">Scheduled</div><div class="slideover-meta-value" id="slideDate">Mar 28, 9:00 AM</div></div>
+        <div class="slideover-meta-item"><div class="slideover-meta-label">Status</div><div class="slideover-meta-value" style="color:var(--success);">Approved</div></div>
+      </div>
+      <div class="slideover-label">Caption</div>
+      <textarea class="slideover-caption" id="slideCaption">Revolutionise your retail game! 🚀 Our POS Terminal handles everything. #RetailTech</textarea>
+    </div>
+    <div class="slideover-footer">
+      <button class="btn btn-outline" onclick="closeSlide()">Cancel</button>
+      <button class="btn btn-primary">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Drag & Drop
+let draggedEl = null;
+function dragStart(e) {
+  draggedEl = e.target;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.style.opacity = '0.5';
+  setTimeout(() => e.target.style.opacity = '0.5', 0);
+}
+function dragOver(e) {
+  e.preventDefault();
+  const cell = e.target.closest('.cal-cell');
+  if (cell) {
+    document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('drop-target'));
+    cell.classList.add('drop-target');
+  }
+}
+function drop(e) {
+  e.preventDefault();
+  const cell = e.target.closest('.cal-cell');
+  if (cell && draggedEl) {
+    cell.appendChild(draggedEl);
+    draggedEl.style.opacity = '1';
+    draggedEl.style.animation = 'dropIn 0.3s ease';
+    setTimeout(() => draggedEl.style.animation = '', 300);
+  }
+  document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('drop-target'));
+  draggedEl = null;
+}
+document.addEventListener('dragend', () => {
+  if (draggedEl) draggedEl.style.opacity = '1';
+  document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('drop-target'));
+});
+
+// Slide-over
+function openSlide(el) {
+  const title = el.dataset.title || 'Post';
+  const caption = el.dataset.caption || '';
+  const platform = el.dataset.platform || '';
+  const platformMap = { ig: ['Instagram', '#FFEEF2', '#DC2743'], li: ['LinkedIn', '#EFF6FF', '#0A66C2'], fb: ['Facebook', '#EFF6FF', '#1877F2'], blog: ['Blog', '#FFF0E6', '#FF6B35'], yt: ['YouTube', '#FEF2F2', '#DC2626'], x: ['X / Twitter', '#F1F5F9', '#111827'] };
+  const [pName, pBg, pColor] = platformMap[platform] || ['Post', '#F1F5F9', '#111827'];
+
+  document.getElementById('slideTitle').textContent = title;
+  document.getElementById('slideCaption').value = caption;
+  document.getElementById('slidePlatformBadge').textContent = pName;
+  document.getElementById('slidePlatformBadge').style.background = pBg;
+  document.getElementById('slidePlatformBadge').style.color = pColor;
+  document.getElementById('slideoverBackdrop').classList.add('show');
+}
+function closeSlide() {
+  document.getElementById('slideoverBackdrop').classList.remove('show');
+}
+
+// Platform filter
+function filterPlatform(platform, btn) {
+  document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.cal-event').forEach(ev => {
+    if (platform === 'all') { ev.style.display = ''; }
+    else { ev.style.display = ev.classList.contains(platform) ? '' : 'none'; }
+  });
+}
+</script>
+
+<style>
+@keyframes dropIn { from { transform: scale(0.8); opacity: 0.5; } to { transform: scale(1); opacity: 1; } }
+</style>
+
+</body>
+</html>
