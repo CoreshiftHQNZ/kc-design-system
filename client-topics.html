@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyContent — Topics & Ideas</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', sans-serif; background: #F9FAFF; color: #111827; overflow: hidden; }
+  :root {
+    --primary: #FF6B35; --primary-light: #FFF0E6;
+    --bg-page: #F9FAFF; --bg-card: #FFFFFF; --bg-secondary: #F1F5F9;
+    --text-01: #111827; --text-02: #4B5563; --text-03: #9CA3AF;
+    --success: #27C87D; --success-light: #E5F9EF;
+    --error: #EF4444; --error-light: #FEF2F2;
+    --warning: #FFC43A; --warning-light: #FFFBEB;
+    --purple: #BAA3F5; --purple-light: #F0E2FF;
+    --blue: #93B4E6; --blue-light: #EFF6FF;
+    --line: #E5E7EB; --line-02: #F1F5F9; --border: #D1D5DB;
+  }
+  .app { display: flex; height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 200px; background: linear-gradient(180deg, rgba(240,226,255,0.4) 0%, rgba(147,180,230,0.4) 100%), #FFF; border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 8px 8px 24px; }
+  .sidebar-logo svg { width: 24px; height: 24px; }
+  .sidebar-brand { font-size: 14px; font-weight: 700; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-02); text-decoration: none; margin-bottom: 2px; transition: all 0.15s; }
+  .nav-item:hover { background: rgba(255,255,255,0.6); }
+  .nav-item.active { background: rgba(255,255,255,0.85); color: var(--text-01); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .nav-item.active svg { stroke: var(--primary); }
+  .nav-item svg { width: 18px; height: 18px; stroke: var(--text-03); stroke-width: 1.8; fill: none; }
+  .sidebar-spacer { flex: 1; }
+  .sidebar-bottom { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+  .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; margin-top: 8px; }
+  .sidebar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--purple-light); }
+  .sidebar-user-name { font-size: 14px; font-weight: 600; }
+  .sidebar-user-role { font-size: 12px; color: var(--text-03); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Header */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-logo { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; }
+  .header-name { font-size: 16px; font-weight: 700; }
+  .header-sub { font-size: 12px; color: var(--text-03); }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .header-bell { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .header-bell:hover { background: var(--bg-secondary); }
+  .header-bell-dot { position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--error); border: 2px solid white; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; }
+  .btn-dark { background: var(--text-01); color: white; }
+  .btn-dark:hover { opacity: 0.9; }
+  .btn-outline { background: transparent; color: var(--text-02); border: 1px solid var(--border); }
+  .btn-outline:hover { background: var(--bg-secondary); }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: #EF6E1E; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-xs { padding: 4px 10px; font-size: 12px; border-radius: 8px; }
+
+  .sub-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line-02); flex-shrink: 0; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-03); text-decoration: none; }
+  .back-link:hover { color: var(--primary); }
+
+  /* Top controls */
+  .topics-controls { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .topics-left { display: flex; align-items: center; gap: 12px; }
+  .topics-count { font-size: 14px; color: var(--text-03); }
+  .topics-count strong { color: var(--text-01); }
+  .topics-right { display: flex; align-items: center; gap: 8px; }
+
+  /* Group filters */
+  .group-filters { display: flex; gap: 6px; padding: 12px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line-02); flex-shrink: 0; overflow-x: auto; }
+  .group-pill { padding: 6px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--line); background: white; color: var(--text-02); font-family: 'Satoshi', sans-serif; transition: all 0.15s; white-space: nowrap; }
+  .group-pill:hover { border-color: var(--border); }
+  .group-pill.active { background: var(--text-01); color: white; border-color: var(--text-01); }
+  .group-pill .gp-count { opacity: 0.5; margin-left: 4px; }
+
+  /* Batch bar */
+  .batch-bar { display: none; align-items: center; gap: 12px; padding: 10px 24px; background: var(--primary-light); border-bottom: 1px solid var(--primary); flex-shrink: 0; }
+  .batch-bar.show { display: flex; }
+  .batch-count { font-size: 14px; font-weight: 600; color: var(--primary); }
+  .batch-actions { margin-left: auto; display: flex; gap: 8px; }
+
+  /* Pinterest Masonry Grid */
+  .topics-grid-wrap { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .masonry { column-count: 4; column-gap: 16px; }
+
+  /* Topic Card */
+  .topic-card {
+    break-inside: avoid; background: var(--bg-card); border: 1px solid var(--line);
+    border-radius: 16px; margin-bottom: 16px; overflow: hidden;
+    transition: all 0.2s ease; cursor: default; position: relative;
+  }
+  .topic-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .topic-card.selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+
+  /* Card checkbox */
+  .tc-check {
+    position: absolute; top: 12px; right: 12px; width: 22px; height: 22px;
+    border-radius: 6px; border: 2px solid var(--border); background: white;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: all 0.15s; z-index: 2; opacity: 0;
+  }
+  .topic-card:hover .tc-check { opacity: 1; }
+  .topic-card.selected .tc-check { opacity: 1; background: var(--primary); border-color: var(--primary); }
+  .tc-check svg { width: 14px; height: 14px; stroke: white; stroke-width: 3; fill: none; opacity: 0; }
+  .topic-card.selected .tc-check svg { opacity: 1; }
+
+  /* Card image area (gradient placeholder) */
+  .tc-image { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; position: relative; }
+
+  /* Badge */
+  .tc-badge { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); }
+  .tc-badge.trending { background: rgba(255,107,53,0.9); color: white; }
+  .tc-badge.evergreen { background: rgba(39,200,125,0.9); color: white; }
+  .tc-badge.seasonal { background: rgba(186,163,245,0.9); color: white; }
+  .tc-badge.ai { background: rgba(147,180,230,0.9); color: white; }
+  .tc-badge.client { background: rgba(255,196,58,0.9); color: #111827; }
+
+  .tc-body { padding: 14px 16px; }
+  .tc-title { font-size: 14px; font-weight: 700; color: var(--text-01); margin-bottom: 6px; line-height: 1.4; }
+  .tc-desc { font-size: 12px; color: var(--text-02); line-height: 1.5; margin-bottom: 10px; }
+  .tc-keywords { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+  .tc-keyword { padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 500; background: var(--bg-secondary); color: var(--text-02); }
+
+  /* Pain point */
+  .tc-pain { font-size: 12px; color: var(--text-03); margin-bottom: 12px; padding: 8px 10px; background: var(--bg-secondary); border-radius: 8px; line-height: 1.4; }
+  .tc-pain svg { width: 12px; height: 12px; stroke: var(--text-03); fill: none; stroke-width: 2; display: inline; vertical-align: middle; margin-right: 4px; }
+
+  /* Calendar hint */
+  .tc-calendar { font-size: 12px; color: var(--text-03); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .tc-calendar svg { width: 14px; height: 14px; stroke: var(--text-03); fill: none; stroke-width: 1.8; }
+
+  /* Card actions */
+  .tc-actions { display: flex; gap: 6px; }
+  .tc-actions .btn { flex: 1; justify-content: center; }
+
+  /* Card footer meta */
+  .tc-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--line-02); }
+  .tc-source { font-size: 12px; color: var(--text-03); display: flex; align-items: center; gap: 4px; }
+  .tc-source svg { width: 12px; height: 12px; stroke: var(--text-03); fill: none; stroke-width: 2; }
+  .tc-status { font-size: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg><span class="sidebar-brand">CORESHIFT</span></div>
+    <nav>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Clients</a>
+      <a class="nav-item active"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Topics & Ideas</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Jobs</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-bottom">
+      <a class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/></svg>Settings</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</a>
+    </div>
+    <div class="sidebar-user"><div class="sidebar-avatar"></div><div><div class="sidebar-user-name">Ricky Jack</div><div class="sidebar-user-role">Agency Owner</div></div></div>
+  </aside>
+
+  <div class="main">
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        <div><div class="header-name">Aero Filter</div><div class="header-sub">Topics & Ideas</div></div>
+      </div>
+      <div class="header-right">
+        <div class="header-bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="header-bell-dot"></span></div>
+        <button class="btn btn-dark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> New Job</button>
+      </div>
+    </div>
+    <div class="sub-bar">
+      <a href="#" class="back-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Dashboard</a>
+    </div>
+
+    <!-- Controls -->
+    <div class="topics-controls">
+      <div class="topics-left">
+        <div class="topics-count"><strong>24</strong> topics · <strong>8</strong> pending</div>
+      </div>
+      <div class="topics-right">
+        <button class="btn btn-outline btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Bulk Upload</button>
+        <button class="btn btn-primary btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Generate Topics</button>
+      </div>
+    </div>
+
+    <!-- Smart Grouping filters -->
+    <div class="group-filters">
+      <button class="group-pill active" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">All <span class="gp-count">24</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">🔥 Trending <span class="gp-count">6</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">🌿 Evergreen <span class="gp-count">8</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">📅 Seasonal <span class="gp-count">4</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">💡 AI Suggested <span class="gp-count">3</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">📌 Client Requested <span class="gp-count">3</span></button>
+    </div>
+
+    <!-- Batch action bar -->
+    <div class="batch-bar" id="batchBar">
+      <span class="batch-count"><span id="batchCount">0</span> selected</span>
+      <div class="batch-actions">
+        <button class="btn btn-outline btn-sm" onclick="clearSelection()">Clear</button>
+        <button class="btn btn-sm" style="background:var(--success);color:white;">Approve & Create Jobs</button>
+      </div>
+    </div>
+
+    <!-- Pinterest Masonry Grid -->
+    <div class="topics-grid-wrap">
+      <div class="masonry" id="masonry">
+
+        <!-- Card 1 — Trending, tall -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#FF6B35,#FFB088);aspect-ratio:16/12;">
+            <div class="tc-badge trending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Trending Now</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">How Retail Tech is Transforming NZ Small Business in 2026</div>
+            <div class="tc-desc">An in-depth look at how point-of-sale systems, inventory automation, and AI-powered analytics are helping NZ retailers compete with global chains.</div>
+            <div class="tc-keywords"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ business</span><span class="tc-keyword">POS</span><span class="tc-keyword">automation</span></div>
+            <div class="tc-pain"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Store owners spend 3+ hours daily on manual inventory</div>
+            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Best publish: Week of Apr 7</div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 2 — Evergreen, short -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#27C87D,#6EE7B7);aspect-ratio:16/8;">
+            <div class="tc-badge evergreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg> Evergreen</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div>
+            <div class="tc-keywords"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span><span class="tc-keyword">efficiency</span></div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 3 — Seasonal -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#BAA3F5,#DDD6FE);aspect-ratio:16/10;">
+            <div class="tc-badge seasonal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Easter 2026</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div>
+            <div class="tc-desc">Seasonal marketing strategies for retail stores during the Easter shopping period in NZ.</div>
+            <div class="tc-keywords"><span class="tc-keyword">Easter</span><span class="tc-keyword">seasonal</span><span class="tc-keyword">retail</span></div>
+            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Deadline: Mar 30</div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 4 — AI Suggested -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#93B4E6,#BFDBFE);aspect-ratio:16/14;">
+            <div class="tc-badge ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Suggested</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">Behind the Counter: A Day in the Life of a Modern NZ Retailer</div>
+            <div class="tc-desc">Human-interest storytelling angle — follow a real store owner through their daily workflow with modern POS tech. Great for LinkedIn and IG reels.</div>
+            <div class="tc-keywords"><span class="tc-keyword">storytelling</span><span class="tc-keyword">day in life</span><span class="tc-keyword">NZ retail</span><span class="tc-keyword">video</span></div>
+            <div class="tc-pain"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Retailers feel invisible online — need relatable content</div>
+            <div class="tc-calendar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime — Evergreen angle</div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Suggested</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 5 — Client Requested -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#FFC43A,#FDE68A);aspect-ratio:16/8;">
+            <div class="tc-badge client"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Client Requested</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">New POS Terminal Launch Announcement</div>
+            <div class="tc-desc">Client wants a product launch post for their new terminal.</div>
+            <div class="tc-keywords"><span class="tc-keyword">product launch</span><span class="tc-keyword">POS</span></div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Requested by Sarah</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 6 — Trending -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#FF6B35,#FCA5A5);aspect-ratio:16/9;">
+            <div class="tc-badge trending"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Trending Now</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">Contactless Payments: Why NZ Leads the World</div>
+            <div class="tc-keywords"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span><span class="tc-keyword">NZ</span></div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--success);">Approved</div>
+          </div>
+        </div>
+
+        <!-- Card 7 — Evergreen -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#34D399,#A7F3D0);aspect-ratio:16/11;">
+            <div class="tc-badge evergreen"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8"/></svg> Evergreen</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">The Complete Guide to Choosing a POS System</div>
+            <div class="tc-desc">Comprehensive buyer's guide covering features, pricing, and integration options for NZ businesses.</div>
+            <div class="tc-keywords"><span class="tc-keyword">POS guide</span><span class="tc-keyword">buyer's guide</span><span class="tc-keyword">comparison</span></div>
+            <div class="tc-actions">
+              <button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--warning);">Pending</div>
+          </div>
+        </div>
+
+        <!-- Card 8 — Approved / Used -->
+        <div class="topic-card" onclick="toggleSelect(this)">
+          <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="tc-image" style="background:linear-gradient(135deg,#BAA3F5,#C4B5FD);aspect-ratio:16/8;">
+            <div class="tc-badge seasonal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/></svg> Q1 2026</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div>
+            <div class="tc-keywords"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span><span class="tc-keyword">new year</span></div>
+            <div class="tc-actions">
+              <button class="btn btn-outline btn-xs" onclick="event.stopPropagation()" style="flex:1;">View Job</button>
+            </div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-source"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI Generated</div>
+            <div class="tc-status" style="color:var(--blue);">Used</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSelect(card) {
+  card.classList.toggle('selected');
+  updateBatch();
+}
+function updateBatch() {
+  const selected = document.querySelectorAll('.topic-card.selected').length;
+  document.getElementById('batchCount').textContent = selected;
+  document.getElementById('batchBar').classList.toggle('show', selected > 0);
+}
+function clearSelection() {
+  document.querySelectorAll('.topic-card.selected').forEach(c => c.classList.remove('selected'));
+  updateBatch();
+}
+</script>
+
+</body>
+</html>
