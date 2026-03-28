@@ -58,7 +58,39 @@
   .back-link:hover { color: var(--primary); }
 
   /* Calendar area */
-  .cal-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .cal-container { flex: 1; display: flex; overflow: hidden; }
+  .cal-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Draft Tray */
+  .draft-tray { width: 240px; background: var(--bg-card); border-right: 1px solid var(--line); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
+  .draft-tray-header { padding: 16px 16px 12px; border-bottom: 1px solid var(--line-02); }
+  .draft-tray-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .draft-tray-sub { font-size: 12px; color: var(--text-03); }
+  .draft-tray-count { display: inline-flex; align-items: center; justify-content: center; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; background: var(--primary-light); color: var(--primary); margin-left: 6px; }
+  .draft-tray-body { flex: 1; overflow-y: auto; padding: 8px; }
+  .draft-card {
+    display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px;
+    border-radius: 12px; border: 1px solid var(--line-02); margin-bottom: 6px;
+    cursor: grab; transition: all 0.15s; background: var(--bg-card);
+    user-select: none;
+  }
+  .draft-card:hover { background: var(--bg-secondary); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .draft-card:active { cursor: grabbing; transform: scale(0.97); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .draft-card-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .draft-card-icon svg { width: 14px; height: 14px; }
+  .draft-card-title { font-size: 12px; font-weight: 600; color: var(--text-01); margin-bottom: 2px; }
+  .draft-card-sub { font-size: 12px; color: var(--text-03); }
+  .draft-card-drag { margin-left: auto; color: var(--text-03); flex-shrink: 0; margin-top: 2px; }
+
+  /* Conflict warning */
+  .cal-conflict {
+    display: flex; align-items: center; gap: 4px; padding: 2px 6px;
+    border-radius: 4px; background: var(--warning-light); font-size: 12px;
+    color: var(--warning); font-weight: 600; margin-bottom: 4px;
+    animation: fadeIn 0.2s ease;
+  }
+  .cal-conflict svg { width: 12px; height: 12px; stroke: var(--warning); fill: none; stroke-width: 2; flex-shrink: 0; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* Calendar top bar with platform filters */
   .cal-topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
@@ -219,6 +251,37 @@
     </div>
 
     <div class="cal-container">
+      <!-- Draft Tray (left sidebar) -->
+      <div class="draft-tray">
+        <div class="draft-tray-header">
+          <div class="draft-tray-title">Ready to Schedule <span class="draft-tray-count">4</span></div>
+          <div class="draft-tray-sub">Drag onto the calendar</div>
+        </div>
+        <div class="draft-tray-body">
+          <div class="draft-card" draggable="true" ondragstart="dragStart(event)" data-platform="ig" data-title="Spring Product Reel">
+            <div class="draft-card-icon" style="background:#FFEEF2;"><svg viewBox="0 0 24 24" fill="none" stroke="#DC2743" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+            <div><div class="draft-card-title">Spring Product Reel</div><div class="draft-card-sub">Storepro · Instagram</div></div>
+            <div class="draft-card-drag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+          </div>
+          <div class="draft-card" draggable="true" ondragstart="dragStart(event)" data-platform="blog" data-title="Digital Upgrade Guide">
+            <div class="draft-card-icon" style="background:var(--primary-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            <div><div class="draft-card-title">Digital Upgrade Guide</div><div class="draft-card-sub">Coreshift · Blog</div></div>
+            <div class="draft-card-drag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+          </div>
+          <div class="draft-card" draggable="true" ondragstart="dragStart(event)" data-platform="li" data-title="GP Case Study">
+            <div class="draft-card-icon" style="background:var(--blue-light);"><svg viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg></div>
+            <div><div class="draft-card-title">GP Case Study</div><div class="draft-card-sub">Growth Partners · LinkedIn</div></div>
+            <div class="draft-card-drag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+          </div>
+          <div class="draft-card" draggable="true" ondragstart="dragStart(event)" data-platform="fb" data-title="Easter Campaign">
+            <div class="draft-card-icon" style="background:var(--blue-light);"><svg viewBox="0 0 24 24" fill="none" stroke="#1877F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+            <div><div class="draft-card-title">Easter Campaign</div><div class="draft-card-sub">Storepro · Facebook</div></div>
+            <div class="draft-card-drag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-main">
       <!-- Calendar controls with platform filter -->
       <div class="cal-topbar">
         <div class="cal-today">
@@ -282,7 +345,7 @@
           <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">17</div><div class="cal-event li" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="li" data-title="CS Article" data-caption="How Coreshift is building the future of business tech..."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/></svg> CS Article</div></div>
           <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">18</div></div>
           <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">19</div></div>
-          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">20</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Product Shot" data-caption="Clean product photography for spring range 📸"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Product Shot</div></div>
+          <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">20</div><div class="cal-conflict"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 2× IG</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Product Shot" data-caption="Clean product photography for spring range 📸"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Product Shot</div><div class="cal-event ig" draggable="true" ondragstart="dragStart(event)" onclick="openSlide(this)" data-platform="ig" data-title="Story Set" data-caption="Behind the scenes at the warehouse 📦"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg> Story Set</div></div>
           <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">21</div></div>
           <div class="cal-cell" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">22</div></div>
           <!-- Week 5 -->
@@ -303,6 +366,7 @@
           <div class="cal-cell other" ondragover="dragOver(event)" ondrop="drop(event)"><div class="cal-cell-day">5</div></div>
         </div>
       </div>
+      </div><!-- close cal-main -->
     </div>
   </div>
 </div>
@@ -337,10 +401,9 @@
 // Drag & Drop
 let draggedEl = null;
 function dragStart(e) {
-  draggedEl = e.target;
+  draggedEl = e.target.closest('.cal-event, .draft-card');
   e.dataTransfer.effectAllowed = 'move';
-  e.target.style.opacity = '0.5';
-  setTimeout(() => e.target.style.opacity = '0.5', 0);
+  draggedEl.style.opacity = '0.5';
 }
 function dragOver(e) {
   e.preventDefault();
@@ -354,10 +417,34 @@ function drop(e) {
   e.preventDefault();
   const cell = e.target.closest('.cal-cell');
   if (cell && draggedEl) {
-    cell.appendChild(draggedEl);
-    draggedEl.style.opacity = '1';
-    draggedEl.style.animation = 'dropIn 0.3s ease';
-    setTimeout(() => draggedEl.style.animation = '', 300);
+    // If dragging from draft tray, convert to calendar event
+    if (draggedEl.classList.contains('draft-card')) {
+      const platform = draggedEl.dataset.platform || 'blog';
+      const title = draggedEl.dataset.title || 'Post';
+      const platformStyles = { ig: 'ig', li: 'li', fb: 'fb', blog: 'blog', yt: 'yt', x: 'x' };
+      const newEvent = document.createElement('div');
+      newEvent.className = 'cal-event ' + (platformStyles[platform] || 'blog');
+      newEvent.draggable = true;
+      newEvent.setAttribute('ondragstart', 'dragStart(event)');
+      newEvent.setAttribute('onclick', 'openSlide(this)');
+      newEvent.dataset.platform = platform;
+      newEvent.dataset.title = title;
+      newEvent.dataset.caption = 'Drag-scheduled post';
+      newEvent.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg> ' + title;
+      cell.appendChild(newEvent);
+      draggedEl.remove();
+      newEvent.style.animation = 'dropIn 0.3s ease';
+      // Update draft count
+      const count = document.querySelectorAll('.draft-card').length;
+      document.querySelector('.draft-tray-count').textContent = count;
+    } else {
+      cell.appendChild(draggedEl);
+      draggedEl.style.opacity = '1';
+      draggedEl.style.animation = 'dropIn 0.3s ease';
+      setTimeout(() => draggedEl.style.animation = '', 300);
+    }
+    // Check for conflicts
+    checkConflicts(cell);
   }
   document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('drop-target'));
   draggedEl = null;
@@ -366,6 +453,33 @@ document.addEventListener('dragend', () => {
   if (draggedEl) draggedEl.style.opacity = '1';
   document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('drop-target'));
 });
+
+// Conflict Detection
+function checkConflicts(cell) {
+  // Remove existing conflict warnings
+  cell.querySelectorAll('.cal-conflict').forEach(w => w.remove());
+  // Count events per platform
+  const events = cell.querySelectorAll('.cal-event');
+  const platformCount = {};
+  events.forEach(ev => {
+    const classes = ev.className.split(' ');
+    const platform = classes.find(c => ['ig','fb','li','blog','yt','x'].includes(c));
+    if (platform) platformCount[platform] = (platformCount[platform] || 0) + 1;
+  });
+  // Add warnings for duplicates
+  const platformNames = { ig: 'IG', fb: 'FB', li: 'LI', blog: 'Blog', yt: 'YT', x: 'X' };
+  for (const [p, count] of Object.entries(platformCount)) {
+    if (count >= 2) {
+      const warning = document.createElement('div');
+      warning.className = 'cal-conflict';
+      warning.innerHTML = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> ' + count + '× ' + (platformNames[p] || p);
+      // Insert after cal-cell-day
+      const dayEl = cell.querySelector('.cal-cell-day');
+      if (dayEl && dayEl.nextSibling) { cell.insertBefore(warning, dayEl.nextSibling); }
+      else { cell.appendChild(warning); }
+    }
+  }
+}
 
 // Slide-over
 function openSlide(el) {
