@@ -114,8 +114,8 @@
   .tc-badge.ai { background: var(--blue-light); color: var(--blue); }
   .tc-badge.client { background: var(--warning-light); color: var(--warning); }
 
-  .tc-content { flex: 1; min-width: 0; }
-  .tc-title { font-size: 14px; font-weight: 600; color: var(--text-01); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tc-content { flex: 1; min-width: 200px; }
+  .tc-title { font-size: 14px; font-weight: 600; color: var(--text-01); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4; }
   .tc-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
   .tc-keywords { display: flex; gap: 4px; flex-wrap: nowrap; overflow: hidden; }
   .tc-keyword { padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--bg-secondary); color: var(--text-02); white-space: nowrap; }
@@ -192,11 +192,10 @@
     <!-- Smart Grouping filters -->
     <div class="group-filters">
       <button class="group-pill active" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">All <span class="gp-count">24</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">🔥 Trending <span class="gp-count">6</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">🌿 Evergreen <span class="gp-count">8</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">📅 Seasonal <span class="gp-count">4</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">💡 AI Suggested <span class="gp-count">3</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">📌 Client Requested <span class="gp-count">3</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--warning);">Pending <span class="gp-count">8</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--success);">Approved <span class="gp-count">6</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--blue);">Used <span class="gp-count">8</span></button>
+      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--text-03);">Archived <span class="gp-count">2</span></button>
     </div>
 
     <!-- Batch action bar -->
@@ -212,92 +211,101 @@
     <div class="topics-list-wrap">
       <div class="topics-table-header">
         <div class="th-check"></div>
-        <div class="th-title">Topic</div>
-        <div class="th-keywords" style="width:220px;">Keywords & Tags</div>
-        <div class="th-date">Publish</div>
-        <div class="th-source">Source</div>
-        <div class="th-status" style="width:90px;">Status</div>
-        <div class="th-action"></div>
+        <div style="flex:1;">Topic</div>
+        <div style="width:160px;">Keywords</div>
+        <div style="width:80px;">Tag</div>
+        <div style="width:90px;">Publish</div>
+        <div style="width:80px;">Source</div>
+        <div style="width:80px;">Status</div>
+        <div style="width:130px;"></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">How Retail Tech is Transforming NZ Small Business</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ</span><span class="tc-keyword">POS</span><span class="tc-keyword" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 7</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">How Retail Tech is Transforming NZ Small Business</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ</span><span class="tc-keyword">POS</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</span></div>
+        <div class="tc-calendar" style="width:90px;">Apr 7</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span><span class="tc-keyword">efficiency</span><span class="tc-keyword" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</span></div>
+        <div class="tc-calendar" style="width:90px;">Anytime</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">Easter</span><span class="tc-keyword">seasonal</span><span class="tc-keyword">retail</span><span class="tc-keyword" style="background:var(--purple-light);color:var(--purple);">📅 Seasonal</span></div>
-        <div class="tc-calendar" style="width:120px;color:var(--error);"><svg viewBox="0 0 24 24" style="stroke:var(--error);"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Mar 30!</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">Easter</span><span class="tc-keyword">retail</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--purple-light);color:var(--purple);">📅 Seasonal</span></div>
+        <div class="tc-calendar" style="width:90px;color:var(--error);">Mar 30!</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">Behind the Counter: A Day in the Life of a NZ Retailer</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">storytelling</span><span class="tc-keyword">video</span><span class="tc-keyword" style="background:var(--blue-light);color:var(--blue);">💡 AI Pick</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">Behind the Counter: A Day in the Life of a NZ Retailer</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">storytelling</span><span class="tc-keyword">video</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--blue-light);color:var(--blue);">💡 AI Pick</span></div>
+        <div class="tc-calendar" style="width:90px;">Anytime</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">New POS Terminal Launch Announcement</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">launch</span><span class="tc-keyword">POS</span><span class="tc-keyword" style="background:var(--warning-light);color:var(--warning);">📌 Client</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 1</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Sarah</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">New POS Terminal Launch Announcement</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">launch</span><span class="tc-keyword">POS</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--warning-light);color:var(--warning);">📌 Client</span></div>
+        <div class="tc-calendar" style="width:90px;">Apr 1</div>
+        <div class="tc-source" style="width:80px;">Sarah</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">Contactless Payments: Why NZ Leads the World</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span><span class="tc-keyword" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Apr 14</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--success-light);color:var(--success);">Approved</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">Contactless Payments: Why NZ Leads the World</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</span></div>
+        <div class="tc-calendar" style="width:90px;">Apr 14</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--success-light);color:var(--success);">Approved</span></div>
+        <div style="width:130px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">The Complete Guide to Choosing a POS System</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">POS guide</span><span class="tc-keyword">comparison</span><span class="tc-keyword" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Anytime</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">The Complete Guide to Choosing a POS System</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">POS guide</span><span class="tc-keyword">comparison</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</span></div>
+        <div class="tc-calendar" style="width:90px;">Anytime</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--warning-light);color:var(--warning);">Pending</span></div>
+        <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
       <div class="topic-row" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="tc-content"><div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div></div>
-        <div class="tc-keywords" style="width:220px;"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span><span class="tc-keyword" style="background:var(--purple-light);color:var(--purple);">📅 Q1</span></div>
-        <div class="tc-calendar" style="width:120px;"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Passed</div>
-        <div class="tc-source" style="width:100px;"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> AI</div>
-        <div style="width:90px;"><span class="tc-badge" style="background:var(--blue-light);color:var(--blue);">Used</span></div>
-        <div class="tc-action-btn" style="width:140px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
+        <div class="tc-content" style="flex:1;"><div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div></div>
+        <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span></div>
+        <div style="width:80px;"><span class="tc-keyword" style="background:var(--purple-light);color:var(--purple);">📅 Q1</span></div>
+        <div class="tc-calendar" style="width:90px;">Passed</div>
+        <div class="tc-source" style="width:80px;">AI</div>
+        <div style="width:80px;"><span class="tc-badge" style="background:var(--blue-light);color:var(--blue);">Used</span></div>
+        <div style="width:130px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
       </div>
 
     </div>
