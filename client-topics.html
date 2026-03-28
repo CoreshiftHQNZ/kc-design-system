@@ -141,6 +141,7 @@
   .th-source { width: 100px; flex-shrink: 0; }
   .th-status { width: 72px; flex-shrink: 0; }
   .th-action { width: 140px; flex-shrink: 0; }
+@keyframes fadeRow { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -191,11 +192,11 @@
 
     <!-- Smart Grouping filters -->
     <div class="group-filters">
-      <button class="group-pill active" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')">All <span class="gp-count">24</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--warning);">Pending <span class="gp-count">8</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--success);">Approved <span class="gp-count">6</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--blue);">Used <span class="gp-count">8</span></button>
-      <button class="group-pill" onclick="this.parentElement.querySelectorAll('.group-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')" style="border-color:var(--text-03);">Archived <span class="gp-count">2</span></button>
+      <button class="group-pill active" onclick="filterStatus('all',this)">All <span class="gp-count">8</span></button>
+      <button class="group-pill" onclick="filterStatus('pending',this)" style="border-color:var(--warning);">Pending <span class="gp-count">5</span></button>
+      <button class="group-pill" onclick="filterStatus('approved',this)" style="border-color:var(--success);">Approved <span class="gp-count">1</span></button>
+      <button class="group-pill" onclick="filterStatus('used',this)" style="border-color:var(--blue);">Used <span class="gp-count">1</span></button>
+      <button class="group-pill" onclick="filterStatus('archived',this)" style="border-color:var(--text-03);">Archived <span class="gp-count">1</span></button>
     </div>
 
     <!-- Batch action bar -->
@@ -220,7 +221,7 @@
         <div style="width:130px;"></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">How Retail Tech is Transforming NZ Small Business</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">retail tech</span><span class="tc-keyword">NZ</span><span class="tc-keyword">POS</span></div>
@@ -231,7 +232,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">5 Signs Your Business Needs a Digital Upgrade</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">digital</span><span class="tc-keyword">SMB</span></div>
@@ -242,7 +243,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">Easter Sale: How to Maximise Foot Traffic This April</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">Easter</span><span class="tc-keyword">retail</span></div>
@@ -253,7 +254,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">Behind the Counter: A Day in the Life of a NZ Retailer</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">storytelling</span><span class="tc-keyword">video</span></div>
@@ -264,7 +265,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">New POS Terminal Launch Announcement</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">launch</span><span class="tc-keyword">POS</span></div>
@@ -275,7 +276,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="approved" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">Contactless Payments: Why NZ Leads the World</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">contactless</span><span class="tc-keyword">payments</span></div>
@@ -286,7 +287,7 @@
         <div style="width:130px;"><button class="btn btn-outline btn-xs" onclick="event.stopPropagation()">View Job</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="pending" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">The Complete Guide to Choosing a POS System</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">POS guide</span><span class="tc-keyword">comparison</span></div>
@@ -297,7 +298,7 @@
         <div style="width:130px;"><button class="btn btn-primary btn-xs" onclick="event.stopPropagation()">Approve & Create</button></div>
       </div>
 
-      <div class="topic-row" onclick="toggleSelect(this)">
+      <div class="topic-row" data-status="used" onclick="toggleSelect(this)">
         <div class="tc-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="tc-content" style="flex:1;"><div class="tc-title">New Year, New Systems: Retail Tech Trends for 2026</div></div>
         <div class="tc-keywords" style="width:160px;"><span class="tc-keyword">trends</span><span class="tc-keyword">2026</span></div>
@@ -313,18 +314,39 @@
 </div>
 
 <script>
-function toggleSelect(card) {
-  card.classList.toggle('selected');
+// Batch selection
+function toggleSelect(row) {
+  row.classList.toggle('selected');
   updateBatch();
 }
 function updateBatch() {
-  const selected = document.querySelectorAll('.topic-card.selected').length;
+  const selected = document.querySelectorAll('.topic-row.selected').length;
   document.getElementById('batchCount').textContent = selected;
   document.getElementById('batchBar').classList.toggle('show', selected > 0);
 }
 function clearSelection() {
-  document.querySelectorAll('.topic-card.selected').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.topic-row.selected').forEach(c => c.classList.remove('selected'));
   updateBatch();
+}
+
+// Status filter
+function filterStatus(status, btn) {
+  document.querySelectorAll('.group-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.topic-row').forEach(row => {
+    if (status === 'all') {
+      row.style.display = '';
+      row.style.animation = 'fadeRow 0.2s ease';
+    } else {
+      if (row.dataset.status === status) {
+        row.style.display = '';
+        row.style.animation = 'fadeRow 0.2s ease';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+  clearSelection();
 }
 </script>
 
