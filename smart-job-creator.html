@@ -91,7 +91,7 @@
   /* Channel selector — Step 1 bottom */
   /* Writing style pills */
   .style-section { max-width: 600px; margin: 0 auto 24px; width: 100%; }
-  .style-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; text-align: center; }
+  .style-label { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 10px; text-align: center; }
   .style-pills { display: flex; gap: 8px; justify-content: center; }
   .style-pill {
     padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 500;
@@ -101,20 +101,27 @@
   .style-pill:hover { border-color: var(--border); }
   .style-pill.selected { background: var(--text-01); color: white; border-color: var(--text-01); }
 
-  /* Channel selector — with names + logos */
-  .channel-select { display: flex; gap: 10px; justify-content: center; margin-top: 24px; flex-wrap: wrap; max-width: 700px; }
+  /* Channel selector — uniform grid */
+  .channel-select { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; max-width: 560px; width: 100%; }
   .ch-btn {
-    display: flex; align-items: center; gap: 8px; padding: 10px 16px;
-    border-radius: 12px; border: 1.5px solid var(--line); background: white;
+    display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px;
+    border-radius: 14px; border: 1.5px solid var(--line); background: white;
     cursor: pointer; transition: all 0.15s; position: relative;
-    font-family: 'Satoshi', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-02);
+    font-family: 'Satoshi', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-02);
+    min-height: 80px; justify-content: center;
   }
-  .ch-btn:hover { border-color: var(--border); }
+  .ch-btn:hover { border-color: var(--border); background: var(--bg-secondary); }
   .ch-btn.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
   .ch-btn.selected::after { content: '✓'; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-  .ch-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ch-icon img { width: 24px; height: 24px; border-radius: 4px; }
-  .ch-label { font-size: 12px; color: var(--text-03); text-align: center; margin-top: 16px; }
+  .ch-btn.disconnected { border-color: var(--line); background: var(--bg-secondary); opacity: 0.7; cursor: default; }
+  .ch-btn.disconnected:hover { border-color: var(--border); opacity: 0.85; }
+  .ch-btn.disconnected .ch-connect { display: flex; }
+  .ch-connect { display: none; align-items: center; gap: 2px; font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; margin-top: 2px; }
+  .ch-connect:hover { text-decoration: underline; }
+  .ch-connect svg { width: 12px; height: 12px; stroke: var(--primary); fill: none; stroke-width: 2; }
+  .ch-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ch-icon svg { width: 18px; height: 18px; }
+  .ch-label-section { font-size: 14px; font-weight: 600; color: var(--text-01); text-align: center; margin-top: 20px; margin-bottom: 4px; }
 
   /* Quality + Video options */
   .options-row { display: flex; gap: 12px; justify-content: center; margin-top: 20px; max-width: 600px; }
@@ -141,6 +148,29 @@
   }
   .option-toggle input:checked + .option-toggle-track { background: var(--primary); }
   .option-toggle input:checked + .option-toggle-track::after { transform: translateX(18px); }
+  /* Info tooltip */
+  .option-info {
+    position: absolute; top: 8px; right: 8px; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--bg-secondary); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--text-03); cursor: help;
+    transition: all 0.15s;
+  }
+  .option-info:hover { background: var(--text-01); color: white; border-color: var(--text-01); }
+  .option-info:hover .option-tooltip { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .option-tooltip {
+    position: absolute; bottom: calc(100% + 8px); right: -8px;
+    background: var(--text-01); color: white; font-size: 12px; font-weight: 400;
+    padding: 10px 14px; border-radius: 10px; width: 220px; line-height: 1.5;
+    opacity: 0; transform: translateY(4px); pointer-events: none;
+    transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-align: left;
+  }
+  .option-tooltip::after {
+    content: ''; position: absolute; top: 100%; right: 14px;
+    border: 5px solid transparent; border-top-color: var(--text-01);
+  }
+  .option-card { position: relative; }
 
   /* Generate button */
   .generate-btn-wrap { margin-top: 32px; }
@@ -327,37 +357,50 @@
         </div>
 
         <!-- Platforms with names + brand icons -->
-        <div class="ch-label">Generate for:</div>
+        <div class="ch-label-section">Generate for</div>
         <div class="channel-select">
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:var(--primary);border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            <div class="ch-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
             Blog
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743);border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+            <div class="ch-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
             Instagram
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:#0A66C2;border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
+            <div class="ch-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
             LinkedIn
           </div>
           <div class="ch-btn" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:#1877F2;border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+            <div class="ch-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
             Facebook
           </div>
-          <div class="ch-btn" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:#111827;border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/></svg></div>
-            X (Twitter)
+          <div class="ch-btn disconnected" onclick="event.stopPropagation()">
+            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg></div>
+            YouTube
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
           </div>
-          <div class="ch-btn" onclick="this.classList.toggle('selected')">
-            <div class="ch-icon" style="background:#111827;border-radius:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="ch-btn disconnected" onclick="event.stopPropagation()">
+            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/></svg></div>
+            X (Twitter)
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+          </div>
+          <div class="ch-btn disconnected" onclick="event.stopPropagation()">
+            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="4"/></svg></div>
             TikTok
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+          </div>
+          <div class="ch-btn disconnected" onclick="event.stopPropagation()">
+            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            Google Biz
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
           </div>
         </div>
 
         <!-- Quality + Video options -->
         <div class="options-row">
           <div class="option-card">
+            <div class="option-info">i<div class="option-tooltip">Uses advanced AI models (GPT-5, Claude) for deeper research, better tone matching, and more engaging content. Best for key campaigns.</div></div>
             <div class="option-card-icon" style="background:var(--purple-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
             <div class="option-card-text">
               <div class="option-card-title">Premium Quality</div>
@@ -366,6 +409,7 @@
             <label class="option-toggle"><input type="checkbox"><span class="option-toggle-track"></span></label>
           </div>
           <div class="option-card">
+            <div class="option-info">i<div class="option-tooltip">Generates a short (15-60s) teaser video from your blog content. Optimised for IG Reels, TikTok, and YouTube Shorts.</div></div>
             <div class="option-card-icon" style="background:var(--blue-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
             <div class="option-card-text">
               <div class="option-card-title">Intro Video</div>
@@ -526,6 +570,22 @@ Key takeaways:
 </div>
 
 <script>
+function connectChannel(el) {
+  const btn = el.closest('.ch-btn');
+  // Simulate connection
+  el.innerHTML = '<svg viewBox="0 0 24 24" stroke-linecap="round" style="width:12px;height:12px;stroke:var(--success);fill:none;stroke-width:2;animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10"/></svg> Connecting...';
+  setTimeout(() => {
+    btn.classList.remove('disconnected');
+    btn.classList.add('selected');
+    el.remove();
+    // Restore icon color
+    const icon = btn.querySelector('.ch-icon');
+    const name = btn.textContent.trim();
+    const colors = { YouTube: '#FF0000', 'X (Twitter)': '#111827', TikTok: '#111827', 'Google Biz': '#4285F4' };
+    icon.style.background = colors[name] || 'var(--primary)';
+  }, 1500);
+}
+
 function pickSuggestion(card, text) {
   document.querySelectorAll('.ai-sug-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
