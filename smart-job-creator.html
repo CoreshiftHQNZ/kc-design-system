@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyContent — Smart Job Creator</title>
+<title>KeyContent — Smart Job Creator v2</title>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,391 +21,423 @@
   }
 
   /* Backdrop */
-  .creator-backdrop {
-    position: fixed; inset: 0; background: rgba(17,24,39,0.4); backdrop-filter: blur(4px);
-    display: flex; justify-content: flex-end; z-index: 100;
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(17,24,39,0.5); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
     animation: fadeIn 0.2s ease;
   }
 
-  /* Slide-over panel — 60% width */
-  .creator-panel {
-    width: 60%; max-width: 960px; background: linear-gradient(180deg, rgba(240,226,255,0.15) 0%, var(--bg-page) 100%);
-    height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-    box-shadow: -12px 0 40px rgba(0,0,0,0.12);
-    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Floating modal — centered, large */
+  .modal-panel {
+    width: 92vw; max-width: 1200px; height: 88vh; max-height: 800px;
+    background: var(--bg-card); border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; overflow: hidden;
+    animation: scaleIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* === STEP 1: Topic Input === */
+  .step { display: flex; flex-direction: column; height: 100%; }
+  .step.hidden { display: none; }
+
   /* Header */
-  .creator-header {
+  .modal-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 28px; background: var(--bg-card); border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
+    padding: 20px 28px; border-bottom: 1px solid var(--line); flex-shrink: 0;
   }
-  .creator-title { font-size: 18px; font-weight: 700; }
-  .creator-context { font-size: 12px; color: var(--text-03); margin-top: 2px; }
-  .creator-context strong { color: var(--text-02); }
-  .creator-close {
+  .modal-title { font-size: 18px; font-weight: 700; }
+  .modal-context { font-size: 12px; color: var(--text-03); margin-top: 2px; }
+  .modal-context strong { color: var(--text-02); }
+  .modal-close {
     width: 36px; height: 36px; border-radius: 50%; border: none; background: transparent;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     color: var(--text-03); font-size: 18px; transition: all 0.15s;
   }
-  .creator-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .modal-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .modal-steps { display: flex; align-items: center; gap: 8px; }
+  .modal-step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: all 0.2s; }
+  .modal-step-dot.active { background: var(--primary); width: 24px; border-radius: 4px; }
 
-  /* Dual tabs */
-  .creator-tabs {
-    display: flex; background: var(--bg-card); border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
+  /* Step 1 body */
+  .step1-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; overflow-y: auto; }
+  .step1-heading { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+  .step1-sub { font-size: 14px; color: var(--text-03); text-align: center; margin-bottom: 28px; }
+
+  /* Topic input area */
+  .topic-input-wrap { width: 100%; max-width: 600px; margin-bottom: 28px; }
+  .topic-input {
+    width: 100%; padding: 14px 18px; border: 2px solid var(--border); border-radius: 14px;
+    font-size: 16px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: none; min-height: 56px; transition: all 0.15s;
+    text-align: center;
   }
-  .creator-tab {
-    flex: 1; padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-03);
-    cursor: pointer; border: none; background: none; font-family: 'Satoshi', sans-serif;
-    border-bottom: 2px solid transparent; transition: all 0.15s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
+  .topic-input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(255,107,53,0.1); }
+  .topic-input::placeholder { color: var(--text-03); }
+  .topic-input.filled { border-color: var(--text-01); border-width: 2px; background: white; }
+
+  .topic-or { font-size: 14px; color: var(--text-03); margin: 18px 0; text-align: center; }
+
+  /* AI suggestions */
+  .ai-suggestions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 700px; }
+  .ai-sug-card {
+    padding: 12px 18px; border: 1.5px solid var(--line); border-radius: 12px;
+    cursor: pointer; transition: all 0.2s; background: var(--bg-card); max-width: 220px;
   }
-  .creator-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
-  .creator-tab:hover { color: var(--text-01); }
-  .creator-tab svg { width: 16px; height: 16px; }
+  .ai-sug-card:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,107,53,0.08); }
+  .ai-sug-card.selected { border-color: var(--primary); background: var(--primary-light); }
+  .ai-sug-badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-bottom: 6px; display: inline-block; }
+  .ai-sug-title { font-size: 14px; font-weight: 600; color: var(--text-01); line-height: 1.4; }
 
-  /* Tab content area */
-  .tab-content { flex-shrink: 0; background: var(--bg-card); border-bottom: 1px solid var(--line); }
-  .tab-panel { display: none; padding: 16px 28px; }
-  .tab-panel.active { display: block; }
-
-  /* AI Recommendations — horizontal scroll */
-  .ai-recs { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; }
-  .ai-rec-card {
-    min-width: 220px; max-width: 240px; padding: 14px 16px; border: 1.5px solid var(--line);
-    border-radius: 14px; cursor: pointer; transition: all 0.2s; background: var(--bg-card);
-    flex-shrink: 0;
+  /* Channel selector — Step 1 bottom */
+  .channel-select { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
+  .ch-btn {
+    width: 48px; height: 48px; border-radius: 12px; border: 2px solid var(--line);
+    background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; position: relative;
   }
-  .ai-rec-card:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,107,53,0.1); }
-  .ai-rec-card.selected { border-color: var(--primary); background: var(--primary-light); }
-  .ai-rec-badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px; display: inline-block; }
-  .ai-rec-title { font-size: 14px; font-weight: 600; color: var(--text-01); line-height: 1.4; margin-bottom: 4px; }
-  .ai-rec-keywords { font-size: 12px; color: var(--text-03); }
+  .ch-btn:hover { border-color: var(--border); }
+  .ch-btn.selected { border-color: var(--primary); background: var(--primary-light); }
+  .ch-btn.selected::after { content: '✓'; position: absolute; top: -4px; right: -4px; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .ch-btn svg { width: 22px; height: 22px; }
+  .ch-label { font-size: 12px; color: var(--text-03); text-align: center; margin-top: 16px; }
 
-  /* Client Request tab */
-  .client-input { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01); background: var(--bg-secondary); resize: none; min-height: 48px; transition: all 0.15s; }
-  .client-input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
-  .client-input::placeholder { color: var(--text-03); }
-  .client-input-row { display: flex; gap: 8px; align-items: flex-start; }
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; }
+  /* Generate button */
+  .generate-btn-wrap { margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.2s; }
   .btn-primary { background: var(--primary); color: white; }
-  .btn-primary:hover { background: #EF6E1E; }
-  .btn-outline { background: transparent; color: var(--text-02); border: 1px solid var(--border); }
+  .btn-primary:hover { background: #EF6E1E; box-shadow: 0 6px 20px rgba(255,107,53,0.25); transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-outline { background: transparent; color: var(--text-02); border: 1.5px solid var(--border); padding: 10px 20px; font-size: 14px; font-weight: 600; }
   .btn-outline:hover { background: var(--bg-secondary); }
-  .btn-sm { padding: 8px 14px; font-size: 12px; }
+  .btn-sm { padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 10px; }
   .btn-dark { background: var(--text-01); color: white; }
 
-  /* Main content — 2 column */
-  .creator-body { flex: 1; overflow-y: auto; display: flex; gap: 0; }
-
-  /* Left — Editor */
-  .editor-col {
-    flex: 1; padding: 24px 28px; border-right: 1px solid var(--line);
-    display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
-  }
-  .editor-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-
-  /* Rich text area */
-  .editor-area {
-    width: 100%; min-height: 180px; padding: 16px; border: 1.5px solid var(--border);
-    border-radius: 12px; font-size: 14px; font-family: 'Satoshi', sans-serif;
-    color: var(--text-01); background: var(--bg-card); line-height: 1.6; resize: vertical;
-    transition: all 0.15s;
-  }
-  .editor-area:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
-  .editor-area.filled { border-color: var(--text-01); border-width: 2px; }
-  .editor-area::placeholder { color: var(--text-03); }
-
-  /* Toolbar */
-  .editor-toolbar {
-    display: flex; align-items: center; gap: 4px; padding: 6px 8px;
-    background: var(--bg-secondary); border-radius: 10px; margin-bottom: 8px;
-  }
-  .toolbar-btn {
-    width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: var(--text-02); transition: all 0.12s; font-size: 14px;
-  }
-  .toolbar-btn:hover { background: var(--bg-card); color: var(--text-01); }
-  .toolbar-divider { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
-
-  /* Image upload */
-  .editor-upload {
-    border: 2px dashed var(--border); border-radius: 12px; padding: 24px;
-    text-align: center; cursor: pointer; transition: all 0.15s; background: var(--bg-secondary);
-  }
-  .editor-upload:hover { border-color: var(--primary); background: var(--primary-light); }
-  .editor-upload svg { margin-bottom: 6px; }
-  .editor-upload-text { font-size: 14px; color: var(--text-02); }
-  .editor-upload-text span { color: var(--primary); font-weight: 600; }
-  .editor-upload-hint { font-size: 12px; color: var(--text-03); margin-top: 4px; }
-
-  /* Right — Settings */
-  .settings-col {
-    width: 280px; flex-shrink: 0; padding: 24px 20px;
-    display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
-  }
-  .settings-section { }
-  .settings-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-
-  /* Channel selector */
-  .channel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .channel-btn {
-    display: flex; align-items: center; gap: 8px; padding: 10px 12px;
-    border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer;
-    transition: all 0.15s; background: var(--bg-card); font-size: 12px;
-    font-weight: 500; color: var(--text-02); font-family: 'Satoshi', sans-serif;
-  }
-  .channel-btn:hover { border-color: var(--border); }
-  .channel-btn.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
-  .channel-icon { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .channel-icon svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; }
-  .channel-check { margin-left: auto; width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; }
-  .channel-btn.selected .channel-check { background: var(--primary); border-color: var(--primary); }
-  .channel-btn.selected .channel-check svg { display: block; }
-  .channel-check svg { width: 10px; height: 10px; stroke: white; stroke-width: 3; fill: none; display: none; }
-
-  /* Content type */
-  .content-type-row { display: flex; gap: 6px; flex-wrap: wrap; }
-  .content-type-btn {
-    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500;
-    cursor: pointer; border: 1px solid var(--line); background: var(--bg-card);
-    color: var(--text-02); font-family: 'Satoshi', sans-serif; transition: all 0.15s;
-  }
-  .content-type-btn.selected { background: var(--text-01); color: white; border-color: var(--text-01); }
-  .content-type-btn:hover:not(.selected) { border-color: var(--border); }
-
-  /* Schedule picker */
-  .schedule-row { display: flex; gap: 8px; }
-  .schedule-input {
-    flex: 1; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px;
-    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
-    background: var(--bg-secondary); transition: all 0.15s;
-  }
-  .schedule-input:focus { outline: none; border-color: var(--primary); background: white; }
-
-  /* SNS Preview mini */
-  .preview-section { background: var(--bg-secondary); border-radius: 12px; padding: 14px; }
-  .preview-title { font-size: 12px; font-weight: 600; color: var(--text-03); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-  .preview-mock { background: white; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-  .preview-mock-header { display: flex; align-items: center; gap: 6px; padding: 8px 10px; font-size: 12px; }
-  .preview-mock-avatar { width: 20px; height: 20px; border-radius: 50%; }
-  .preview-mock-user { font-weight: 600; color: #262626; }
-  .preview-mock-img { width: 100%; aspect-ratio: 1/1; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
-  .preview-mock-img svg { opacity: 0.2; }
-  .preview-mock-caption { padding: 8px 10px; font-size: 12px; color: #262626; line-height: 1.4; }
-  .preview-mock-caption strong { font-weight: 600; }
-
-  /* Sticky footer */
-  .creator-footer {
+  /* === STEP 2: Results — All Platforms === */
+  .step2-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 28px; background: var(--bg-card); border-top: 1px solid var(--line);
-    flex-shrink: 0;
+    padding: 16px 28px; border-bottom: 1px solid var(--line); flex-shrink: 0;
   }
-  .footer-secondary { font-size: 14px; color: var(--text-03); cursor: pointer; font-weight: 500; }
-  .footer-secondary:hover { color: var(--text-02); text-decoration: underline; }
-  .footer-primary { display: flex; gap: 8px; }
+  .step2-topic { font-size: 14px; color: var(--text-02); }
+  .step2-topic strong { color: var(--text-01); }
+
+  .step2-body { flex: 1; overflow-y: auto; padding: 20px 24px; background: var(--bg-page); }
+
+  /* Platform outputs grid */
+  .outputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .output-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; transition: all 0.2s;
+  }
+  .output-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .output-card.full-width { grid-column: 1 / -1; }
+
+  .output-header {
+    display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+    border-bottom: 1px solid var(--line-02);
+  }
+  .output-platform-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .output-platform-icon svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; }
+  .output-platform-name { font-size: 14px; font-weight: 600; }
+  .output-badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin-left: auto; }
+  .output-edit-btn { margin-left: 8px; font-size: 12px; color: var(--primary); font-weight: 500; cursor: pointer; }
+  .output-edit-btn:hover { text-decoration: underline; }
+
+  /* SNS mock inside output card */
+  .output-mock { padding: 12px; }
+  .output-mock-frame { background: white; border: 1px solid #E5E5E5; border-radius: 10px; overflow: hidden; }
+  .omf-header { display: flex; align-items: center; gap: 6px; padding: 8px 10px; }
+  .omf-avatar { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; }
+  .omf-user { font-size: 12px; font-weight: 600; color: #262626; }
+  .omf-sub { font-size: 12px; color: #999; }
+  .omf-img { width: 100%; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
+  .omf-img svg { opacity: 0.2; }
+  .omf-caption { padding: 8px 10px; font-size: 12px; color: #262626; line-height: 1.5; }
+  .omf-caption strong { font-weight: 600; }
+  .omf-actions { display: flex; gap: 10px; padding: 6px 10px; }
+  .omf-actions svg { width: 18px; height: 18px; cursor: pointer; }
+
+  /* Blog output (full width) */
+  .output-blog { padding: 16px; }
+  .blog-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+  .blog-excerpt { font-size: 14px; color: var(--text-02); line-height: 1.7; }
+  .blog-read-more { font-size: 14px; color: var(--primary); font-weight: 600; margin-top: 8px; cursor: pointer; }
+
+  /* Caption edit inline */
+  .output-caption-edit {
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 12px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: vertical; min-height: 60px; line-height: 1.5;
+    transition: all 0.15s; display: none;
+  }
+  .output-caption-edit.show { display: block; margin: 0 12px 12px; }
+  .output-caption-edit:focus { outline: none; border-color: var(--primary); background: white; }
+
+  /* Footer */
+  .modal-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px; border-top: 1px solid var(--line); flex-shrink: 0;
+    background: var(--bg-card);
+  }
+  .footer-left { font-size: 14px; color: var(--text-03); cursor: pointer; font-weight: 500; }
+  .footer-left:hover { color: var(--text-02); text-decoration: underline; }
+  .footer-right { display: flex; gap: 8px; }
+
+  /* Schedule row in footer */
+  .footer-schedule { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-02); }
+  .footer-schedule svg { width: 16px; height: 16px; stroke: var(--text-03); fill: none; stroke-width: 1.8; }
+  .footer-schedule input {
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; background: var(--bg-secondary);
+  }
+
+  /* Loading state */
+  .loading-overlay {
+    position: absolute; inset: 0; background: rgba(255,255,255,0.9);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 10; border-radius: 24px;
+  }
+  .loading-overlay.hidden { display: none; }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--line); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+  .loading-text { font-size: 16px; font-weight: 600; color: var(--text-01); }
+  .loading-sub { font-size: 14px; color: var(--text-03); margin-top: 4px; }
+  .loading-platforms { display: flex; gap: 8px; margin-top: 16px; }
+  .loading-platform { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; animation: pulse 1.5s ease infinite; }
+  .loading-platform:nth-child(2) { animation-delay: 0.2s; }
+  .loading-platform:nth-child(3) { animation-delay: 0.4s; }
+  .loading-platform:nth-child(4) { animation-delay: 0.6s; }
+  .loading-platform svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 </style>
 </head>
-<body>
+<body style="background:#0f0f0f;">
 
-<!-- Jobs board behind (dimmed) -->
-<div style="padding:40px;opacity:0.3;">
-  <div style="font-size:24px;font-weight:700;margin-bottom:8px;">Jobs Board</div>
-  <div style="font-size:14px;color:var(--text-03);">Background content — kanban board would be here</div>
+<!-- Background dimmed -->
+<div style="padding:40px;opacity:0.15;">
+  <div style="font-size:24px;font-weight:700;color:white;">Jobs Board</div>
 </div>
 
-<!-- Smart Job Creator slide-over -->
-<div class="creator-backdrop" onclick="event.target===this && this.style.display='none'">
-  <div class="creator-panel">
+<!-- Modal -->
+<div class="modal-backdrop">
+  <div class="modal-panel" style="position:relative;">
 
-    <!-- Header -->
-    <div class="creator-header">
-      <div>
-        <div class="creator-title">Create New Post</div>
-        <div class="creator-context">for <strong>Yumi LTD</strong> · Tone: <strong>Professional</strong></div>
-      </div>
-      <button class="creator-close">✕</button>
-    </div>
-
-    <!-- Dual Tabs -->
-    <div class="creator-tabs">
-      <button class="creator-tab active" onclick="switchTab('ai',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        AI Recommendations
-      </button>
-      <button class="creator-tab" onclick="switchTab('client',this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Client Request
-      </button>
-    </div>
-
-    <!-- Tab Content -->
-    <div class="tab-content">
-      <!-- AI Recommendations -->
-      <div class="tab-panel active" id="tabAI">
-        <div style="font-size:12px;color:var(--text-03);margin-bottom:10px;">Based on Yumi LTD's business context. Click one to generate a draft.</div>
-        <div class="ai-recs">
-          <div class="ai-rec-card selected" onclick="selectRec(this)">
-            <div class="ai-rec-badge" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</div>
-            <div class="ai-rec-title">How Retail Tech is Transforming NZ in 2026</div>
-            <div class="ai-rec-keywords">retail tech · NZ · POS</div>
-          </div>
-          <div class="ai-rec-card" onclick="selectRec(this)">
-            <div class="ai-rec-badge" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</div>
-            <div class="ai-rec-title">5 Signs Your Business Needs a Digital Upgrade</div>
-            <div class="ai-rec-keywords">digital · SMB · efficiency</div>
-          </div>
-          <div class="ai-rec-card" onclick="selectRec(this)">
-            <div class="ai-rec-badge" style="background:var(--purple-light);color:var(--purple);">📅 Easter</div>
-            <div class="ai-rec-title">Easter Sale: Maximise Foot Traffic This April</div>
-            <div class="ai-rec-keywords">Easter · seasonal · retail</div>
-          </div>
-          <div class="ai-rec-card" onclick="selectRec(this)">
-            <div class="ai-rec-badge" style="background:var(--blue-light);color:var(--blue);">💡 AI Pick</div>
-            <div class="ai-rec-title">Behind the Counter: A Day in NZ Retail</div>
-            <div class="ai-rec-keywords">storytelling · video</div>
-          </div>
-        </div>
-      </div>
-      <!-- Client Request -->
-      <div class="tab-panel" id="tabClient">
-        <div style="font-size:12px;color:var(--text-03);margin-bottom:10px;">Enter keywords or a brief for the AI to generate content.</div>
-        <div class="client-input-row">
-          <textarea class="client-input" placeholder="e.g. Spring Sale 20% off, new POS terminal launch, customer success story..."></textarea>
-          <button class="btn btn-primary btn-sm" style="flex-shrink:0;margin-top:2px;">Generate Draft</button>
-        </div>
+    <!-- Loading overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Generating content for all platforms...</div>
+      <div class="loading-sub">This usually takes 15-30 seconds</div>
+      <div class="loading-platforms">
+        <div class="loading-platform" style="background:var(--primary);"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
+        <div class="loading-platform" style="background:linear-gradient(45deg,#f09433,#dc2743);"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+        <div class="loading-platform" style="background:#0A66C2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/></svg></div>
+        <div class="loading-platform" style="background:#1877F2;"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
       </div>
     </div>
 
-    <!-- Main 2-column -->
-    <div class="creator-body">
-      <!-- Left — Editor -->
-      <div class="editor-col">
+    <!-- STEP 1: Topic + Channels -->
+    <div class="step" id="step1">
+      <div class="modal-header">
         <div>
-          <div class="editor-label">Content</div>
-          <div class="editor-toolbar">
-            <button class="toolbar-btn"><strong>B</strong></button>
-            <button class="toolbar-btn"><em>I</em></button>
-            <button class="toolbar-btn" style="text-decoration:underline;">U</button>
-            <div class="toolbar-divider"></div>
-            <button class="toolbar-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-            </button>
-            <button class="toolbar-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            </button>
-            <div class="toolbar-divider"></div>
-            <button class="toolbar-btn">😊</button>
-            <button class="toolbar-btn">#</button>
-          </div>
-          <textarea class="editor-area filled" oninput="updatePreview(this.value)">Revolutionise your retail game! 🚀
-
-Our POS Terminal handles everything from sales to stock management — so you can focus on what matters most: your customers.
-
-✅ Real-time inventory tracking
-✅ Contactless payments
-✅ Cloud-based analytics dashboard
-
-Ready to transform your business? Link in bio.
-
-#RetailTech #NZBusiness #Storepro #POS #SmallBusiness</textarea>
+          <div class="modal-title">Create New Post</div>
+          <div class="modal-context">for <strong>Yumi LTD</strong> · Tone: <strong>Professional</strong></div>
         </div>
-
-        <div>
-          <div class="editor-label">Image / Media</div>
-          <div class="editor-upload" ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" ondragleave="this.style.borderColor='';this.style.background=''">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <div class="editor-upload-text">Drop image or <span>browse</span></div>
-            <div class="editor-upload-hint">PNG, JPG up to 10MB · 1080×1080 for IG</div>
-          </div>
+        <div class="modal-steps">
+          <div class="modal-step-dot active"></div>
+          <div class="modal-step-dot"></div>
         </div>
       </div>
 
-      <!-- Right — Settings -->
-      <div class="settings-col">
-        <!-- Channels -->
-        <div class="settings-section">
-          <div class="settings-label">Channels</div>
-          <div class="channel-grid">
-            <div class="channel-btn selected" onclick="this.classList.toggle('selected')">
-              <div class="channel-icon" style="background:linear-gradient(45deg,#f09433,#dc2743);"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
-              Instagram
-              <div class="channel-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            </div>
-            <div class="channel-btn selected" onclick="this.classList.toggle('selected')">
-              <div class="channel-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/></svg></div>
-              LinkedIn
-              <div class="channel-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            </div>
-            <div class="channel-btn" onclick="this.classList.toggle('selected')">
-              <div class="channel-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-              Facebook
-              <div class="channel-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            </div>
-            <div class="channel-btn" onclick="this.classList.toggle('selected')">
-              <div class="channel-icon" style="background:#111827;"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/></svg></div>
-              X / Twitter
-              <div class="channel-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            </div>
+      <div class="step1-body">
+        <div class="step1-heading">What should we write about?</div>
+        <div class="step1-sub">Enter a topic or pick an AI recommendation. We'll create content for all selected platforms.</div>
+
+        <div class="topic-input-wrap">
+          <textarea class="topic-input" id="topicInput" placeholder="e.g. Spring Sale 20% off all POS terminals" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
+        </div>
+
+        <div class="topic-or">— or pick a suggestion —</div>
+
+        <div class="ai-suggestions">
+          <div class="ai-sug-card" onclick="pickSuggestion(this,'How Retail Tech is Transforming NZ')">
+            <div class="ai-sug-badge" style="background:var(--primary-light);color:var(--primary);">🔥 Trending</div>
+            <div class="ai-sug-title">How Retail Tech is Transforming NZ</div>
+          </div>
+          <div class="ai-sug-card" onclick="pickSuggestion(this,'5 Signs You Need a Digital Upgrade')">
+            <div class="ai-sug-badge" style="background:var(--success-light);color:var(--success);">🌿 Evergreen</div>
+            <div class="ai-sug-title">5 Signs You Need a Digital Upgrade</div>
+          </div>
+          <div class="ai-sug-card" onclick="pickSuggestion(this,'Easter Sale — Maximise Foot Traffic')">
+            <div class="ai-sug-badge" style="background:var(--purple-light);color:var(--purple);">📅 Seasonal</div>
+            <div class="ai-sug-title">Easter Sale — Maximise Foot Traffic</div>
           </div>
         </div>
 
-        <!-- Content Type -->
-        <div class="settings-section">
-          <div class="settings-label">Post Type</div>
-          <div class="content-type-row">
-            <button class="content-type-btn selected" onclick="this.parentElement.querySelectorAll('.content-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')">Blog</button>
-            <button class="content-type-btn" onclick="this.parentElement.querySelectorAll('.content-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')">Social Post</button>
-            <button class="content-type-btn" onclick="this.parentElement.querySelectorAll('.content-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')">Video</button>
+        <div class="ch-label">Generate for:</div>
+        <div class="channel-select">
+          <div class="ch-btn selected" onclick="this.classList.toggle('selected')" title="Blog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <div class="ch-btn selected" onclick="this.classList.toggle('selected')" title="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#DC2743" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="18" cy="6" r="1" fill="#DC2743"/></svg>
+          </div>
+          <div class="ch-btn selected" onclick="this.classList.toggle('selected')" title="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0A66C2" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4M15 10v7" stroke-linecap="round"/></svg>
+          </div>
+          <div class="ch-btn" onclick="this.classList.toggle('selected')" title="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1877F2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+          <div class="ch-btn" onclick="this.classList.toggle('selected')" title="X">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-8M20 4l-6.768 8"/></svg>
           </div>
         </div>
 
-        <!-- Schedule -->
-        <div class="settings-section">
-          <div class="settings-label">Schedule</div>
-          <div class="schedule-row">
-            <input type="date" class="schedule-input" value="2026-04-07">
-            <input type="time" class="schedule-input" value="09:00" style="width:100px;flex:none;">
-          </div>
-        </div>
-
-        <!-- Live Preview -->
-        <div class="settings-section">
-          <div class="preview-section">
-            <div class="preview-title">
-              Live Preview
-              <span style="font-size:12px;color:var(--primary);cursor:pointer;">Expand</span>
-            </div>
-            <div class="preview-mock">
-              <div class="preview-mock-header">
-                <div class="preview-mock-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
-                <span class="preview-mock-user">storepro_nz</span>
-              </div>
-              <div class="preview-mock-img">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              </div>
-              <div class="preview-mock-caption" id="previewCaption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 Our POS Terminal handles everything...</div>
-            </div>
-          </div>
+        <div class="generate-btn-wrap">
+          <button class="btn btn-primary" onclick="generateAll()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Generate for All Platforms
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Sticky Footer -->
-    <div class="creator-footer">
-      <span class="footer-secondary">Save as Draft</span>
-      <div class="footer-primary">
-        <button class="btn btn-outline">Preview All Channels</button>
-        <button class="btn btn-primary" style="padding:12px 28px;font-size:16px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Save & Send to Client
-        </button>
+    <!-- STEP 2: Results — All Platforms -->
+    <div class="step hidden" id="step2">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Review & Edit</div>
+          <div class="modal-context">Topic: <strong id="resultTopic">How Retail Tech is Transforming NZ</strong></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="modal-steps">
+            <div class="modal-step-dot"></div>
+            <div class="modal-step-dot active"></div>
+          </div>
+          <button class="modal-close" onclick="goBack()">✕</button>
+        </div>
+      </div>
+
+      <div class="step2-body">
+        <div class="outputs-grid">
+
+          <!-- Blog — full width -->
+          <div class="output-card full-width">
+            <div class="output-header">
+              <div class="output-platform-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+              <div class="output-platform-name">Blog Post</div>
+              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
+              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
+            </div>
+            <div class="output-blog">
+              <div class="blog-title">How Retail Tech is Transforming NZ Small Business in 2026</div>
+              <div class="blog-excerpt">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions, modern POS systems are enabling store owners to focus on what matters most — their customers.
+
+In this guide, we explore the top 5 POS features that are driving growth for NZ retailers in 2026, including real-time analytics, cloud-based inventory, and integrated customer loyalty programmes...</div>
+              <div class="blog-read-more">Read full article →</div>
+            </div>
+            <textarea class="output-caption-edit" placeholder="Edit blog content..."></textarea>
+          </div>
+
+          <!-- Instagram -->
+          <div class="output-card">
+            <div class="output-header">
+              <div class="output-platform-icon" style="background:linear-gradient(45deg,#f09433,#dc2743);"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+              <div class="output-platform-name">Instagram</div>
+              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
+              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
+            </div>
+            <div class="output-mock">
+              <div class="output-mock-frame">
+                <div class="omf-header">
+                  <div class="omf-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
+                  <span class="omf-user">storepro_nz</span>
+                </div>
+                <div class="omf-img" style="aspect-ratio:1/1;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                <div class="omf-actions">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </div>
+                <div class="omf-caption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 POS that handles everything. #RetailTech #NZBusiness</div>
+              </div>
+            </div>
+            <textarea class="output-caption-edit" placeholder="Edit Instagram caption...">Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock. #RetailTech #NZBusiness #Storepro</textarea>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="output-card">
+            <div class="output-header">
+              <div class="output-platform-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
+              <div class="output-platform-name">LinkedIn</div>
+              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
+              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
+            </div>
+            <div class="output-mock">
+              <div class="output-mock-frame">
+                <div class="omf-header">
+                  <div class="omf-avatar" style="background:#0A66C2;"></div>
+                  <div><span class="omf-user">Storepro</span><br><span class="omf-sub">1,234 followers · Just now</span></div>
+                </div>
+                <div style="padding:0 10px 8px;font-size:12px;color:#333;line-height:1.5;">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront of this transformation with our latest POS innovations. Here's what's changing...</div>
+                <div class="omf-img" style="aspect-ratio:1.91/1;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                <div style="padding:6px 10px;border-top:1px solid #E5E5E5;font-size:12px;color:#666;display:flex;gap:14px;">
+                  <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span>
+                </div>
+              </div>
+            </div>
+            <textarea class="output-caption-edit" placeholder="Edit LinkedIn post...">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront with our POS innovations. 🚀
+
+Key takeaways:
+• Real-time inventory tracking
+• Contactless payment integration
+• Cloud-based analytics
+
+#RetailTech #Innovation #NZBusiness</textarea>
+          </div>
+
+          <!-- Facebook -->
+          <div class="output-card">
+            <div class="output-header">
+              <div class="output-platform-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+              <div class="output-platform-name">Facebook</div>
+              <span class="output-badge" style="background:var(--warning-light);color:var(--warning);">Generating...</span>
+            </div>
+            <div class="output-mock">
+              <div class="output-mock-frame" style="opacity:0.5;">
+                <div class="omf-header">
+                  <div class="omf-avatar" style="background:#1877F2;"></div>
+                  <span class="omf-user">Storepro NZ</span>
+                </div>
+                <div style="padding:10px;text-align:center;color:var(--text-03);font-size:12px;">
+                  <div class="loading-spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 8px;"></div>
+                  Generating Facebook post...
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer with schedule + actions -->
+      <div class="modal-footer">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span class="footer-left" onclick="goBack()">← Back to Topic</span>
+          <span class="footer-left">Save as Draft</span>
+        </div>
+        <div class="footer-right" style="display:flex;align-items:center;gap:12px;">
+          <div class="footer-schedule">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <input type="date" value="2026-04-07">
+            <input type="time" value="09:00" style="width:80px;">
+          </div>
+          <button class="btn btn-primary" style="padding:12px 24px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Save & Send to Client
+          </button>
+        </div>
       </div>
     </div>
 
@@ -413,28 +445,31 @@ Ready to transform your business? Link in bio.
 </div>
 
 <script>
-function switchTab(tab, btn) {
-  document.querySelectorAll('.creator-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById(tab === 'ai' ? 'tabAI' : 'tabClient').classList.add('active');
-}
-
-function selectRec(card) {
-  document.querySelectorAll('.ai-rec-card').forEach(c => c.classList.remove('selected'));
+function pickSuggestion(card, text) {
+  document.querySelectorAll('.ai-sug-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
-  // Simulate draft generation
-  const editor = document.querySelector('.editor-area');
-  const title = card.querySelector('.ai-rec-title').textContent;
-  editor.value = `${title}\n\nAI-generated draft based on Yumi LTD's business context and tone...\n\n✅ Key point 1\n✅ Key point 2\n✅ Key point 3\n\n#RetailTech #NZBusiness`;
-  editor.classList.add('filled');
-  updatePreview(editor.value);
+  document.getElementById('topicInput').value = text;
+  document.getElementById('topicInput').classList.add('filled');
 }
 
-function updatePreview(text) {
-  const preview = document.getElementById('previewCaption');
-  const truncated = text.substring(0, 100).replace(/\n/g, ' ');
-  preview.innerHTML = '<strong>storepro_nz</strong> ' + truncated + '...';
+function generateAll() {
+  const topic = document.getElementById('topicInput').value || 'How Retail Tech is Transforming NZ';
+  document.getElementById('resultTopic').textContent = topic;
+  
+  // Show loading
+  document.getElementById('loadingOverlay').classList.remove('hidden');
+  
+  // Simulate generation time
+  setTimeout(() => {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+  }, 2000);
+}
+
+function goBack() {
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step1').classList.remove('hidden');
 }
 </script>
 
