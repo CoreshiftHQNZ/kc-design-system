@@ -61,7 +61,7 @@
   /* Step 1 body */
   .step1-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; overflow-y: auto; }
   .step1-heading { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 4px; }
-  .step1-sub { font-size: 14px; color: var(--text-03); text-align: center; margin-bottom: 28px; }
+  .step1-sub { font-size: 14px; color: var(--text-03); text-align: center; margin-bottom: 24px; }
 
   /* Topic input area */
   .topic-input-wrap { width: 100%; max-width: 600px; margin-bottom: 28px; }
@@ -75,7 +75,7 @@
   .topic-input::placeholder { color: var(--text-03); }
   .topic-input.filled { border-color: var(--text-01); border-width: 2px; background: white; }
 
-  .topic-or { font-size: 14px; color: var(--text-03); margin: 18px 0; text-align: center; }
+  .topic-or { font-size: 14px; color: var(--text-03); margin: 20px 0; text-align: center; }
 
   /* AI suggestions */
   .ai-suggestions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 700px; }
@@ -90,7 +90,7 @@
 
   /* Channel selector — Step 1 bottom */
   /* Writing style pills */
-  .style-section { max-width: 600px; margin: 0 auto 24px; width: 100%; }
+  .style-section { max-width: 600px; margin: 0 auto 20px; width: 100%; }
   .style-label { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 10px; text-align: center; }
   .style-pills { display: flex; gap: 8px; justify-content: center; }
   .style-pill {
@@ -113,12 +113,22 @@
   .ch-btn:hover { border-color: var(--border); background: var(--bg-secondary); }
   .ch-btn.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
   .ch-btn.selected::after { content: '✓'; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: var(--primary); color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-  .ch-btn.disconnected { border-color: var(--line); background: var(--bg-secondary); opacity: 0.7; cursor: default; }
-  .ch-btn.disconnected:hover { border-color: var(--border); opacity: 0.85; }
+  .ch-btn.disconnected { border-color: var(--line); background: var(--bg-secondary); border-style: dashed; cursor: default; }
+  .ch-btn.disconnected:hover { border-color: var(--primary); border-style: dashed; }
+  .ch-btn.disconnected .ch-name { color: var(--text-03); }
   .ch-btn.disconnected .ch-connect { display: flex; }
-  .ch-connect { display: none; align-items: center; gap: 2px; font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; margin-top: 2px; }
-  .ch-connect:hover { text-decoration: underline; }
+  .ch-connect {
+    display: none; position: absolute; bottom: 6px; right: 6px;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--bg-card);
+    border: 1px solid var(--line); align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s; z-index: 2;
+  }
+  .ch-connect:hover { background: var(--primary); border-color: var(--primary); }
+  .ch-connect:hover svg { stroke: white; }
   .ch-connect svg { width: 12px; height: 12px; stroke: var(--primary); fill: none; stroke-width: 2; }
+  /* Connected indicator */
+  .ch-btn.selected .ch-status { display: block; }
+  .ch-status { display: none; position: absolute; bottom: 6px; left: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--success); border: 2px solid white; }
   .ch-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .ch-icon svg { width: 18px; height: 18px; }
   .ch-label-section { font-size: 14px; font-weight: 600; color: var(--text-01); text-align: center; margin-top: 20px; margin-bottom: 4px; }
@@ -178,6 +188,23 @@
   .btn-primary { background: var(--primary); color: white; }
   .btn-primary:hover { background: #EF6E1E; box-shadow: 0 6px 20px rgba(255,107,53,0.25); transform: translateY(-1px); }
   .btn-primary:active { transform: scale(0.98); }
+
+  /* Generate button — shimmer effect */
+  .btn-generate {
+    background: linear-gradient(135deg, var(--primary), #FF8F5E, var(--primary));
+    background-size: 200% 200%; color: white; position: relative; overflow: hidden;
+    padding: 14px 32px; font-size: 16px; border-radius: 14px;
+    animation: gradientShift 3s ease infinite;
+  }
+  .btn-generate:hover { box-shadow: 0 8px 28px rgba(255,107,53,0.35); transform: translateY(-2px) scale(1.02); }
+  .btn-generate:active { transform: scale(0.97); }
+  .btn-generate::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer 2.5s ease infinite;
+  }
+  @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
   .btn-outline { background: transparent; color: var(--text-02); border: 1.5px solid var(--border); padding: 10px 20px; font-size: 14px; font-weight: 600; }
   .btn-outline:hover { background: var(--bg-secondary); }
   .btn-sm { padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 10px; }
@@ -278,6 +305,28 @@
   .loading-platform:nth-child(4) { animation-delay: 0.6s; }
   .loading-platform svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2; }
 
+  /* OAuth mini popup */
+  .oauth-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--bg-card); border-radius: 16px; padding: 24px 28px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2); z-index: 200; width: 320px;
+    text-align: center; display: none;
+    animation: scaleIn 0.2s ease;
+  }
+  .oauth-popup.show { display: block; }
+  .oauth-popup-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 199;
+    display: none;
+  }
+  .oauth-popup-backdrop.show { display: block; }
+  .oauth-popup-icon { width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; }
+  .oauth-popup-icon svg { width: 24px; height: 24px; }
+  .oauth-popup-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .oauth-popup-desc { font-size: 14px; color: var(--text-03); margin-bottom: 18px; line-height: 1.5; }
+  .oauth-popup-btn { width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .oauth-popup-cancel { font-size: 14px; color: var(--text-03); cursor: pointer; }
+  .oauth-popup-cancel:hover { color: var(--text-02); }
+
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -360,20 +409,24 @@
         <div class="ch-label-section">Generate for</div>
         <div class="channel-select">
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
+            <div class="ch-status"></div>
             <div class="ch-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-            Blog
+            <span class="ch-name">Blog</span>
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
+            <div class="ch-status"></div>
             <div class="ch-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
-            Instagram
+            <span class="ch-name">Instagram</span>
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
+            <div class="ch-status"></div>
             <div class="ch-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
-            LinkedIn
+            <span class="ch-name">LinkedIn</span>
           </div>
-          <div class="ch-btn" onclick="this.classList.toggle('selected')">
+          <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
+            <div class="ch-status"></div>
             <div class="ch-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-            Facebook
+            <span class="ch-name">Facebook</span>
           </div>
           <div class="ch-btn disconnected" onclick="event.stopPropagation()">
             <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg></div>
@@ -419,8 +472,8 @@
           </div>
         </div>
 
-        <div class="generate-btn-wrap">
-          <button class="btn btn-primary" onclick="generateAll()">
+        <div class="generate-btn-wrap" style="margin-top:28px;">
+          <button class="btn btn-generate" onclick="generateAll()">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Generate for All Platforms
           </button>
@@ -569,21 +622,56 @@ Key takeaways:
   </div>
 </div>
 
+<!-- OAuth Connect Popup -->
+<div class="oauth-popup-backdrop" id="oauthBackdrop" onclick="closeOAuth()"></div>
+<div class="oauth-popup" id="oauthPopup">
+  <div class="oauth-popup-icon" style="background:var(--blue-light);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+  </div>
+  <div class="oauth-popup-title">Connect <span id="oauthName">YouTube</span></div>
+  <div class="oauth-popup-desc">Sign in to your account to link it with KeyContent. You'll be redirected to authorize access.</div>
+  <button class="oauth-popup-btn btn-dark" onclick="confirmConnect()">Connect with OAuth</button>
+  <span class="oauth-popup-cancel" onclick="closeOAuth()">Cancel</span>
+</div>
+
 <script>
+let pendingConnectBtn = null;
 function connectChannel(el) {
-  const btn = el.closest('.ch-btn');
-  // Simulate connection
-  el.innerHTML = '<svg viewBox="0 0 24 24" stroke-linecap="round" style="width:12px;height:12px;stroke:var(--success);fill:none;stroke-width:2;animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10"/></svg> Connecting...';
+  pendingConnectBtn = el.closest('.ch-btn');
+  const name = pendingConnectBtn.querySelector('.ch-name')?.textContent || 'Platform';
+  // Show OAuth popup
+  document.getElementById('oauthName').textContent = name;
+  document.getElementById('oauthPopup').classList.add('show');
+  document.getElementById('oauthBackdrop').classList.add('show');
+}
+function confirmConnect() {
+  const popup = document.getElementById('oauthPopup');
+  const connectBtn = popup.querySelector('.oauth-popup-btn');
+  connectBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10"/></svg> Connecting...';
   setTimeout(() => {
-    btn.classList.remove('disconnected');
-    btn.classList.add('selected');
-    el.remove();
-    // Restore icon color
-    const icon = btn.querySelector('.ch-icon');
-    const name = btn.textContent.trim();
-    const colors = { YouTube: '#FF0000', 'X (Twitter)': '#111827', TikTok: '#111827', 'Google Biz': '#4285F4' };
-    icon.style.background = colors[name] || 'var(--primary)';
-  }, 1500);
+    if (pendingConnectBtn) {
+      pendingConnectBtn.classList.remove('disconnected');
+      pendingConnectBtn.classList.add('selected');
+      const connect = pendingConnectBtn.querySelector('.ch-connect');
+      if (connect) connect.remove();
+      // Add status dot
+      const dot = document.createElement('div');
+      dot.className = 'ch-status';
+      pendingConnectBtn.insertBefore(dot, pendingConnectBtn.firstChild);
+      // Restore icon color
+      const icon = pendingConnectBtn.querySelector('.ch-icon');
+      const name = pendingConnectBtn.querySelector('.ch-name')?.textContent || '';
+      const colors = { YouTube: '#FF0000', 'X (Twitter)': '#111827', TikTok: '#111827', 'Google Biz': '#4285F4' };
+      if (colors[name]) icon.style.background = colors[name];
+      pendingConnectBtn.onclick = function() { this.classList.toggle('selected'); };
+    }
+    closeOAuth();
+    connectBtn.innerHTML = 'Connect with OAuth';
+  }, 2000);
+}
+function closeOAuth() {
+  document.getElementById('oauthPopup').classList.remove('show');
+  document.getElementById('oauthBackdrop').classList.remove('show');
 }
 
 function pickSuggestion(card, text) {
