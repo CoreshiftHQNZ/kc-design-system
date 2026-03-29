@@ -129,8 +129,10 @@
   /* Connected indicator */
   .ch-btn.selected .ch-status { display: block; }
   .ch-status { display: none; position: absolute; bottom: 6px; left: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--success); border: 2px solid white; }
-  .ch-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ch-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
   .ch-icon svg { width: 18px; height: 18px; }
+  .ch-icon img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
+  .ch-btn.disconnected .ch-icon img { filter: grayscale(100%); opacity: 0.5; }
   .ch-label-section { font-size: 14px; font-weight: 600; color: var(--text-01); text-align: center; margin-top: 20px; margin-bottom: 4px; }
 
   /* Quality + Video options */
@@ -410,43 +412,42 @@
         <div class="channel-select">
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
             <div class="ch-status"></div>
-            <div class="ch-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-            <span class="ch-name">Blog</span>
-          </div>
-          <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
-            <div class="ch-status"></div>
-            <div class="ch-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
+            <div class="ch-icon"><img src="icons/instagram.png" alt="Instagram"></div>
             <span class="ch-name">Instagram</span>
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
             <div class="ch-status"></div>
-            <div class="ch-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
+            <div class="ch-icon"><img src="icons/linkedin.png" alt="LinkedIn"></div>
             <span class="ch-name">LinkedIn</span>
           </div>
           <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
             <div class="ch-status"></div>
-            <div class="ch-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-            <span class="ch-name">Facebook</span>
+            <div class="ch-icon"><img src="icons/youtube.png" alt="YouTube"></div>
+            <span class="ch-name">YouTube</span>
+          </div>
+          <div class="ch-btn selected" onclick="this.classList.toggle('selected')">
+            <div class="ch-status"></div>
+            <div class="ch-icon"><img src="icons/threads.png" alt="Threads"></div>
+            <span class="ch-name">Threads</span>
           </div>
           <div class="ch-btn disconnected" onclick="event.stopPropagation()">
-            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2"/><polygon points="9.75 8.27 15.5 11.75 9.75 15.23" fill="none"/></svg></div>
-            YouTube
-            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+            <div class="ch-icon"><img src="icons/tiktok.png" alt="TikTok"></div>
+            <span class="ch-name">TikTok</span>
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
           </div>
           <div class="ch-btn disconnected" onclick="event.stopPropagation()">
-            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/></svg></div>
-            X (Twitter)
-            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+            <div class="ch-icon"><img src="icons/reddit.png" alt="Reddit"></div>
+            <span class="ch-name">Reddit</span>
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
           </div>
           <div class="ch-btn disconnected" onclick="event.stopPropagation()">
-            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="4"/></svg></div>
-            TikTok
-            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+            <div class="ch-icon"><img src="icons/bluesky.png" alt="Bluesky"></div>
+            <span class="ch-name">Bluesky</span>
+            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
           </div>
-          <div class="ch-btn disconnected" onclick="event.stopPropagation()">
-            <div class="ch-icon" style="background:#D1D5DB;"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-            Google Biz
-            <span class="ch-connect" onclick="connectChannel(this)"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/></svg> Connect</span>
+          <div class="ch-btn" onclick="this.classList.toggle('selected')">
+            <div class="ch-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="width:18px;height:18px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+            <span class="ch-name">Blog</span>
           </div>
         </div>
 
