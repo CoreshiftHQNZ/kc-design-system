@@ -240,11 +240,11 @@
   }
   .carousel-arrow:hover { background: var(--bg-secondary); border-color: var(--border); color: var(--text-01); }
   .carousel-arrow svg { width: 20px; height: 20px; }
-  .carousel-track { flex: 1; overflow: hidden; }
+  .carousel-track { flex: 1; overflow: hidden; height: 100%; }
   .carousel-slide {
     display: none; animation: carouselIn 0.3s ease;
   }
-  .carousel-slide.active { display: flex; gap: 24px; padding: 24px; }
+  .carousel-slide.active { display: flex; gap: 24px; padding: 24px; overflow-y: auto; max-height: 100%; }
   @keyframes carouselIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
   /* Slide content — full width single platform */
@@ -712,7 +712,6 @@ Key takeaways:
           <span class="footer-left">Save as Draft</span>
         </div>
         <div class="footer-right" style="display:flex;align-items:center;gap:8px;">
-          <button class="btn btn-outline" style="padding:10px 20px;font-size:14px;">Preview All</button>
           <button class="btn btn-primary" style="padding:12px 28px;font-size:16px;font-weight:700;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Save & Send to Client
