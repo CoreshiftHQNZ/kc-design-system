@@ -213,7 +213,7 @@
   /* Generate button — fly animation (Yumi's React style) */
   .btn-generate {
     background: var(--text-01); color: white; position: relative; overflow: hidden;
-    padding: 0.7em 1em 0.7em 0.9em; font-size: 18px; border-radius: 14px;
+    padding: 0.8em 2em 0.8em 1.5em; font-size: 18px; border-radius: 14px;
     display: flex; align-items: center; transition: all 0.2s; cursor: pointer;
     font-family: 'Satoshi', sans-serif; font-weight: 700; border: none;
   }
@@ -225,8 +225,78 @@
   .btn-generate:hover svg { transform: rotate(-15deg) scale(1.2); filter: drop-shadow(0 0 5px #FF6B35); }
   .btn-generate:hover span { transform: translateX(0.5em); }
   .btn-generate:active { transform: scale(0.95); }
+  .btn-generate.loading { background: var(--primary); pointer-events: none; }
   .btn-generate.loading svg { animation: rotate-center 1s linear infinite; }
+  .btn-generate.loading span { }
   @keyframes rotate-center { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+  /* Step 2 — Carousel review */
+  .carousel-wrap { flex: 1; display: flex; align-items: center; gap: 0; overflow: hidden; position: relative; }
+  .carousel-arrow {
+    width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line);
+    background: var(--bg-card); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0; z-index: 5; transition: all 0.15s;
+    color: var(--text-02); margin: 0 12px;
+  }
+  .carousel-arrow:hover { background: var(--bg-secondary); border-color: var(--border); color: var(--text-01); }
+  .carousel-arrow svg { width: 20px; height: 20px; }
+  .carousel-track { flex: 1; overflow: hidden; }
+  .carousel-slide {
+    display: none; animation: carouselIn 0.3s ease;
+  }
+  .carousel-slide.active { display: flex; gap: 24px; padding: 24px; }
+  @keyframes carouselIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+  /* Slide content — full width single platform */
+  .slide-preview { flex: 1; display: flex; flex-direction: column; }
+  .slide-edit { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
+
+  /* Platform indicator in carousel */
+  .carousel-indicator {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px; background: var(--bg-card); border-bottom: 1px solid var(--line-02);
+    flex-shrink: 0;
+  }
+  .carousel-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--line);
+    transition: all 0.2s; cursor: pointer;
+  }
+  .carousel-dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
+
+  /* Slide mock — bigger */
+  .slide-mock { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: white; }
+  .slide-mock-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; }
+  .slide-mock-avatar { width: 36px; height: 36px; border-radius: 50%; }
+  .slide-mock-user { font-size: 14px; font-weight: 600; color: #262626; }
+  .slide-mock-sub { font-size: 12px; color: #999; }
+  .slide-mock-img { width: 100%; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
+  .slide-mock-img svg { opacity: 0.2; }
+  .slide-mock-actions { display: flex; align-items: center; gap: 16px; padding: 12px 16px; }
+  .slide-mock-actions svg { width: 24px; height: 24px; cursor: pointer; }
+  .slide-mock-caption { padding: 8px 16px 16px; font-size: 14px; line-height: 1.6; color: #262626; }
+  .slide-mock-caption strong { font-weight: 600; }
+
+  /* Edit fields in slide */
+  .slide-edit-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .slide-edit-textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: vertical; min-height: 100px; line-height: 1.6;
+    transition: all 0.15s;
+  }
+  .slide-edit-textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+  .slide-edit-textarea.filled { border-color: var(--text-01); border-width: 2px; background: white; }
+  .slide-schedule {
+    display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+    background: var(--bg-secondary); border-radius: 10px;
+  }
+  .slide-schedule svg { width: 16px; height: 16px; stroke: var(--text-03); fill: none; stroke-width: 1.8; flex-shrink: 0; }
+  .slide-schedule input {
+    padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; background: white;
+  }
+  .slide-status { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+  .slide-status-dot { width: 8px; height: 8px; border-radius: 50%; }
   .btn-outline { background: transparent; color: var(--text-02); border: 1.5px solid var(--border); padding: 10px 20px; font-size: 14px; font-weight: 600; }
   .btn-outline:hover { background: var(--bg-secondary); }
   .btn-sm { padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 10px; }
@@ -514,121 +584,136 @@
         </div>
       </div>
 
-      <div class="step2-body">
-        <div class="outputs-grid">
+      <!-- Carousel indicator -->
+      <div class="carousel-indicator">
+        <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+        <div class="carousel-dot" onclick="goToSlide(1)"></div>
+        <div class="carousel-dot" onclick="goToSlide(2)"></div>
+        <div class="carousel-dot" onclick="goToSlide(3)"></div>
+        <span style="font-size:12px;color:var(--text-03);margin-left:8px;" id="slideCounter">1 / 4</span>
+      </div>
 
-          <!-- Blog — full width -->
-          <div class="output-card full-width">
-            <div class="output-header">
-              <div class="output-platform-icon" style="background:var(--primary);"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-              <div class="output-platform-name">Blog Post</div>
-              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
-              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
-            </div>
-            <div class="output-blog">
-              <div class="blog-title">How Retail Tech is Transforming NZ Small Business in 2026</div>
-              <div class="blog-excerpt">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions, modern POS systems are enabling store owners to focus on what matters most — their customers.
+      <!-- Carousel -->
+      <div class="carousel-wrap">
+        <div class="carousel-arrow" onclick="prevSlide()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></div>
 
-In this guide, we explore the top 5 POS features that are driving growth for NZ retailers in 2026, including real-time analytics, cloud-based inventory, and integrated customer loyalty programmes...</div>
-              <div class="blog-read-more">Read full article →</div>
+        <div class="carousel-track">
+          <!-- Slide 1: Blog -->
+          <div class="carousel-slide active" id="slide0">
+            <div class="slide-preview">
+              <div class="slide-mock">
+                <div class="slide-mock-header" style="background:var(--primary-light);">
+                  <div style="width:36px;height:36px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+                  <div><div class="slide-mock-user">Blog Post</div><div class="slide-mock-sub">storepro.co.nz/blog</div></div>
+                </div>
+                <div style="padding:20px;font-size:20px;font-weight:700;line-height:1.4;color:var(--text-01);">How Retail Tech is Transforming NZ Small Business in 2026</div>
+                <div style="padding:0 20px 20px;font-size:14px;color:var(--text-02);line-height:1.8;">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions, modern POS systems are enabling store owners to focus on what matters most — their customers.<br><br>In this guide, we explore the top 5 POS features driving growth for NZ retailers in 2026, including real-time analytics, cloud-based inventory, and integrated customer loyalty programmes...</div>
+              </div>
             </div>
-            <textarea class="output-caption-edit" placeholder="Edit blog content..."></textarea>
+            <div class="slide-edit">
+              <div><div class="slide-edit-label">Title</div><input type="text" class="slide-edit-textarea filled" style="min-height:auto;padding:10px 14px;font-weight:600;" value="How Retail Tech is Transforming NZ Small Business in 2026"></div>
+              <div><div class="slide-edit-label">Content</div><textarea class="slide-edit-textarea filled" style="min-height:140px;">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions...</textarea></div>
+              <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-07"><input type="time" value="09:00" style="width:80px;"></div></div>
+              <div><div class="slide-edit-label">Status</div><div class="slide-status"><div class="slide-status-dot" style="background:var(--success);"></div><span style="color:var(--success);font-weight:600;">Generated</span></div></div>
+            </div>
           </div>
 
-          <!-- Instagram -->
-          <div class="output-card">
-            <div class="output-header">
-              <div class="output-platform-icon" style="background:linear-gradient(45deg,#f09433,#dc2743);"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
-              <div class="output-platform-name">Instagram</div>
-              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
-              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
-            </div>
-            <div class="output-mock">
-              <div class="output-mock-frame">
-                <div class="omf-header">
-                  <div class="omf-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
-                  <span class="omf-user">storepro_nz</span>
+          <!-- Slide 2: Instagram -->
+          <div class="carousel-slide" id="slide1">
+            <div class="slide-preview">
+              <div class="slide-mock">
+                <div class="slide-mock-header">
+                  <div class="slide-mock-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
+                  <div><div class="slide-mock-user">storepro_nz</div><div class="slide-mock-sub">Auckland, NZ</div></div>
                 </div>
-                <div class="omf-img" style="aspect-ratio:1/1;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-                <div class="omf-actions">
+                <div class="slide-mock-img" style="aspect-ratio:1/1;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                <div class="slide-mock-actions">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78"/></svg>
                   <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                   <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" style="margin-left:auto;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                 </div>
-                <div class="omf-caption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 POS that handles everything. #RetailTech #NZBusiness</div>
+                <div class="slide-mock-caption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock. #RetailTech #NZBusiness</div>
               </div>
             </div>
-            <textarea class="output-caption-edit" placeholder="Edit Instagram caption...">Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock. #RetailTech #NZBusiness #Storepro</textarea>
+            <div class="slide-edit">
+              <div><div class="slide-edit-label">Caption</div><textarea class="slide-edit-textarea filled">Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock — so you can focus on your customers. #RetailTech #NZBusiness #Storepro</textarea></div>
+              <div><div class="slide-edit-label">Hashtags</div><textarea class="slide-edit-textarea filled" style="min-height:48px;">#RetailTech #NZBusiness #Storepro #POS</textarea></div>
+              <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-07"><input type="time" value="10:00" style="width:80px;"></div></div>
+              <div><div class="slide-edit-label">Status</div><div class="slide-status"><div class="slide-status-dot" style="background:var(--success);"></div><span style="color:var(--success);font-weight:600;">Generated</span></div></div>
+            </div>
           </div>
 
-          <!-- LinkedIn -->
-          <div class="output-card">
-            <div class="output-header">
-              <div class="output-platform-icon" style="background:#0A66C2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
-              <div class="output-platform-name">LinkedIn</div>
-              <span class="output-badge" style="background:var(--success-light);color:var(--success);">Generated</span>
-              <span class="output-edit-btn" onclick="this.closest('.output-card').querySelector('.output-caption-edit').classList.toggle('show')">Edit</span>
-            </div>
-            <div class="output-mock">
-              <div class="output-mock-frame">
-                <div class="omf-header">
-                  <div class="omf-avatar" style="background:#0A66C2;"></div>
-                  <div><span class="omf-user">Storepro</span><br><span class="omf-sub">1,234 followers · Just now</span></div>
+          <!-- Slide 3: LinkedIn -->
+          <div class="carousel-slide" id="slide2">
+            <div class="slide-preview">
+              <div class="slide-mock">
+                <div class="slide-mock-header">
+                  <div class="slide-mock-avatar" style="background:#0A66C2;"></div>
+                  <div><div class="slide-mock-user">Storepro</div><div class="slide-mock-sub">1,234 followers · Just now</div></div>
                 </div>
-                <div style="padding:0 10px 8px;font-size:12px;color:#333;line-height:1.5;">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront of this transformation with our latest POS innovations. Here's what's changing...</div>
-                <div class="omf-img" style="aspect-ratio:1.91/1;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
-                <div style="padding:6px 10px;border-top:1px solid #E5E5E5;font-size:12px;color:#666;display:flex;gap:14px;">
-                  <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span>
+                <div style="padding:0 16px 12px;font-size:14px;color:#333;line-height:1.6;">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront of this transformation with our latest POS innovations. 🚀<br><br>Key takeaways:<br>• Real-time inventory tracking<br>• Contactless payment integration<br>• Cloud-based analytics</div>
+                <div class="slide-mock-img" style="aspect-ratio:1.91/1;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                <div style="padding:8px 16px;border-top:1px solid #E5E5E5;display:flex;gap:18px;font-size:14px;color:#666;">
+                  <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span><span>✉️ Send</span>
                 </div>
               </div>
             </div>
-            <textarea class="output-caption-edit" placeholder="Edit LinkedIn post...">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront with our POS innovations. 🚀
+            <div class="slide-edit">
+              <div><div class="slide-edit-label">Post Content</div><textarea class="slide-edit-textarea filled">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront with our POS innovations. 🚀
 
 Key takeaways:
 • Real-time inventory tracking
 • Contactless payment integration
 • Cloud-based analytics
 
-#RetailTech #Innovation #NZBusiness</textarea>
+#RetailTech #Innovation #NZBusiness</textarea></div>
+              <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-08"><input type="time" value="08:00" style="width:80px;"></div></div>
+              <div><div class="slide-edit-label">Status</div><div class="slide-status"><div class="slide-status-dot" style="background:var(--success);"></div><span style="color:var(--success);font-weight:600;">Generated</span></div></div>
+            </div>
           </div>
 
-          <!-- Facebook -->
-          <div class="output-card">
-            <div class="output-header">
-              <div class="output-platform-icon" style="background:#1877F2;"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-              <div class="output-platform-name">Facebook</div>
-              <span class="output-badge" style="background:var(--warning-light);color:var(--warning);">Generating...</span>
-            </div>
-            <div class="output-mock">
-              <div class="output-mock-frame" style="opacity:0.5;">
-                <div class="omf-header">
-                  <div class="omf-avatar" style="background:#1877F2;"></div>
-                  <span class="omf-user">Storepro NZ</span>
+          <!-- Slide 4: YouTube -->
+          <div class="carousel-slide" id="slide3">
+            <div class="slide-preview">
+              <div class="slide-mock">
+                <div class="slide-mock-header">
+                  <div class="slide-mock-avatar" style="background:#FF0000;"></div>
+                  <div><div class="slide-mock-user">Storepro NZ</div><div class="slide-mock-sub">YouTube · 456 subscribers</div></div>
                 </div>
-                <div style="padding:10px;text-align:center;color:var(--text-03);font-size:12px;">
-                  <div class="loading-spinner" style="width:24px;height:24px;border-width:2px;margin:0 auto 8px;"></div>
-                  Generating Facebook post...
+                <div class="slide-mock-img" style="aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+                  <div style="text-align:center;color:white;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="white" opacity="0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <div style="font-size:14px;opacity:0.7;margin-top:8px;">Teaser Video Preview</div>
+                  </div>
+                </div>
+                <div style="padding:12px 16px;">
+                  <div style="font-size:16px;font-weight:700;color:var(--text-01);margin-bottom:4px;">How Retail Tech is Transforming NZ | Storepro</div>
+                  <div style="font-size:12px;color:var(--text-03);">456 views · Just now</div>
                 </div>
               </div>
             </div>
+            <div class="slide-edit">
+              <div><div class="slide-edit-label">Video Title</div><input type="text" class="slide-edit-textarea filled" style="min-height:auto;padding:10px 14px;font-weight:600;" value="How Retail Tech is Transforming NZ | Storepro"></div>
+              <div><div class="slide-edit-label">Description</div><textarea class="slide-edit-textarea filled">In this quick teaser, we explore how modern POS technology is revolutionising retail in New Zealand. Subscribe for more! 🚀</textarea></div>
+              <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-09"><input type="time" value="12:00" style="width:80px;"></div></div>
+              <div><div class="slide-edit-label">Status</div><div class="slide-status"><div class="slide-status-dot" style="background:var(--warning);"></div><span style="color:var(--warning);font-weight:600;">Generating...</span></div></div>
+            </div>
           </div>
-
         </div>
+
+        <div class="carousel-arrow" onclick="nextSlide()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
       </div>
 
-      <!-- Footer with schedule + actions -->
+      <!-- Footer -->
       <div class="modal-footer">
         <div style="display:flex;align-items:center;gap:16px;">
-          <span class="footer-left" onclick="goBack()">← Back to Topic</span>
+          <span class="footer-left" onclick="goBack()">← Back</span>
           <span class="footer-left">Save as Draft</span>
         </div>
-        <div class="footer-right" style="display:flex;align-items:center;gap:12px;">
-          <div class="footer-schedule">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <input type="date" value="2026-04-07">
-            <input type="time" value="09:00" style="width:80px;">
-          </div>
-          <button class="btn btn-primary" style="padding:12px 24px;">
+        <div class="footer-right" style="display:flex;align-items:center;gap:8px;">
+          <button class="btn btn-outline" style="padding:10px 20px;font-size:14px;">Preview All</button>
+          <button class="btn btn-primary" style="padding:12px 28px;font-size:16px;font-weight:700;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Save & Send to Client
           </button>
@@ -705,12 +790,14 @@ function generateAll() {
   // Add loading state to button
   const btn = document.querySelector('.btn-generate');
   btn.classList.add('loading');
+  btn.querySelector('span').textContent = 'Generating...';
   
   // Show loading overlay after brief delay
   setTimeout(() => {
     document.getElementById('loadingOverlay').classList.remove('hidden');
     btn.classList.remove('loading');
-  }, 600);
+    btn.querySelector('span').textContent = 'Generate';
+  }, 800);
   
   // Simulate generation time
   setTimeout(() => {
@@ -723,6 +810,24 @@ function generateAll() {
 function goBack() {
   document.getElementById('step2').classList.add('hidden');
   document.getElementById('step1').classList.remove('hidden');
+  currentSlide = 0;
+  updateSlide();
+}
+
+// Carousel
+let currentSlide = 0;
+const totalSlides = 4;
+function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlide(); }
+function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlide(); }
+function goToSlide(i) { currentSlide = i; updateSlide(); }
+function updateSlide() {
+  document.querySelectorAll('.carousel-slide').forEach((s, i) => {
+    s.classList.toggle('active', i === currentSlide);
+  });
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+  document.getElementById('slideCounter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
 }
 </script>
 
