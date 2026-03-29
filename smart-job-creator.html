@@ -462,16 +462,30 @@
         </div>
       </div>
 
-      <div class="step1-body">
-        <div class="step1-heading">What should we write about?</div>
-        <div class="step1-sub">Enter a topic or pick an AI recommendation. We'll create content for all selected platforms.</div>
+      <!-- Dual Tabs -->
+      <div style="display:flex;background:var(--bg-card);border-bottom:1px solid var(--line);flex-shrink:0;">
+        <button class="tab-btn active" onclick="switchInputTab('ai',this)" style="flex:1;padding:12px 20px;font-size:14px;font-weight:500;color:var(--text-03);cursor:pointer;border:none;background:none;font-family:'Satoshi',sans-serif;border-bottom:2px solid transparent;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s;" id="tabBtnAI">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.34496 1.87605C7.37353 1.72312 7.45468 1.58499 7.57436 1.4856C7.69404 1.3862 7.84472 1.33179 8.00029 1.33179C8.15587 1.33179 8.30655 1.3862 8.42623 1.4856C8.54591 1.58499 8.62706 1.72312 8.65563 1.87605L9.35629 5.58138C9.40606 5.84482 9.53408 6.08713 9.72365 6.2767C9.91322 6.46627 10.1555 6.59429 10.419 6.64405L14.1243 7.34472" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          AI Recommendations
+        </button>
+        <button class="tab-btn" onclick="switchInputTab('client',this)" style="flex:1;padding:12px 20px;font-size:14px;font-weight:500;color:var(--text-03);cursor:pointer;border:none;background:none;font-family:'Satoshi',sans-serif;border-bottom:2px solid transparent;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s;" id="tabBtnClient">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Client Request
+        </button>
+      </div>
 
-        <div class="topic-input-wrap">
-          <input type="text" class="topic-input" style="min-height:auto;padding:12px 18px;font-weight:600;margin-bottom:10px;text-align:center;" placeholder="Post Title (optional)" oninput="this.classList.toggle('filled',this.value.length>0)">
-          <textarea class="topic-input" id="topicInput" placeholder="Topic or keywords — e.g. Spring Sale 20% off all POS terminals" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
-        </div>
+      <div class="step1-body" style="overflow-y:auto;">
+        <!-- AI Tab Content -->
+        <div id="aiTabContent">
+          <div class="step1-heading">What should we write about?</div>
+          <div class="step1-sub">Pick an AI recommendation or enter your own topic.</div>
 
-        <div class="topic-or">— or pick a suggestion —</div>
+          <div class="topic-input-wrap">
+            <input type="text" class="topic-input" style="min-height:auto;padding:12px 18px;font-weight:600;margin-bottom:10px;text-align:center;" placeholder="Post Title (optional)" oninput="this.classList.toggle('filled',this.value.length>0)">
+            <textarea class="topic-input" id="topicInput" placeholder="Topic or keywords — e.g. Spring Sale 20% off all POS terminals" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
+          </div>
+
+          <div class="topic-or">— or pick a suggestion —</div>
 
         <div class="ai-suggestions">
           <div class="ai-sug-card" onclick="pickSuggestion(this,'How Retail Tech is Transforming NZ')">
@@ -488,7 +502,26 @@
           </div>
         </div>
 
-        <!-- Writing Style -->
+        </div><!-- close aiTabContent -->
+
+        <!-- Client Request Tab Content (hidden by default) -->
+        <div id="clientTabContent" style="display:none;">
+          <div class="step1-heading">Client Request</div>
+          <div class="step1-sub">Enter the client's brief or specific content request.</div>
+          <div class="topic-input-wrap">
+            <input type="text" class="topic-input" style="min-height:auto;padding:12px 18px;font-weight:600;margin-bottom:10px;text-align:center;" placeholder="Post Title" oninput="this.classList.toggle('filled',this.value.length>0)">
+            <textarea class="topic-input" placeholder="Client's brief — e.g. 'We need a post about our Spring Sale, 20% off all POS terminals. Target audience: retail store owners in Auckland.'" style="min-height:100px;" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
+          </div>
+          <div style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+            <div style="border:2px dashed var(--border);border-radius:10px;padding:14px 20px;text-align:center;cursor:pointer;flex:1;transition:all 0.15s;background:var(--bg-secondary);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.background='var(--bg-secondary)'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8" style="margin-bottom:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size:14px;color:var(--text-02);">Attach reference files</div>
+              <div style="font-size:12px;color:var(--text-03);">Images, PDFs, brand assets</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Writing Style (shared between both tabs) -->
         <div class="style-section">
           <div class="style-label">Writing Style</div>
           <div class="style-pills">
@@ -617,6 +650,13 @@
             <div class="slide-edit">
               <div><div class="slide-edit-label">Title</div><input type="text" class="slide-edit-textarea filled" style="min-height:auto;padding:10px 14px;font-weight:600;" value="How Retail Tech is Transforming NZ Small Business in 2026"></div>
               <div><div class="slide-edit-label">Content</div><textarea class="slide-edit-textarea filled" style="min-height:140px;">Retail technology has transformed the way New Zealand businesses operate. From automated inventory tracking to contactless payment solutions...</textarea></div>
+                            <div><div class="slide-edit-label">Image</div>
+                <div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;background:var(--bg-secondary);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.background='var(--bg-secondary)'">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <div style="font-size:12px;color:var(--primary);font-weight:600;">Replace image</div>
+                  <div style="font-size:12px;color:var(--text-03);">or drag & drop</div>
+                </div>
+              </div>
               <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-07"><input type="time" value="09:00" style="width:80px;"></div></div>
             </div>
           </div>
@@ -642,6 +682,13 @@
             <div class="slide-edit">
               <div><div class="slide-edit-label">Caption</div><textarea class="slide-edit-textarea filled">Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock — so you can focus on your customers. #RetailTech #NZBusiness #Storepro</textarea></div>
               <div><div class="slide-edit-label">Hashtags</div><textarea class="slide-edit-textarea filled" style="min-height:48px;">#RetailTech #NZBusiness #Storepro #POS</textarea></div>
+                            <div><div class="slide-edit-label">Image</div>
+                <div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;background:var(--bg-secondary);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.background='var(--bg-secondary)'">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <div style="font-size:12px;color:var(--primary);font-weight:600;">Replace image</div>
+                  <div style="font-size:12px;color:var(--text-03);">or drag & drop</div>
+                </div>
+              </div>
               <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-07"><input type="time" value="10:00" style="width:80px;"></div></div>
             </div>
           </div>
@@ -670,6 +717,13 @@ Key takeaways:
 • Cloud-based analytics
 
 #RetailTech #Innovation #NZBusiness</textarea></div>
+                            <div><div class="slide-edit-label">Image</div>
+                <div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;background:var(--bg-secondary);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.background='var(--bg-secondary)'">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <div style="font-size:12px;color:var(--primary);font-weight:600;">Replace image</div>
+                  <div style="font-size:12px;color:var(--text-03);">or drag & drop</div>
+                </div>
+              </div>
               <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-08"><input type="time" value="08:00" style="width:80px;"></div></div>
             </div>
           </div>
@@ -697,6 +751,13 @@ Key takeaways:
             <div class="slide-edit">
               <div><div class="slide-edit-label">Video Title</div><input type="text" class="slide-edit-textarea filled" style="min-height:auto;padding:10px 14px;font-weight:600;" value="How Retail Tech is Transforming NZ | Storepro"></div>
               <div><div class="slide-edit-label">Description</div><textarea class="slide-edit-textarea filled">In this quick teaser, we explore how modern POS technology is revolutionising retail in New Zealand. Subscribe for more! 🚀</textarea></div>
+                            <div><div class="slide-edit-label">Image</div>
+                <div style="border:2px dashed var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.15s;background:var(--bg-secondary);" onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.background='var(--bg-secondary)'">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <div style="font-size:12px;color:var(--primary);font-weight:600;">Replace image</div>
+                  <div style="font-size:12px;color:var(--text-03);">or drag & drop</div>
+                </div>
+              </div>
               <div><div class="slide-edit-label">Publish Date</div><div class="slide-schedule"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="date" value="2026-04-09"><input type="time" value="12:00" style="width:80px;"></div></div>
             </div>
           </div>
@@ -774,6 +835,16 @@ function closeOAuth() {
   document.getElementById('oauthPopup').classList.remove('show');
   document.getElementById('oauthBackdrop').classList.remove('show');
 }
+
+function switchInputTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => { b.style.color = 'var(--text-03)'; b.style.borderBottomColor = 'transparent'; b.classList.remove('active'); });
+  btn.style.color = 'var(--primary)'; btn.style.borderBottomColor = 'var(--primary)'; btn.classList.add('active');
+  document.getElementById('aiTabContent').style.display = tab === 'ai' ? '' : 'none';
+  document.getElementById('clientTabContent').style.display = tab === 'client' ? '' : 'none';
+}
+// Set initial active tab style
+document.getElementById('tabBtnAI').style.color = 'var(--primary)';
+document.getElementById('tabBtnAI').style.borderBottomColor = 'var(--primary)';
 
 function pickSuggestion(card, text) {
   document.querySelectorAll('.ai-sug-card').forEach(c => c.classList.remove('selected'));
