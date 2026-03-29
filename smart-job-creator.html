@@ -90,23 +90,22 @@
 
   /* Channel selector — Step 1 bottom */
   /* Writing style pills */
-  .style-section { max-width: 600px; margin: 0 auto 20px; width: 100%; }
+  .style-section { max-width: 700px; margin: 0 auto 20px; width: 100%; }
   .style-label { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 10px; text-align: center; }
-  .style-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .style-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 700px; }
   .style-pill {
-    padding: 10px 12px; border-radius: 10px; font-size: 14px; font-weight: 500;
+    padding: 12px 16px; border-radius: 12px; font-size: 14px; font-weight: 500;
     cursor: pointer; border: 1.5px solid var(--line); background: white; color: var(--text-02);
-    font-family: 'Satoshi', sans-serif; transition: all 0.15s; text-align: center;
-    position: relative;
+    font-family: 'Satoshi', sans-serif; transition: all 0.15s; text-align: left;
+    position: relative; min-height: 56px; display: flex; align-items: center; justify-content: space-between;
   }
   .style-pill:hover { border-color: var(--border); }
   .style-pill.selected { background: var(--text-01); color: white; border-color: var(--text-01); }
   .style-info {
-    position: absolute; top: -4px; right: -4px; width: 16px; height: 16px;
-    border-radius: 50%; background: var(--bg-secondary); border: 1px solid var(--line);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: var(--text-03); cursor: help;
-    transition: all 0.15s; z-index: 2;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--bg-secondary);
+    border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--text-03); cursor: help;
+    transition: all 0.15s; flex-shrink: 0; position: relative;
   }
   .style-pill.selected .style-info { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.8); }
   .style-info:hover { background: var(--text-01); color: white; border-color: var(--text-01); }
@@ -118,7 +117,7 @@
     padding: 8px 12px; border-radius: 8px; width: 200px; line-height: 1.5;
     opacity: 0; transform: translateY(4px); pointer-events: none;
     transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    text-align: left;
+    text-align: left; z-index: 10;
   }
   .style-tip::after { content: ''; position: absolute; top: 100%; right: 12px; border: 4px solid transparent; border-top-color: var(--text-01); }
 
@@ -212,19 +211,23 @@
   .btn-primary:hover { background: #EF6E1E; box-shadow: 0 6px 20px rgba(255,107,53,0.25); transform: translateY(-1px); }
   .btn-primary:active { transform: scale(0.98); }
 
-  /* Generate button — elegant hover */
+  /* Generate button — fly animation (Yumi's React style) */
   .btn-generate {
     background: var(--text-01); color: white; position: relative; overflow: hidden;
-    padding: 14px 32px; font-size: 16px; border-radius: 14px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.7em 1em 0.7em 0.9em; font-size: 18px; border-radius: 14px;
+    display: flex; align-items: center; transition: all 0.2s; cursor: pointer;
+    font-family: 'Satoshi', sans-serif; font-weight: 700; border: none;
   }
-  .btn-generate .btn-gen-icon {
-    display: inline-flex; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0; width: 0; margin-right: 0; overflow: hidden;
-  }
-  .btn-generate:hover .btn-gen-icon { opacity: 1; width: 20px; margin-right: 8px; }
-  .btn-generate:hover { background: var(--primary); box-shadow: 0 8px 24px rgba(255,107,53,0.3); transform: translateY(-2px); letter-spacing: 0.3px; }
-  .btn-generate:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(255,107,53,0.2); }
+  .btn-generate .svg-wrapper-1 { display: flex; align-items: center; }
+  .btn-generate .svg-wrapper { display: flex; align-items: center; }
+  .btn-generate span { display: block; margin-left: 0.3em; transition: all 0.3s ease-in-out; }
+  .btn-generate svg { display: block; transform-origin: center center; transition: transform 0.3s ease-in-out; }
+  .btn-generate:hover { background: var(--primary); box-shadow: 0 8px 24px rgba(255,107,53,0.3); }
+  .btn-generate:hover .svg-wrapper { animation: fly-1 0.6s ease-in-out infinite alternate; }
+  .btn-generate:hover svg { transform: translateX(1.2em) rotate(45deg) scale(1.1); }
+  .btn-generate:hover span { transform: translateX(5em); }
+  .btn-generate:active { transform: scale(0.95); }
+  @keyframes fly-1 { from { transform: translateY(0.1em); } to { transform: translateY(-0.1em); } }
   .btn-outline { background: transparent; color: var(--text-02); border: 1.5px solid var(--border); padding: 10px 20px; font-size: 14px; font-weight: 600; }
   .btn-outline:hover { background: var(--bg-secondary); }
   .btn-sm { padding: 8px 16px; font-size: 14px; font-weight: 600; border-radius: 10px; }
@@ -395,7 +398,8 @@
         <div class="step1-sub">Enter a topic or pick an AI recommendation. We'll create content for all selected platforms.</div>
 
         <div class="topic-input-wrap">
-          <textarea class="topic-input" id="topicInput" placeholder="e.g. Spring Sale 20% off all POS terminals" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
+          <input type="text" class="topic-input" style="min-height:auto;padding:12px 18px;font-weight:600;margin-bottom:10px;text-align:center;" placeholder="Post Title (optional)" oninput="this.classList.toggle('filled',this.value.length>0)">
+          <textarea class="topic-input" id="topicInput" placeholder="Topic or keywords — e.g. Spring Sale 20% off all POS terminals" oninput="this.classList.toggle('filled',this.value.length>0)"></textarea>
         </div>
 
         <div class="topic-or">— or pick a suggestion —</div>
@@ -493,9 +497,9 @@
         </div>
 
         <div class="generate-btn-wrap" style="margin-top:28px;">
-          <button class="btn btn-generate" onclick="generateAll()">
-            <span class="btn-gen-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-            Generate for All Platforms
+          <button class="btn-generate" onclick="generateAll()">
+            <div class="svg-wrapper-1"><div class="svg-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"/></svg></div></div>
+            <span>Generate</span>
           </button>
         </div>
       </div>
