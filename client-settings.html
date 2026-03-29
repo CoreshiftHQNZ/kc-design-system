@@ -161,7 +161,20 @@
     flex-shrink: 0;
   }
 
+  /* Add Product Modal */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(17,24,39,0.5); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: center; justify-content: center; }
+  .modal-backdrop.show { display: flex; }
+  .modal-panel { background: var(--bg-card); border-radius: 20px; width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); animation: scaleIn 0.25s ease; overflow: hidden; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  .modal-title { font-size: 18px; font-weight: 700; }
+  .modal-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-03); font-size: 18px; transition: all 0.15s; }
+  .modal-close:hover { background: var(--bg-secondary); color: var(--text-01); }
+  .modal-body { padding: 20px 24px; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 24px; border-top: 1px solid var(--line); }
+
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -170,10 +183,10 @@
   <aside class="sidebar">
     <div class="sidebar-logo"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg><span class="sidebar-brand">CORESHIFT</span></div>
     <nav>
-      <a class="nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
       <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Clients</a>
       <a class="nav-item"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Jobs</a>
-      <a class="nav-item active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>Settings</a>
+      <a class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>Settings</a>
     </nav>
     <div class="sidebar-spacer"></div>
     <div class="sidebar-user"><div class="sidebar-avatar"></div><div><div class="sidebar-user-name">Ricky Jack</div><div class="sidebar-user-role">Agency Owner</div></div></div>
@@ -182,7 +195,7 @@
   <div class="main">
     <div class="header">
       <div class="header-left">
-        <div class="header-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/></svg></div>
+        <div class="header-logo" style="background:var(--bg-secondary);border-radius:10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
         <div><div class="header-name">Aero Filter</div><div class="header-sub">Client Settings</div></div>
       </div>
       <div class="header-right">
@@ -190,7 +203,7 @@
       </div>
     </div>
     <div class="sub-bar">
-      <a href="#" class="back-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Dashboard</a>
+      <a href="#" class="back-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Aero Filter Dashboard</a>
     </div>
 
     <!-- Settings Content -->
@@ -198,7 +211,7 @@
       <div class="settings-inner">
 
         <!-- 1. Client Information -->
-        <div class="section-card open" onclick="this.classList.toggle('open')">
+        <div class="section-card open">
           <div class="section-header">
             <div class="section-title-wrap">
               <div class="section-icon" style="background:var(--primary-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -224,7 +237,7 @@
         </div>
 
         <!-- 2. Social Accounts -->
-        <div class="section-card open" onclick="this.classList.toggle('open')">
+        <div class="section-card open">
           <div class="section-header">
             <div class="section-title-wrap">
               <div class="section-icon" style="background:var(--blue-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
@@ -274,7 +287,7 @@
         </div>
 
         <!-- 3. Business Context -->
-        <div class="section-card open" onclick="this.classList.toggle('open')">
+        <div class="section-card open">
           <div class="section-header">
             <div class="section-title-wrap">
               <div class="section-icon" style="background:var(--purple-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -372,6 +385,128 @@
     </div>
   </div>
 </div>
+
+<!-- Add Product Modal -->
+<div class="modal-backdrop" id="productModal">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Add Product</div>
+      <button class="modal-close" onclick="document.getElementById('productModal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><div class="field-label">Product Name *</div><input type="text" class="field-input" placeholder="e.g. HVAC Commercial Filter"></div>
+      <div class="field"><div class="field-label">Description</div><textarea class="field-input" placeholder="Brief description of the product or service..."></textarea></div>
+      <div class="field">
+        <div class="field-label">Product Image</div>
+        <div class="logo-upload" style="padding:12px;">
+          <div class="logo-preview" style="width:48px;height:48px;border-radius:8px;"><svg viewBox="0 0 24 24" style="width:20px;height:20px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div><div class="logo-text" style="font-size:14px;">Drop image or <span>browse</span></div><div class="logo-hint">PNG, JPG up to 5MB</div></div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Tech Specs / CAD (optional)</div>
+        <div class="logo-upload" style="padding:12px;">
+          <div class="logo-preview" style="width:48px;height:48px;border-radius:8px;"><svg viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div><div class="logo-text" style="font-size:14px;">Drop file or <span>browse</span></div><div class="logo-hint">PDF, DOC up to 10MB</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="document.getElementById('productModal').classList.remove('show')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('productModal').classList.remove('show')">Add Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Connect Account Modal -->
+<div class="modal-backdrop" id="connectModal">
+  <div class="modal-panel" style="width:360px;" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">Connect <span id="connectPlatformName">TikTok</span></div>
+      <button class="modal-close" onclick="closeConnectModal()">✕</button>
+    </div>
+    <div class="modal-body" style="text-align:center;">
+      <div style="width:48px;height:48px;border-radius:12px;background:var(--blue-light);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+      <div style="font-size:14px;color:var(--text-02);margin-bottom:18px;line-height:1.5;">Sign in to your account to link it with KeyContent. You'll be redirected to authorize access.</div>
+      <button class="btn btn-dark" id="connectBtn" style="width:100%;justify-content:center;margin-bottom:8px;" onclick="doConnect()">Connect with OAuth</button>
+      <div style="font-size:14px;color:var(--text-03);cursor:pointer;" onclick="closeConnectModal()">Cancel</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Section accordion
+document.querySelectorAll('.section-header').forEach(h => {
+  h.addEventListener('click', () => h.closest('.section-card').classList.toggle('open'));
+});
+
+// Social card connect/disconnect
+document.querySelectorAll('.social-action').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const card = a.closest('.social-card');
+    if (card.classList.contains('disconnected')) {
+      // Open connect modal
+      const name = card.querySelector('.social-name').textContent;
+      document.getElementById('connectPlatformName').textContent = name;
+      window._pendingConnectCard = card;
+      document.getElementById('connectModal').classList.add('show');
+    } else {
+      // Disconnect
+      if (confirm('Disconnect this account?')) {
+        card.classList.remove('connected');
+        card.classList.add('disconnected');
+        card.querySelector('.social-status').textContent = 'Not connected';
+        a.textContent = 'Connect';
+        a.style.color = 'var(--primary)';
+        card.style.borderColor = '';
+        card.style.background = '';
+        card.style.borderStyle = 'dashed';
+        card.querySelector('.social-icon img').style.filter = 'grayscale(100%)';
+        card.querySelector('.social-icon img').style.opacity = '0.5';
+      }
+    }
+  });
+});
+
+function closeConnectModal() {
+  document.getElementById('connectModal').classList.remove('show');
+}
+
+function doConnect() {
+  const btn = document.getElementById('connectBtn');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10"/></svg> Connecting...';
+  setTimeout(() => {
+    const card = window._pendingConnectCard;
+    if (card) {
+      card.classList.remove('disconnected');
+      card.classList.add('connected');
+      card.querySelector('.social-status').textContent = 'Connected';
+      card.querySelector('.social-action').textContent = 'Disconnect';
+      card.querySelector('.social-action').style.color = 'var(--error)';
+      card.style.borderColor = 'var(--success)';
+      card.style.background = 'var(--success-light)';
+      card.style.borderStyle = 'solid';
+      card.querySelector('.social-icon img').style.filter = '';
+      card.querySelector('.social-icon img').style.opacity = '';
+    }
+    btn.innerHTML = 'Connect with OAuth';
+    closeConnectModal();
+  }, 1500);
+}
+
+// Add Product
+document.querySelector('.product-add').addEventListener('click', () => {
+  document.getElementById('productModal').classList.add('show');
+});
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(b => {
+  b.addEventListener('click', (e) => { if (e.target === b) b.classList.remove('show'); });
+});
+</script>
 
 </body>
 </html>
