@@ -141,7 +141,7 @@
   /* Filter pills */
   .filter-pills { display: flex; gap: 6px; padding: 12px 16px; border-bottom: 1px solid var(--line-02); flex-wrap: wrap; }
   .filter-pill { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--line); background: white; color: var(--text-02); transition: all 0.15s; font-family: 'Satoshi', sans-serif; }
-  .filter-pill:hover { border-color: var(--border); }
+  .filter-pill:hover { background: var(--blue-light); color: var(--purple); border-color: var(--blue-light); }
   .filter-pill.active { background: var(--text-01); color: white; border-color: var(--text-01); }
   .filter-pill .count { font-size: 12px; color: var(--text-03); margin-left: 2px; }
   .filter-pill.active .count { color: rgba(255,255,255,0.6); }
@@ -280,43 +280,64 @@
               </div>
               <div class="job-list">
                 <div class="job-row">
-                  <div class="job-info"><div class="job-title">Spring Product Launch</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
-                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M11 4H4a2 2 0 0 0-2 2v14"/></svg></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:#0A66C2;flex-shrink:0;"></span>
-                    · 3 platforms
-                  </div></div>
+                  <div class="job-info">
+                    <div class="job-title" style="font-size:14px;font-weight:700;">Spring Product Launch</div>
+                    <div style="display:flex;align-items:center;gap:2px;margin-top:4px;">
+                      <img src="icons/linkedin.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/youtube.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/instagram.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/threads.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/reddit.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/tiktok.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/bluesky.png" style="width:20px;height:20px;border-radius:50%;">
+                      <span style="font-size:12px;color:var(--text-03);margin-left:4px;">7 platforms</span>
+                    </div>
+                  </div>
                   <span class="job-badge" style="background:var(--error-light);color:var(--error);">Failed</span>
                   <span class="job-action">Retry</span>
                 </div>
                 <div class="job-row">
-                  <div class="job-info"><div class="job-title">Q2 Campaign</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
-                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:#1877F2;flex-shrink:0;"></span>
-                    · 2 platforms
-                  </div></div>
+                  <div class="job-info">
+                    <div class="job-title" style="font-size:14px;font-weight:700;">Q2 Campaign</div>
+                    <div style="display:flex;align-items:center;gap:2px;margin-top:4px;">
+                      <img src="icons/linkedin.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/youtube.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/instagram.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/threads.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/reddit.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/tiktok.png" style="width:20px;height:20px;border-radius:50%;">
+                      <span style="font-size:12px;color:var(--text-03);margin-left:4px;">6 platforms</span>
+                    </div>
+                  </div>
+                  <span class="job-badge" style="background:var(--success-light);color:var(--success);">In Review</span>
+                  <span class="job-action">View</span>
+                </div>
+                <div class="job-row">
+                  <div class="job-info">
+                    <div class="job-title" style="font-size:14px;font-weight:700;">Product Feature Update</div>
+                    <div style="display:flex;align-items:center;gap:2px;margin-top:4px;">
+                      <img src="icons/linkedin.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/youtube.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/instagram.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/threads.png" style="width:20px;height:20px;border-radius:50%;">
+                      <span style="font-size:12px;color:var(--text-03);margin-left:4px;">4 platforms</span>
+                    </div>
+                  </div>
                   <span class="job-badge" style="background:var(--warning-light);color:var(--warning);">Overdue</span>
                   <span class="job-action">View</span>
                 </div>
                 <div class="job-row">
-                  <div class="job-info"><div class="job-title">Product Feature Update</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
-                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);flex-shrink:0;"></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:#0A66C2;flex-shrink:0;"></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:#1877F2;flex-shrink:0;"></span>
-                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
-                    · 4 platforms
-                  </div></div>
-                  <div class="job-progress"><div class="job-progress-fill" style="width:75%;background:var(--success);"></div></div>
-                  <span style="font-size:12px;color:var(--text-03);">In Review</span>
-                  <span class="job-action">View</span>
-                </div>
-                <div class="job-row">
-                  <div class="job-info"><div class="job-title">Weekly Newsletter</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
-                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);flex-shrink:0;"></span>
-                    · Blog only
-                  </div></div>
-                  <div class="job-progress"><div class="job-progress-fill" style="width:40%;background:var(--blue);"></div></div>
-                  <span style="font-size:12px;color:var(--text-03);">Drafting</span>
+                  <div class="job-info">
+                    <div class="job-title" style="font-size:14px;font-weight:700;">Weekly Newsletter</div>
+                    <div style="display:flex;align-items:center;gap:2px;margin-top:4px;">
+                      <img src="icons/linkedin.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/youtube.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/instagram.png" style="width:20px;height:20px;border-radius:50%;">
+                      <img src="icons/threads.png" style="width:20px;height:20px;border-radius:50%;">
+                      <span style="font-size:12px;color:var(--text-03);margin-left:4px;">4 platforms</span>
+                    </div>
+                  </div>
+                  <span class="job-badge" style="background:var(--blue-light);color:var(--blue);">Drafting</span>
                   <span class="job-action">View</span>
                 </div>
               </div>
@@ -338,11 +359,15 @@
         <!-- Activity Feed -->
         <div>
           <div class="section-header"><span class="section-title">Activity</span><svg class="section-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+          <div class="card" style="padding:0;">
+          <div style="padding:14px 16px;">
           <div class="feed-item"><div class="feed-dot" style="background:var(--success);"></div><div><div class="feed-text">Blog approved by Sarah</div><div class="feed-time">2 min ago</div></div></div>
           <div class="feed-item"><div class="feed-dot" style="background:var(--primary);"></div><div><div class="feed-text">New feedback on Q2 Campaign</div><div class="feed-time">15 min ago</div></div></div>
           <div class="feed-item"><div class="feed-dot" style="background:var(--blue);"></div><div><div class="feed-text">Instagram account linked</div><div class="feed-time">1h ago</div></div></div>
           <div class="feed-item"><div class="feed-dot" style="background:var(--purple);"></div><div><div class="feed-text">5 new topics generated</div><div class="feed-time">3h ago</div></div></div>
           <div class="feed-item"><div class="feed-dot" style="background:var(--text-03);"></div><div><div class="feed-text">Team member added</div><div class="feed-time">Yesterday</div></div></div>
+          </div>
+          </div><!-- close activity card -->
         </div>
       </div><!-- close feed card -->
       </div>
