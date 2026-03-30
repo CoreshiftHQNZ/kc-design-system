@@ -198,7 +198,7 @@
     </div>
     <div class="sub-bar">
       <a href="#" class="back-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Client List</a>
-      <a href="client-settings.html" class="edit-link">Edit Client Setting <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></a>
+      
     </div>
 
     <div class="dashboard-content">
@@ -241,20 +241,29 @@
           <div>
             <div class="section-header"><a href="client-topics.html" style="text-decoration:none;color:inherit;"><span class="section-title">Topics & Ideas</span></a><svg class="section-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
             <div class="card">
-              <div class="topic-card">
-                <div class="topic-top"><span class="topic-tag">Trending</span><div class="topic-timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
-                <div class="topic-title">How Retail Tech is Changing NZ</div>
-                <div class="topic-desc">Forem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+              <div class="topic-card" style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span class="topic-tag">Trending</span></div>
+                  <div class="topic-title">How Retail Tech is Changing NZ</div>
+                  <div style="display:flex;gap:4px;margin-top:4px;"><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">retail tech</span><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">NZ</span></div>
+                </div>
+                <a href="client-jobs.html" style="font-size:12px;color:var(--primary);font-weight:600;text-decoration:none;white-space:nowrap;margin-left:8px;">Create Job →</a>
               </div>
-              <div class="topic-card">
-                <div class="topic-top"><span class="topic-tag" style="background:var(--purple-light);color:var(--purple);">Seasonal</span><div class="topic-timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
-                <div class="topic-title">5 Signs You Need a Digital Upgrade</div>
-                <div class="topic-desc">Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</div>
+              <div class="topic-card" style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span class="topic-tag" style="background:var(--purple-light);color:var(--purple);">Seasonal</span></div>
+                  <div class="topic-title">5 Signs You Need a Digital Upgrade</div>
+                  <div style="display:flex;gap:4px;margin-top:4px;"><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">digital</span><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">SMB</span></div>
+                </div>
+                <a href="client-jobs.html" style="font-size:12px;color:var(--primary);font-weight:600;text-decoration:none;white-space:nowrap;margin-left:8px;">Create Job →</a>
               </div>
-              <div class="topic-card">
-                <div class="topic-top"><span class="topic-tag" style="background:var(--blue-light);color:var(--blue);">Evergreen</span><div class="topic-timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
-                <div class="topic-title">Customer Experience in 2026</div>
-                <div class="topic-desc">Praesent sapien massa, convallis a pellentesque nec.</div>
+              <div class="topic-card" style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><span class="topic-tag" style="background:var(--blue-light);color:var(--blue);">Evergreen</span></div>
+                  <div class="topic-title">Customer Experience in 2026</div>
+                  <div style="display:flex;gap:4px;margin-top:4px;"><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">CX</span><span style="font-size:12px;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">retail</span></div>
+                </div>
+                <a href="client-jobs.html" style="font-size:12px;color:var(--primary);font-weight:600;text-decoration:none;white-space:nowrap;margin-left:8px;">Create Job →</a>
               </div>
             </div>
           </div>
@@ -271,31 +280,43 @@
               </div>
               <div class="job-list">
                 <div class="job-row">
-                  <div class="job-platform" style="background:var(--primary);"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg></div>
-                  <div class="job-info"><div class="job-title">Spring Blog</div><div class="job-sub">Blog · Failed</div></div>
-                  <div class="job-progress"><div class="job-progress-fill" style="width:80%;background:var(--error);"></div></div>
+                  <div class="job-info"><div class="job-title">Spring Product Launch</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
+                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M11 4H4a2 2 0 0 0-2 2v14"/></svg></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:#0A66C2;flex-shrink:0;"></span>
+                    · 3 platforms
+                  </div></div>
                   <span class="job-badge" style="background:var(--error-light);color:var(--error);">Failed</span>
                   <span class="job-action">Retry</span>
                 </div>
                 <div class="job-row">
-                  <div class="job-platform" style="background:linear-gradient(45deg,#f09433,#dc2743);"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></div>
-                  <div class="job-info"><div class="job-title">Q2 IG Campaign</div><div class="job-sub">Instagram · Overdue</div></div>
-                  <div class="job-progress"><div class="job-progress-fill" style="width:20%;background:var(--warning);"></div></div>
+                  <div class="job-info"><div class="job-title">Q2 Campaign</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
+                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:#1877F2;flex-shrink:0;"></span>
+                    · 2 platforms
+                  </div></div>
                   <span class="job-badge" style="background:var(--warning-light);color:var(--warning);">Overdue</span>
                   <span class="job-action">View</span>
                 </div>
                 <div class="job-row">
-                  <div class="job-platform" style="background:#0A66C2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 1 1 4 0v4" stroke-linecap="round"/></svg></div>
-                  <div class="job-info"><div class="job-title">Product Feature</div><div class="job-sub">LinkedIn · In Review</div></div>
-                  <div class="job-progress"><div class="job-progress-fill" style="width:90%;background:var(--success);"></div></div>
-                  <span style="font-size:12px;color:var(--text-03);">90%</span>
+                  <div class="job-info"><div class="job-title">Product Feature Update</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
+                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);flex-shrink:0;"></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:#0A66C2;flex-shrink:0;"></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:#1877F2;flex-shrink:0;"></span>
+                    <span style="width:14px;height:14px;border-radius:3px;background:linear-gradient(45deg,#f09433,#dc2743);flex-shrink:0;"></span>
+                    · 4 platforms
+                  </div></div>
+                  <div class="job-progress"><div class="job-progress-fill" style="width:75%;background:var(--success);"></div></div>
+                  <span style="font-size:12px;color:var(--text-03);">In Review</span>
                   <span class="job-action">View</span>
                 </div>
                 <div class="job-row">
-                  <div class="job-platform" style="background:#1877F2;"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
-                  <div class="job-info"><div class="job-title">Social Set</div><div class="job-sub">Facebook · Drafting</div></div>
+                  <div class="job-info"><div class="job-title">Weekly Newsletter</div><div class="job-sub" style="display:flex;align-items:center;gap:4px;">
+                    <span style="width:14px;height:14px;border-radius:3px;background:var(--primary);flex-shrink:0;"></span>
+                    · Blog only
+                  </div></div>
                   <div class="job-progress"><div class="job-progress-fill" style="width:40%;background:var(--blue);"></div></div>
-                  <span style="font-size:12px;color:var(--text-03);">40%</span>
+                  <span style="font-size:12px;color:var(--text-03);">Drafting</span>
                   <span class="job-action">View</span>
                 </div>
               </div>
@@ -323,6 +344,7 @@
           <div class="feed-item"><div class="feed-dot" style="background:var(--purple);"></div><div><div class="feed-text">5 new topics generated</div><div class="feed-time">3h ago</div></div></div>
           <div class="feed-item"><div class="feed-dot" style="background:var(--text-03);"></div><div><div class="feed-text">Team member added</div><div class="feed-time">Yesterday</div></div></div>
         </div>
+      </div><!-- close feed card -->
       </div>
     </div>
   </div>
