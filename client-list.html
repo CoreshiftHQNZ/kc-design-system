@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyContent — Client List</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', sans-serif; background: #F9FAFF; color: #111827; overflow: hidden; }
+  :root {
+    --primary: #FF6B35; --primary-light: #FFF0E6;
+    --bg-page: #F9FAFF; --bg-card: #FFFFFF; --bg-secondary: #F1F5F9;
+    --text-01: #111827; --text-02: #4B5563; --text-03: #9CA3AF;
+    --success: #27C87D; --success-light: #E5F9EF;
+    --error: #EF4444; --error-light: #FEF2F2;
+    --warning: #FFC43A; --warning-light: #FFFBEB;
+    --purple: #BAA3F5; --purple-light: #F0E2FF;
+    --blue: #93B4E6; --blue-light: #EFF6FF;
+    --line: #E5E7EB; --line-02: #F1F5F9; --border: #D1D5DB;
+  }
+  .app { display: flex; height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 200px; background: linear-gradient(180deg, rgba(240,226,255,0.4) 0%, rgba(147,180,230,0.4) 100%), #FFF; border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 8px 8px 24px; }
+  .sidebar-logo svg { width: 24px; height: 24px; }
+  .sidebar-brand { font-size: 14px; font-weight: 700; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-02); text-decoration: none; margin-bottom: 2px; transition: all 0.15s; }
+  .nav-item:hover { background: rgba(255,255,255,0.6); }
+  .nav-item.active { background: rgba(255,255,255,0.85); color: var(--text-01); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .nav-item.active svg { stroke: var(--primary); }
+  .nav-item svg { width: 18px; height: 18px; stroke: var(--text-03); stroke-width: 1.8; fill: none; }
+  .sidebar-spacer { flex: 1; }
+  .sidebar-bottom { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+  .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; margin-top: 8px; }
+  .sidebar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--purple-light); }
+  .sidebar-user-name { font-size: 14px; font-weight: 600; }
+  .sidebar-user-role { font-size: 12px; color: var(--text-03); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Header */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-toggle { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-card); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .header-welcome { font-size: 16px; font-weight: 700; }
+  .header-sub { font-size: 12px; color: var(--text-03); }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .header-bell { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .header-bell:hover { background: var(--bg-secondary); }
+  .header-bell-dot { position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--error); border: 2px solid white; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; }
+  .btn-dark { background: var(--text-01); color: white; }
+
+  /* Content */
+  .content { flex: 1; overflow-y: auto; padding: 24px; }
+
+  /* Page title */
+  .page-title { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
+
+  /* Stat cards */
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  .stat-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 18px 20px; display: flex; align-items: flex-start; justify-content: space-between;
+    transition: all 0.2s; cursor: default;
+  }
+  .stat-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .stat-label { font-size: 14px; color: var(--text-02); margin-bottom: 8px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: var(--text-01); }
+  .stat-sub { font-size: 12px; color: var(--text-03); margin-top: 2px; }
+  .stat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stat-icon svg { width: 20px; height: 20px; }
+
+  /* Search */
+  .search-wrap { position: relative; margin-bottom: 16px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); }
+  .search-icon svg { width: 16px; height: 16px; stroke: var(--text-03); fill: none; stroke-width: 2; }
+  .search-input {
+    width: 100%; padding: 10px 14px 10px 42px; border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-card); transition: all 0.15s;
+  }
+  .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+  .search-input::placeholder { color: var(--text-03); }
+
+  /* Client table */
+  .client-table { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .ct-header {
+    display: flex; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line);
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-03);
+  }
+  .ct-row {
+    display: flex; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line-02);
+    cursor: pointer; transition: background 0.12s;
+  }
+  .ct-row:hover { background: var(--bg-secondary); }
+  .ct-row:last-child { border-bottom: none; }
+
+  .ct-col-client { flex: 0 0 240px; display: flex; align-items: center; gap: 12px; }
+  .ct-col-scheduled { flex: 0 0 100px; }
+  .ct-col-pending { flex: 0 0 100px; }
+  .ct-col-drafts { flex: 0 0 100px; }
+  .ct-col-sns { flex: 0 0 140px; display: flex; align-items: center; gap: 8px; }
+  .ct-col-platforms { flex: 0 0 60px; display: flex; align-items: center; justify-content: center; }
+  .ct-col-action { flex: 0 0 40px; display: flex; align-items: center; justify-content: center; }
+
+  .ct-logo { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
+  .ct-logo svg { width: 18px; height: 18px; stroke: var(--text-03); fill: none; stroke-width: 1.5; }
+  .ct-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
+  .ct-industry { font-size: 12px; color: var(--text-03); }
+
+  .ct-num { font-size: 16px; font-weight: 700; color: var(--text-01); }
+  .ct-num-label { font-size: 12px; color: var(--text-03); }
+
+  .ct-sns-bar { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; max-width: 60px; }
+  .ct-sns-fill { height: 100%; border-radius: 3px; }
+  .ct-sns-text { font-size: 14px; font-weight: 600; white-space: nowrap; }
+
+  .ct-platform-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-03); transition: all 0.15s; }
+  .ct-platform-btn:hover { background: var(--bg-secondary); color: var(--text-01); }
+
+  .ct-arrow { width: 28px; height: 28px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .ct-row:hover .ct-arrow { background: var(--primary); }
+  .ct-arrow svg { width: 14px; height: 14px; stroke: var(--primary); fill: none; stroke-width: 2; }
+  .ct-row:hover .ct-arrow svg { stroke: white; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg><span class="sidebar-brand">CORESHIFT</span></div>
+    <nav>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item active" href="#"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Clients</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Bulk Upload Topics</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Jobs</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-bottom">
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/></svg>Agency Settings</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</a>
+    </div>
+    <div class="sidebar-user"><div class="sidebar-avatar"></div><div><div class="sidebar-user-name">Ricky Jack</div><div class="sidebar-user-role">Agency Owner</div></div></div>
+  </aside>
+
+  <div class="main">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+        <div><div class="header-welcome">Welcome Ricky,</div><div class="header-sub">Manage your content and clients from here.</div></div>
+      </div>
+      <div class="header-right">
+        <div class="header-bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="header-bell-dot"></span></div>
+        <button class="btn btn-dark"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.34496 1.87605C7.37353 1.72312 7.45468 1.58499 7.57436 1.4856C7.69404 1.3862 7.84472 1.33179 8.00029 1.33179C8.15587 1.33179 8.30655 1.3862 8.42623 1.4856C8.54591 1.58499 8.62706 1.72312 8.65563 1.87605" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/></svg> New Job</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="page-title">Client List</div>
+
+      <!-- Stat cards -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div><div class="stat-label">Total Clients</div><div class="stat-value">215</div><div class="stat-sub">Subtotal Clients</div></div>
+          <div class="stat-icon" style="background:var(--primary-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        </div>
+        <div class="stat-card">
+          <div><div class="stat-label">Account Issues</div><div class="stat-value">215</div><div class="stat-sub">Connections Needed</div></div>
+          <div class="stat-icon" style="background:var(--warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+        </div>
+        <div class="stat-card">
+          <div><div class="stat-label">Pending Feedback</div><div class="stat-value">215</div><div class="stat-sub">Need to be confirmed</div></div>
+          <div class="stat-icon" style="background:var(--purple-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <span class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span>
+        <input type="text" class="search-input" placeholder="Search clients...">
+      </div>
+
+      <!-- Client table -->
+      <div class="client-table">
+        <div class="ct-header">
+          <div class="ct-col-client">Client</div>
+          <div class="ct-col-scheduled">Scheduled</div>
+          <div class="ct-col-pending">Pending</div>
+          <div class="ct-col-drafts">Drafts</div>
+          <div class="ct-col-sns">SNS Linked</div>
+          <div class="ct-col-platforms">Platforms</div>
+          <div class="ct-col-action"></div>
+        </div>
+
+        <a href="client-dashboard.html" style="text-decoration:none;color:inherit;"><div class="ct-row">
+          <div class="ct-col-client">
+            <div class="ct-logo" style="background:linear-gradient(135deg,var(--purple-light),var(--bg-secondary));"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+            <div><div class="ct-name">Storepro</div><div class="ct-industry">Retail · Auckland</div></div>
+          </div>
+          <div class="ct-col-scheduled"><div class="ct-num">123</div><div class="ct-num-label">Scheduled</div></div>
+          <div class="ct-col-pending"><div class="ct-num">16</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-drafts"><div class="ct-num">8</div><div class="ct-num-label">Drafts</div></div>
+          <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:100%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">6/6</span></div>
+          <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
+          <div class="ct-col-action"><div class="ct-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+        </div></a>
+
+        <a href="client-dashboard.html" style="text-decoration:none;color:inherit;"><div class="ct-row">
+          <div class="ct-col-client">
+            <div class="ct-logo" style="background:linear-gradient(135deg,var(--primary-light),#FFF0E6);"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div><div class="ct-name">Growth Partners</div><div class="ct-industry">Marketing Agency</div></div>
+          </div>
+          <div class="ct-col-scheduled"><div class="ct-num">45</div><div class="ct-num-label">Scheduled</div></div>
+          <div class="ct-col-pending"><div class="ct-num">3</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-drafts"><div class="ct-num">12</div><div class="ct-num-label">Drafts</div></div>
+          <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:33%;background:var(--error);"></div></div><span class="ct-sns-text" style="color:var(--error);">2/6</span></div>
+          <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
+          <div class="ct-col-action"><div class="ct-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+        </div></a>
+
+        <a href="client-dashboard.html" style="text-decoration:none;color:inherit;"><div class="ct-row">
+          <div class="ct-col-client">
+            <div class="ct-logo" style="background:linear-gradient(135deg,var(--blue-light),#EFF6FF);"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <div><div class="ct-name">Coreshift HQ</div><div class="ct-industry">Technology · NZ</div></div>
+          </div>
+          <div class="ct-col-scheduled"><div class="ct-num">89</div><div class="ct-num-label">Scheduled</div></div>
+          <div class="ct-col-pending"><div class="ct-num">5</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-drafts"><div class="ct-num">2</div><div class="ct-num-label">Drafts</div></div>
+          <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:83%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">5/6</span></div>
+          <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
+          <div class="ct-col-action"><div class="ct-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+        </div></a>
+
+        <a href="client-dashboard.html" style="text-decoration:none;color:inherit;"><div class="ct-row">
+          <div class="ct-col-client">
+            <div class="ct-logo" style="background:linear-gradient(135deg,var(--success-light),#E5F9EF);"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+            <div><div class="ct-name">Aero Filter</div><div class="ct-industry">HVAC · Wellington</div></div>
+          </div>
+          <div class="ct-col-scheduled"><div class="ct-num">67</div><div class="ct-num-label">Scheduled</div></div>
+          <div class="ct-col-pending"><div class="ct-num">8</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-drafts"><div class="ct-num">4</div><div class="ct-num-label">Drafts</div></div>
+          <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:66%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">4/6</span></div>
+          <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
+          <div class="ct-col-action"><div class="ct-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+        </div></a>
+
+        <a href="client-dashboard.html" style="text-decoration:none;color:inherit;"><div class="ct-row">
+          <div class="ct-col-client">
+            <div class="ct-logo" style="background:linear-gradient(135deg,var(--warning-light),#FFFBEB);"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <div><div class="ct-name">Fresh Harvest</div><div class="ct-industry">Food & Beverage</div></div>
+          </div>
+          <div class="ct-col-scheduled"><div class="ct-num">34</div><div class="ct-num-label">Scheduled</div></div>
+          <div class="ct-col-pending"><div class="ct-num">2</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-drafts"><div class="ct-num">6</div><div class="ct-num-label">Drafts</div></div>
+          <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:50%;background:var(--warning);"></div></div><span class="ct-sns-text" style="color:var(--warning);">3/6</span></div>
+          <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
+          <div class="ct-col-action"><div class="ct-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+        </div></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
