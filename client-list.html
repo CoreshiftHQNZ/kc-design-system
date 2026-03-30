@@ -125,6 +125,37 @@
   .ct-row:hover .ct-arrow { background: var(--primary); }
   .ct-arrow svg { width: 14px; height: 14px; stroke: var(--primary); fill: none; stroke-width: 2; }
   .ct-row:hover .ct-arrow svg { stroke: white; }
+
+  /* Notification dropdown */
+  .notif-dropdown {
+    position: absolute; top: calc(100% + 8px); right: 0; width: 380px;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 100;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;
+  }
+  .notif-dropdown.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .notif-dropdown-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; border-bottom: 1px solid var(--line);
+  }
+  .notif-dropdown-body { max-height: 360px; overflow-y: auto; }
+  .notif-item {
+    display: flex; align-items: flex-start; gap: 10px; padding: 12px 18px;
+    border-bottom: 1px solid var(--line-02); cursor: pointer;
+    transition: background 0.12s; text-decoration: none; color: inherit;
+  }
+  .notif-item:hover { background: var(--bg-secondary); }
+  .notif-item:last-child { border-bottom: none; }
+  .notif-item.unread { background: var(--primary-light); }
+  .notif-item.unread:hover { background: #FFE8D9; }
+  .notif-item-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notif-item-body { flex: 1; min-width: 0; }
+  .notif-item-text { font-size: 14px; color: var(--text-01); line-height: 1.4; }
+  .notif-item-text strong { font-weight: 600; }
+  .notif-item-time { font-size: 12px; color: var(--text-03); margin-top: 2px; }
+  .notif-item-action { font-size: 12px; font-weight: 600; color: var(--primary); flex-shrink: 0; white-space: nowrap; margin-top: 2px; }
+  .notif-item-action:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -154,7 +185,51 @@
         <div><div class="header-welcome">Welcome Ricky,</div><div class="header-sub">Manage your content and clients from here.</div></div>
       </div>
       <div class="header-right">
-        <div class="header-bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="header-bell-dot"></span></div>
+        <div class="header-bell" onclick="document.getElementById('notifDropdown').classList.toggle('show')" style="position:relative;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="header-bell-dot"></span>
+              <!-- Notification Dropdown -->
+              <div class="notif-dropdown" id="notifDropdown">
+                <div class="notif-dropdown-header">
+                  <span style="font-size:14px;font-weight:700;color:var(--text-01);">Notifications</span>
+                  <span style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:500;">Mark all read</span>
+                </div>
+                <div class="notif-dropdown-body">
+                  <a href="client-dashboard.html" class="notif-item unread">
+                    <div class="notif-item-icon" style="background:var(--warning-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div class="notif-item-body">
+                      <div class="notif-item-text"><strong>Storepro</strong> — "Spring Blog" waiting for client feedback</div>
+                      <div class="notif-item-time">2 days ago</div>
+                    </div>
+                    <span class="notif-item-action">Remind</span>
+                  </a>
+                  <a href="client-dashboard.html" class="notif-item unread">
+                    <div class="notif-item-icon" style="background:var(--primary-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <div class="notif-item-body">
+                      <div class="notif-item-text"><strong>Growth Partners</strong> — Changes requested on "Q2 Campaign"</div>
+                      <div class="notif-item-time">5 hours ago</div>
+                    </div>
+                    <span class="notif-item-action">View</span>
+                  </a>
+                  <a href="client-dashboard.html" class="notif-item unread">
+                    <div class="notif-item-icon" style="background:var(--success-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="notif-item-body">
+                      <div class="notif-item-text"><strong>Coreshift</strong> — "Newsletter" approved by Sarah Kim</div>
+                      <div class="notif-item-time">1 hour ago</div>
+                    </div>
+                    <span class="notif-item-action">Schedule</span>
+                  </a>
+                  <a href="client-dashboard.html" class="notif-item">
+                    <div class="notif-item-icon" style="background:var(--error-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                    <div class="notif-item-body">
+                      <div class="notif-item-text"><strong>Aero Filter</strong> — "Product Launch" generation failed</div>
+                      <div class="notif-item-time">Yesterday</div>
+                    </div>
+                    <span class="notif-item-action">Retry</span>
+                  </a>
+                </div>
+              </div>
+            </div>
         <button class="btn btn-dark"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.34496 1.87605C7.37353 1.72312 7.45468 1.58499 7.57436 1.4856C7.69404 1.3862 7.84472 1.33179 8.00029 1.33179C8.15587 1.33179 8.30655 1.3862 8.42623 1.4856C8.54591 1.58499 8.62706 1.72312 8.65563 1.87605" stroke="white" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/></svg> New Job</button>
       </div>
     </div>
@@ -163,21 +238,7 @@
     <div class="content">
       <div class="page-title">Client List</div>
 
-      <!-- Stat cards -->
-      <div class="stat-row">
-        <div class="stat-card">
-          <div><div class="stat-label">Total Clients</div><div class="stat-value">215</div><div class="stat-sub">Subtotal Clients</div></div>
-          <div class="stat-icon" style="background:var(--primary-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        </div>
-        <div class="stat-card">
-          <div><div class="stat-label">Account Issues</div><div class="stat-value">215</div><div class="stat-sub">Connections Needed</div></div>
-          <div class="stat-icon" style="background:var(--warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-        </div>
-        <div class="stat-card">
-          <div><div class="stat-label">Pending Feedback</div><div class="stat-value">215</div><div class="stat-sub">Need to be confirmed</div></div>
-          <div class="stat-icon" style="background:var(--purple-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        </div>
-      </div>
+
 
       <!-- Search -->
       <div class="search-wrap">
@@ -203,7 +264,7 @@
             <div><div class="ct-name">Storepro</div><div class="ct-industry">Retail · Auckland</div></div>
           </div>
           <div class="ct-col-scheduled"><div class="ct-num">123</div><div class="ct-num-label">Scheduled</div></div>
-          <div class="ct-col-pending"><div class="ct-num">16</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-pending"><div class="ct-num" style="color:var(--primary);">16</div><div class="ct-num-label">Pending</div></div>
           <div class="ct-col-drafts"><div class="ct-num">8</div><div class="ct-num-label">Drafts</div></div>
           <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:100%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">6/6</span></div>
           <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
@@ -216,7 +277,7 @@
             <div><div class="ct-name">Growth Partners</div><div class="ct-industry">Marketing Agency</div></div>
           </div>
           <div class="ct-col-scheduled"><div class="ct-num">45</div><div class="ct-num-label">Scheduled</div></div>
-          <div class="ct-col-pending"><div class="ct-num">3</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-pending"><div class="ct-num" style="color:var(--primary);">3</div><div class="ct-num-label">Pending</div></div>
           <div class="ct-col-drafts"><div class="ct-num">12</div><div class="ct-num-label">Drafts</div></div>
           <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:33%;background:var(--error);"></div></div><span class="ct-sns-text" style="color:var(--error);">2/6</span></div>
           <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
@@ -229,7 +290,7 @@
             <div><div class="ct-name">Coreshift HQ</div><div class="ct-industry">Technology · NZ</div></div>
           </div>
           <div class="ct-col-scheduled"><div class="ct-num">89</div><div class="ct-num-label">Scheduled</div></div>
-          <div class="ct-col-pending"><div class="ct-num">5</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-pending"><div class="ct-num" style="color:var(--primary);">5</div><div class="ct-num-label">Pending</div></div>
           <div class="ct-col-drafts"><div class="ct-num">2</div><div class="ct-num-label">Drafts</div></div>
           <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:83%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">5/6</span></div>
           <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
@@ -242,7 +303,7 @@
             <div><div class="ct-name">Aero Filter</div><div class="ct-industry">HVAC · Wellington</div></div>
           </div>
           <div class="ct-col-scheduled"><div class="ct-num">67</div><div class="ct-num-label">Scheduled</div></div>
-          <div class="ct-col-pending"><div class="ct-num">8</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-pending"><div class="ct-num" style="color:var(--primary);">8</div><div class="ct-num-label">Pending</div></div>
           <div class="ct-col-drafts"><div class="ct-num">4</div><div class="ct-num-label">Drafts</div></div>
           <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:66%;background:var(--success);"></div></div><span class="ct-sns-text" style="color:var(--success);">4/6</span></div>
           <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
@@ -255,7 +316,7 @@
             <div><div class="ct-name">Fresh Harvest</div><div class="ct-industry">Food & Beverage</div></div>
           </div>
           <div class="ct-col-scheduled"><div class="ct-num">34</div><div class="ct-num-label">Scheduled</div></div>
-          <div class="ct-col-pending"><div class="ct-num">2</div><div class="ct-num-label">Pending</div></div>
+          <div class="ct-col-pending"><div class="ct-num" style="color:var(--primary);">2</div><div class="ct-num-label">Pending</div></div>
           <div class="ct-col-drafts"><div class="ct-num">6</div><div class="ct-num-label">Drafts</div></div>
           <div class="ct-col-sns"><div class="ct-sns-bar"><div class="ct-sns-fill" style="width:50%;background:var(--warning);"></div></div><span class="ct-sns-text" style="color:var(--warning);">3/6</span></div>
           <div class="ct-col-platforms"><button class="ct-platform-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button></div>
