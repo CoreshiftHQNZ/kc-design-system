@@ -236,6 +236,47 @@
           </div>
         </div>
 
+
+        <!-- 1.5 Client Contacts -->
+        <div class="section-card open">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon" style="background:var(--success-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <div><div class="section-title">Client Contacts</div><div class="section-desc">Who receives content for review & approval</div></div>
+            </div>
+            <svg class="section-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="section-body" onclick="event.stopPropagation()">
+            <!-- Primary contact -->
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-02);">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--primary);flex-shrink:0;">SK</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;">Sarah Kim <span style="font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--primary-light);color:var(--primary);">Primary</span></div>
+                <div style="font-size:12px;color:var(--text-03);">sarah@aerofilter.co.nz · Marketing Director</div>
+              </div>
+              <button class="btn btn-outline btn-sm" style="flex-shrink:0;">Edit</button>
+            </div>
+            <!-- CC contact -->
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-02);">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--blue);flex-shrink:0;">JP</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;">James Park <span style="font-size:12px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--bg-secondary);color:var(--text-03);">CC</span></div>
+                <div style="font-size:12px;color:var(--text-03);">james@aerofilter.co.nz · Social Media Coordinator</div>
+              </div>
+              <button class="btn btn-outline btn-sm" style="flex-shrink:0;">Edit</button>
+            </div>
+            <!-- Add contact -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:14px;margin-top:10px;border:2px dashed var(--border);border-radius:10px;cursor:pointer;color:var(--text-03);font-size:14px;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)';this.style.background='var(--primary-light)'" onmouseout="this.style.borderColor='';this.style.color='';this.style.background=''">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Contact
+            </div>
+            <div style="font-size:12px;color:var(--text-03);margin-top:10px;line-height:1.5;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-03)" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Primary contact receives all review links by default. You can override per job.
+            </div>
+          </div>
+        </div>
+
         <!-- 2. Social Accounts -->
         <div class="section-card open">
           <div class="section-header">
