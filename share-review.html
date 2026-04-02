@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyContent — Review & Share</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', sans-serif; background: #F9FAFF; color: #111827; overflow: hidden; }
+  :root {
+    --primary: #FF6B35; --primary-hover: #EF6E1E; --primary-light: #FFF0E6;
+    --primary-ring: rgba(255, 107, 53, 0.12);
+    --bg-page: #F9FAFF; --bg-card: #FFFFFF; --bg-secondary: #F1F5F9;
+    --text-01: #111827; --text-02: #4B5563; --text-03: #9CA3AF;
+    --success: #27C87D; --success-light: #E5F9EF;
+    --error: #EF4444; --error-light: #FEF2F2;
+    --warning: #FFC43A; --warning-light: #FFFBEB;
+    --purple: #BAA3F5; --purple-light: #F0E2FF;
+    --blue: #93B4E6; --blue-light: #EFF6FF;
+    --line: #E5E7EB; --line-02: #F1F5F9; --border: #D1D5DB;
+  }
+  .app { display: flex; height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 200px; background: linear-gradient(180deg, rgba(240,226,255,0.4) 0%, rgba(147,180,230,0.4) 100%), #FFF; border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 8px 8px 24px; }
+  .sidebar-logo svg { width: 24px; height: 24px; }
+  .sidebar-brand { font-size: 14px; font-weight: 700; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-02); text-decoration: none; margin-bottom: 2px; transition: all 0.15s; }
+  .nav-item:hover { background: rgba(255,255,255,0.6); }
+  .nav-item.active { background: rgba(255,255,255,0.85); color: var(--text-01); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .nav-item.active svg { stroke: var(--primary); }
+  .nav-item svg { width: 18px; height: 18px; stroke: var(--text-03); stroke-width: 1.8; fill: none; }
+  .sidebar-spacer { flex: 1; }
+  .sidebar-bottom { border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; }
+  .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; margin-top: 8px; }
+  .sidebar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--purple-light); }
+  .sidebar-user-name { font-size: 14px; font-weight: 600; }
+  .sidebar-user-role { font-size: 12px; color: var(--text-03); }
+
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Header */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--bg-card); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-toggle { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-card); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .header-welcome { font-size: 16px; font-weight: 700; }
+  .header-sub { font-size: 12px; color: var(--text-03); }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .header-bell { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .header-bell:hover { background: var(--bg-secondary); }
+  .header-bell-dot { position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--error); border: 2px solid white; }
+
+  /* Notification dropdown */
+  .notif-dropdown {
+    position: absolute; top: calc(100% + 8px); right: 0; width: 380px;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 100;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;
+  }
+  .notif-dropdown.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .notif-dropdown-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .notif-dropdown-body { max-height: 360px; overflow-y: auto; }
+  .notif-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--line-02); cursor: pointer; transition: background 0.12s; text-decoration: none; color: inherit; }
+  .notif-item:hover { background: var(--bg-secondary); }
+  .notif-item:last-child { border-bottom: none; }
+  .notif-item.unread { background: var(--primary-light); }
+  .notif-item.unread:hover { background: #FFE8D9; }
+  .notif-item-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notif-item-body { flex: 1; min-width: 0; }
+  .notif-item-text { font-size: 14px; color: var(--text-01); line-height: 1.4; }
+  .notif-item-text strong { font-weight: 600; }
+  .notif-item-time { font-size: 12px; color: var(--text-03); margin-top: 2px; }
+  .notif-item-action { font-size: 12px; font-weight: 600; color: var(--primary); flex-shrink: 0; white-space: nowrap; margin-top: 2px; }
+  .notif-item-action:hover { text-decoration: underline; }
+
+  /* Content */
+  .content { flex: 1; overflow-y: auto; padding: 24px 32px; }
+
+  /* Breadcrumb */
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-03); margin-bottom: 20px; }
+  .breadcrumb a { color: var(--text-03); text-decoration: none; transition: color 0.15s; }
+  .breadcrumb a:hover { color: var(--primary); }
+  .breadcrumb svg { width: 12px; height: 12px; stroke: var(--text-03); fill: none; stroke-width: 2; }
+
+  /* Review card */
+  .review-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 32px; max-width: 920px; margin: 0 auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .review-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .review-subtitle { font-size: 14px; color: var(--text-02); margin-bottom: 28px; }
+  .review-subtitle strong { color: var(--text-01); font-weight: 600; }
+
+  /* Section labels */
+  .section-label { font-size: 14px; font-weight: 600; color: var(--text-01); margin-bottom: 12px; }
+
+  /* Platform toggle chips */
+  .platform-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+  .platform-chip {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 14px 12px; border-radius: 14px; border: 1.5px solid var(--line);
+    background: white; cursor: pointer; transition: all 0.15s; position: relative;
+    font-family: 'Satoshi', sans-serif;
+  }
+  .platform-chip:hover { border-color: var(--border); }
+  .platform-chip.selected { border-color: var(--primary); background: var(--primary-light); }
+  .platform-chip-top { display: flex; align-items: center; gap: 10px; width: 100%; }
+  .platform-chip-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
+  .platform-chip-icon img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
+  .platform-chip-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
+  .platform-chip-check {
+    margin-left: auto; width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--line); transition: all 0.2s;
+  }
+  .platform-chip.selected .platform-chip-check { background: var(--primary); }
+  .platform-chip-check svg { width: 12px; height: 12px; stroke: white; stroke-width: 3; fill: none; opacity: 0; transition: opacity 0.15s; }
+  .platform-chip.selected .platform-chip-check svg { opacity: 1; }
+
+  /* Mini mock preview */
+  .platform-chip-preview {
+    width: 100%; border-radius: 8px; overflow: hidden;
+    border: 1px solid #E5E5E5; background: white; margin-top: 4px;
+  }
+  .mini-mock-header { display: flex; align-items: center; gap: 4px; padding: 5px 6px; }
+  .mini-mock-avatar { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .mini-mock-user { font-size: 9px; font-weight: 600; color: #262626; }
+  .mini-mock-img { width: 100%; background: linear-gradient(135deg, #FFE0CC, #F0E2FF); display: flex; align-items: center; justify-content: center; }
+  .mini-mock-img svg { opacity: 0.15; }
+  .mini-mock-caption { padding: 4px 6px; font-size: 8px; color: #262626; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .mini-mock-caption strong { font-weight: 600; }
+  .mini-mock-actions { display: flex; gap: 6px; padding: 3px 6px 4px; }
+  .mini-mock-actions svg { width: 10px; height: 10px; }
+  .mini-mock-reactions { padding: 3px 6px 4px; font-size: 8px; color: #666; border-top: 1px solid #eee; }
+
+  /* Note textarea */
+  .note-wrap { margin-bottom: 32px; }
+  .note-textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: vertical; min-height: 90px; line-height: 1.6;
+    transition: all 0.15s;
+  }
+  .note-textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px var(--primary-ring); }
+  .note-textarea::placeholder { color: var(--text-03); }
+  .char-count { font-size: 12px; color: var(--text-03); text-align: right; margin-top: 4px; }
+  .char-count.over { color: var(--error); }
+
+  /* Footer actions */
+  .review-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 24px; border-top: 1px solid var(--line);
+  }
+  .footer-left-actions { display: flex; align-items: center; gap: 16px; }
+  .back-link { font-size: 14px; color: var(--text-03); cursor: pointer; font-weight: 500; text-decoration: none; transition: color 0.15s; }
+  .back-link:hover { color: var(--text-02); }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: 'Satoshi', sans-serif; transition: all 0.15s; }
+  .btn-ghost { background: transparent; color: var(--text-02); border: 1.5px solid var(--border); }
+  .btn-ghost:hover { background: var(--bg-secondary); border-color: var(--text-03); }
+  .btn-primary { background: var(--primary); color: white; padding: 12px 28px; font-size: 16px; font-weight: 700; border-radius: 12px; }
+  .btn-primary:hover { background: var(--primary-hover); box-shadow: 0 6px 20px rgba(255,107,53,0.25); transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary.sent { background: var(--success); pointer-events: none; }
+
+  /* Toast */
+  .toast-bar {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--text-01); color: white; padding: 12px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 600; font-family: 'Satoshi', sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 300;
+    opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="#0EA5E9" stroke-width="2.5"/><path d="M9 14c0-3 2-5 5-5s5 2 5 5" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/></svg><span class="sidebar-brand">CORESHIFT</span></div>
+    <nav>
+      <a class="nav-item" href="client-dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item" href="client-list.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Clients</a>
+      <a class="nav-item" href="client-topics.html"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Bulk Upload Topics</a>
+      <a class="nav-item active" href="client-jobs.html"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Jobs</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-bottom">
+      <a class="nav-item" href="client-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/></svg>Agency Settings</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</a>
+    </div>
+    <div class="sidebar-user"><div class="sidebar-avatar"></div><div><div class="sidebar-user-name">Ricky Jack</div><div class="sidebar-user-role">Agency Owner</div></div></div>
+  </aside>
+
+  <div class="main">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+        <div><div class="header-welcome">Review & Share</div><div class="header-sub">Preview and send content to your client for approval.</div></div>
+      </div>
+      <div class="header-right">
+        <div class="header-bell" onclick="document.getElementById('notifDropdown').classList.toggle('show')" style="position:relative;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="header-bell-dot"></span>
+          <div class="notif-dropdown" id="notifDropdown">
+            <div class="notif-dropdown-header">
+              <span style="font-size:14px;font-weight:700;color:var(--text-01);">Notifications</span>
+              <span style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:500;">Mark all read</span>
+            </div>
+            <div class="notif-dropdown-body">
+              <a href="client-dashboard.html" class="notif-item unread">
+                <div class="notif-item-icon" style="background:var(--warning-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="notif-item-body">
+                  <div class="notif-item-text"><strong>Storepro</strong> — "Spring Blog" waiting for client feedback</div>
+                  <div class="notif-item-time">2 days ago</div>
+                </div>
+                <span class="notif-item-action">Remind</span>
+              </a>
+              <a href="client-dashboard.html" class="notif-item unread">
+                <div class="notif-item-icon" style="background:var(--primary-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="notif-item-body">
+                  <div class="notif-item-text"><strong>Growth Partners</strong> — Changes requested on "Q2 Campaign"</div>
+                  <div class="notif-item-time">5 hours ago</div>
+                </div>
+                <span class="notif-item-action">View</span>
+              </a>
+              <a href="client-dashboard.html" class="notif-item">
+                <div class="notif-item-icon" style="background:var(--success-light);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                <div class="notif-item-body">
+                  <div class="notif-item-text"><strong>Coreshift</strong> — "Newsletter" approved by Sarah Kim</div>
+                  <div class="notif-item-time">1 hour ago</div>
+                </div>
+                <span class="notif-item-action">Schedule</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="client-list.html">Client List</a>
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <a href="client-dashboard.html">Storepro</a>
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <span style="color:var(--text-01);font-weight:600;">Share Review</span>
+      </div>
+
+      <!-- Review Card -->
+      <div class="review-card">
+        <div class="review-title">Review & Share</div>
+        <div class="review-subtitle">Topic: <strong>How Retail Tech is Transforming NZ Small Business</strong></div>
+
+        <!-- Platform selector -->
+        <div class="section-label">Select platforms to share with client</div>
+        <div class="platform-grid">
+          <!-- Instagram -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon"><img src="icons/instagram.png" alt="Instagram"></div>
+              <span class="platform-chip-name">Instagram</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-header">
+                <div class="mini-mock-avatar" style="background:linear-gradient(45deg,#f09433,#dc2743);"></div>
+                <span class="mini-mock-user">storepro_nz</span>
+              </div>
+              <div class="mini-mock-img" style="aspect-ratio:1/1;height:80px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+              <div class="mini-mock-caption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 #RetailTech</div>
+              <div class="mini-mock-actions">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facebook -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon" style="background:#1877F2;border-radius:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+              <span class="platform-chip-name">Facebook</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-header">
+                <div class="mini-mock-avatar" style="background:#1877F2;"></div>
+                <span class="mini-mock-user">Storepro NZ</span>
+              </div>
+              <div class="mini-mock-caption">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront...</div>
+              <div class="mini-mock-img" style="aspect-ratio:1.91/1;height:60px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+              <div class="mini-mock-reactions">👍 Like · 💬 Comment · ↗ Share</div>
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon"><img src="icons/linkedin.png" alt="LinkedIn"></div>
+              <span class="platform-chip-name">LinkedIn</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-header">
+                <div class="mini-mock-avatar" style="background:#0A66C2;"></div>
+                <span class="mini-mock-user">Storepro</span>
+              </div>
+              <div class="mini-mock-caption">The retail landscape in NZ is evolving rapidly. Key takeaways: • Real-time inventory...</div>
+              <div class="mini-mock-img" style="aspect-ratio:1.91/1;height:50px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+              <div class="mini-mock-reactions">👍 Like · 💬 Comment · 🔄 Repost</div>
+            </div>
+          </div>
+
+          <!-- X / Twitter -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon" style="background:#111827;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+              <span class="platform-chip-name">X / Twitter</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-header">
+                <div class="mini-mock-avatar" style="background:#111827;"></div>
+                <span class="mini-mock-user">@storepro_nz</span>
+              </div>
+              <div class="mini-mock-caption">Revolutionise your retail game! 🚀 Modern POS tech is transforming NZ small business. #RetailTech</div>
+              <div class="mini-mock-reactions">💬 12 · 🔄 34 · ❤️ 89</div>
+            </div>
+          </div>
+
+          <!-- TikTok -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon"><img src="icons/tiktok.png" alt="TikTok"></div>
+              <span class="platform-chip-name">TikTok</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-img" style="aspect-ratio:9/16;height:100px;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+                <div style="text-align:center;color:white;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white" opacity="0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <div style="font-size:8px;opacity:0.6;margin-top:2px;">Short Video</div>
+                </div>
+              </div>
+              <div class="mini-mock-caption"><strong>@storepro_nz</strong> Retail tech is changing everything 🛒</div>
+            </div>
+          </div>
+
+          <!-- YouTube Shorts -->
+          <div class="platform-chip selected" onclick="togglePlatform(this)">
+            <div class="platform-chip-top">
+              <div class="platform-chip-icon"><img src="icons/youtube.png" alt="YouTube Shorts"></div>
+              <span class="platform-chip-name">YouTube Shorts</span>
+              <div class="platform-chip-check"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="platform-chip-preview">
+              <div class="mini-mock-img" style="aspect-ratio:9/16;height:100px;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+                <div style="text-align:center;color:white;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white" opacity="0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <div style="font-size:8px;opacity:0.6;margin-top:2px;">Short Video</div>
+                </div>
+              </div>
+              <div class="mini-mock-caption"><strong>Storepro NZ</strong> How Retail Tech is Transforming NZ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note to client -->
+        <div class="note-wrap">
+          <div class="section-label">Add a note for your client (optional)</div>
+          <textarea class="note-textarea" id="clientNote" placeholder="e.g. Hey Sarah! Here are this week's posts ready for your review. Let me know if anything needs tweaking 😊" maxlength="300" oninput="updateCharCount()"></textarea>
+          <div class="char-count" id="charCount">0 / 300</div>
+        </div>
+
+        <!-- Footer actions -->
+        <div class="review-footer">
+          <div class="footer-left-actions">
+            <a href="smart-job-creator.html" class="back-link">← Back</a>
+            <button class="btn btn-ghost">Save as Draft</button>
+          </div>
+          <button class="btn btn-primary" id="sendBtn" onclick="sendToClient()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send to Client →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-bar" id="toastBar">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  Link sent to client!
+</div>
+
+<script>
+function togglePlatform(chip) {
+  chip.classList.toggle('selected');
+}
+
+function updateCharCount() {
+  const textarea = document.getElementById('clientNote');
+  const count = document.getElementById('charCount');
+  const len = textarea.value.length;
+  count.textContent = len + ' / 300';
+  count.classList.toggle('over', len > 300);
+}
+
+function sendToClient() {
+  const btn = document.getElementById('sendBtn');
+  btn.classList.add('sent');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ Sent';
+
+  // Show toast
+  const toast = document.getElementById('toastBar');
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); }, 3000);
+
+  // Navigate to client-approval after delay
+  setTimeout(() => { window.location.href = 'client-approval.html'; }, 1800);
+}
+
+// Close notification dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const bell = document.querySelector('.header-bell');
+  const dropdown = document.getElementById('notifDropdown');
+  if (!bell.contains(e.target)) dropdown.classList.remove('show');
+});
+</script>
+</body>
+</html>
