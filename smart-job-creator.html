@@ -550,6 +550,24 @@
   }
   .share-chip.deselected .chip-check { display: none; }
   .share-platform-count { font-size: 12px; color: var(--text-03); margin-bottom: 24px; }
+  /* Share mode segmented control */
+  .share-mode-toggle {
+    display: flex; width: 280px; background: var(--bg-secondary); border-radius: 10px; padding: 3px; margin-bottom: 16px;
+  }
+  .share-mode-btn {
+    flex: 1; padding: 8px 12px; border-radius: 8px; border: none; background: none;
+    font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-03);
+    cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .share-mode-btn.active {
+    background: var(--primary); color: #fff; box-shadow: 0 2px 8px rgba(255,107,53,0.25);
+  }
+  .share-platform-grid.disabled {
+    opacity: 0.5; pointer-events: none;
+  }
+  .share-platform-grid.disabled .share-chip {
+    cursor: default;
+  }
   .share-note-area {
     width: 100%; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px;
     font-family: inherit; font-size: 14px; resize: none; outline: none; transition: border-color 0.15s;
@@ -1288,8 +1306,13 @@ function regenerateAll() {
         <button class="modal-close" onclick="closeShareModal()">✕</button>
       </div>
       <div class="share-modal-body">
-        <div class="share-section-label">Select platforms to share with client</div>
-        <div class="share-platform-grid" id="sharePlatformGrid">
+        <div class="share-section-label">Share mode</div>
+        <div class="share-mode-toggle" id="shareModeToggle">
+          <button class="share-mode-btn active" onclick="setShareMode('all')">All Platforms</button>
+          <button class="share-mode-btn" onclick="setShareMode('select')">Select Platforms</button>
+        </div>
+        <div class="share-section-label">Platforms</div>
+        <div class="share-platform-grid disabled" id="sharePlatformGrid">
           <div class="share-chip" data-platform="Instagram" onclick="toggleShareChip(this)">
             <svg class="chip-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             Instagram
@@ -1315,7 +1338,7 @@ function regenerateAll() {
             YouTube Shorts
           </div>
         </div>
-        <div class="share-platform-count" id="sharePlatformCount">6 platforms selected</div>
+        <div class="share-platform-count" id="sharePlatformCount" style="display:none;">6 platforms selected</div>
 
         <div class="share-section-label">Add a note for your client (optional)</div>
         <textarea class="share-note-area" id="shareNoteArea" rows="4" maxlength="300" placeholder="e.g. Hey Sarah! Here are this week's posts ready for your review. Let me know if anything needs tweaking!" oninput="updateShareCharCount()"></textarea>
@@ -1356,8 +1379,7 @@ function openShareModal() {
   document.getElementById('shareReviewState').style.display = '';
   document.getElementById('shareSuccessState').style.display = 'none';
   // Reset chips
-  document.querySelectorAll('#sharePlatformGrid .share-chip').forEach(function(c) { c.classList.remove('deselected'); });
-  updateSharePlatformCount();
+  setShareMode('all');
   // Reset note
   document.getElementById('shareNoteArea').value = '';
   document.getElementById('shareCharCount').textContent = '0 / 300';
@@ -1373,6 +1395,27 @@ function closeShareModal(e) {
 function toggleShareChip(el) {
   el.classList.toggle('deselected');
   updateSharePlatformCount();
+}
+
+function setShareMode(mode) {
+  var btns = document.querySelectorAll('#shareModeToggle .share-mode-btn');
+  var grid = document.getElementById('sharePlatformGrid');
+  var countEl = document.getElementById('sharePlatformCount');
+
+  btns.forEach(function(b) { b.classList.remove('active'); });
+
+  if (mode === 'all') {
+    btns[0].classList.add('active');
+    // Select all chips
+    grid.querySelectorAll('.share-chip').forEach(function(c) { c.classList.remove('deselected'); });
+    grid.classList.add('disabled');
+    countEl.style.display = 'none';
+  } else {
+    btns[1].classList.add('active');
+    grid.classList.remove('disabled');
+    countEl.style.display = '';
+    updateSharePlatformCount();
+  }
 }
 
 function updateSharePlatformCount() {
