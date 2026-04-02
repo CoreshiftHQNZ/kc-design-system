@@ -419,6 +419,65 @@
   .oauth-popup-cancel { font-size: 14px; color: var(--text-03); cursor: pointer; }
   .oauth-popup-cancel:hover { color: var(--text-02); }
 
+  /* === Regenerate checkbox on carousel slides === */
+  .slide-checkbox {
+    position: absolute; top: 12px; right: 12px; z-index: 5;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: white; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .slide-checkbox:hover { opacity: 1; }
+  .slide-checkbox.checked { opacity: 1; border-color: var(--primary); background: var(--primary); }
+  .slide-checkbox.checked svg { opacity: 1; }
+  .slide-checkbox svg { width: 14px; height: 14px; stroke: white; stroke-width: 3; fill: none; opacity: 0; transition: opacity 0.15s; }
+  .carousel-slide:hover .slide-checkbox { opacity: 1; }
+  .carousel-slide.slide-selected .slide-preview .slide-mock { border: 1.5px solid var(--primary); }
+
+  /* Carousel dot checkbox indicator */
+  .carousel-dot.dot-selected { box-shadow: 0 0 0 2px var(--primary); }
+
+  /* Regenerate toolbar */
+  .regenerate-toolbar {
+    display: none; align-items: center; justify-content: center; gap: 16px;
+    padding: 12px 24px; background: var(--bg-card); border-top: 1px solid var(--line);
+    flex-shrink: 0; animation: fadeIn 0.2s ease;
+  }
+  .regenerate-toolbar.visible { display: flex; }
+  .regenerate-toolbar .regen-count { font-size: 14px; font-weight: 600; color: var(--text-02); }
+  .regenerate-toolbar .btn-regen {
+    padding: 8px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    background: var(--primary); color: white; border: none; cursor: pointer;
+    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .regenerate-toolbar .btn-regen:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .regenerate-toolbar .regen-clear {
+    font-size: 14px; color: var(--text-03); cursor: pointer; font-weight: 500;
+    background: none; border: none; font-family: 'Satoshi', sans-serif;
+  }
+  .regenerate-toolbar .regen-clear:hover { color: var(--text-02); text-decoration: underline; }
+
+  /* Regenerate All ghost button */
+  .btn-regen-all {
+    padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: transparent; color: var(--text-02); border: 1.5px solid var(--border);
+    cursor: pointer; font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-regen-all:hover { background: var(--bg-secondary); border-color: var(--text-03); }
+
+  /* Toast notification */
+  .regen-toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--text-01); color: white; padding: 12px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 600; font-family: 'Satoshi', sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 300;
+    opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
+  }
+  .regen-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -636,7 +695,8 @@
 
         <div class="carousel-track">
           <!-- Slide 1: Blog -->
-          <div class="carousel-slide active" id="slide0">
+          <div class="carousel-slide active" id="slide0" data-platform="Blog" style="position:relative;">
+            <div class="slide-checkbox" onclick="event.stopPropagation();toggleSlideSelect(0)"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="slide-preview">
               <div class="slide-mock">
                 <div class="slide-mock-header" style="background:var(--primary-light);">
@@ -662,7 +722,8 @@
           </div>
 
           <!-- Slide 2: Instagram -->
-          <div class="carousel-slide" id="slide1">
+          <div class="carousel-slide" id="slide1" data-platform="Instagram" style="position:relative;">
+            <div class="slide-checkbox" onclick="event.stopPropagation();toggleSlideSelect(1)"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="slide-preview">
               <div class="slide-mock">
                 <div class="slide-mock-header">
@@ -694,7 +755,8 @@
           </div>
 
           <!-- Slide 3: LinkedIn -->
-          <div class="carousel-slide" id="slide2">
+          <div class="carousel-slide" id="slide2" data-platform="LinkedIn" style="position:relative;">
+            <div class="slide-checkbox" onclick="event.stopPropagation();toggleSlideSelect(2)"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="slide-preview">
               <div class="slide-mock">
                 <div class="slide-mock-header">
@@ -729,7 +791,8 @@ Key takeaways:
           </div>
 
           <!-- Slide 4: YouTube -->
-          <div class="carousel-slide" id="slide3">
+          <div class="carousel-slide" id="slide3" data-platform="YouTube" style="position:relative;">
+            <div class="slide-checkbox" onclick="event.stopPropagation();toggleSlideSelect(3)"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="slide-preview">
               <div class="slide-mock">
                 <div class="slide-mock-header">
@@ -766,6 +829,16 @@ Key takeaways:
         <div class="carousel-arrow" onclick="nextSlide()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
       </div>
 
+      <!-- Regenerate toolbar (appears when slides are selected) -->
+      <div class="regenerate-toolbar" id="regenToolbar">
+        <span class="regen-count" id="regenCount">0 platforms selected</span>
+        <button class="btn-regen" onclick="regenerateSelected()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Regenerate Selected
+        </button>
+        <button class="regen-clear" onclick="clearAllSelections()">Clear</button>
+      </div>
+
       <!-- Footer -->
       <div class="modal-footer">
         <div style="display:flex;align-items:center;gap:16px;">
@@ -773,6 +846,10 @@ Key takeaways:
           <span class="footer-left">Save as Draft</span>
         </div>
         <div class="footer-right" style="display:flex;align-items:center;gap:8px;">
+          <button class="btn-regen-all" onclick="regenerateAll()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Regenerate All
+          </button>
           <button class="btn btn-primary" style="padding:12px 28px;font-size:16px;font-weight:700;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Save & Send to Client
@@ -899,7 +976,85 @@ function updateSlide() {
   });
   document.getElementById('slideCounter').textContent = (currentSlide + 1) + ' / ' + totalSlides;
 }
+
+// === Regenerate checkbox-select logic ===
+const selectedSlides = new Set();
+
+function toggleSlideSelect(index) {
+  if (selectedSlides.has(index)) {
+    selectedSlides.delete(index);
+  } else {
+    selectedSlides.add(index);
+  }
+  updateSelectionUI();
+}
+
+function updateSelectionUI() {
+  // Update checkboxes and slide borders
+  document.querySelectorAll('.carousel-slide').forEach((slide, i) => {
+    const cb = slide.querySelector('.slide-checkbox');
+    if (selectedSlides.has(i)) {
+      cb.classList.add('checked');
+      slide.classList.add('slide-selected');
+    } else {
+      cb.classList.remove('checked');
+      slide.classList.remove('slide-selected');
+    }
+  });
+
+  // Update carousel dot indicators
+  document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+    dot.classList.toggle('dot-selected', selectedSlides.has(i));
+  });
+
+  // Update toolbar visibility and count
+  const toolbar = document.getElementById('regenToolbar');
+  const count = selectedSlides.size;
+  if (count > 0) {
+    toolbar.classList.add('visible');
+    const platforms = Array.from(selectedSlides).map(i => {
+      const slide = document.getElementById('slide' + i);
+      return slide ? slide.dataset.platform : '';
+    }).filter(Boolean);
+    document.getElementById('regenCount').textContent = count + ' platform' + (count !== 1 ? 's' : '') + ' selected';
+  } else {
+    toolbar.classList.remove('visible');
+  }
+}
+
+function clearAllSelections() {
+  selectedSlides.clear();
+  updateSelectionUI();
+}
+
+function showToast(message) {
+  const toast = document.getElementById('regenToast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function regenerateSelected() {
+  const platforms = Array.from(selectedSlides).map(i => {
+    const slide = document.getElementById('slide' + i);
+    return slide ? slide.dataset.platform : 'Unknown';
+  });
+  console.log('Regenerate selected platforms:', platforms);
+  showToast('Regenerating ' + platforms.join(', ') + '...');
+}
+
+function regenerateAll() {
+  const allPlatforms = [];
+  document.querySelectorAll('.carousel-slide').forEach(s => {
+    if (s.dataset.platform) allPlatforms.push(s.dataset.platform);
+  });
+  console.log('Regenerate all platforms:', allPlatforms);
+  showToast('Regenerating all ' + allPlatforms.length + ' platforms...');
+}
 </script>
+
+<!-- Toast notification -->
+<div class="regen-toast" id="regenToast"></div>
 
 </body>
 </html>
