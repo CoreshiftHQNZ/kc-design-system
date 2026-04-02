@@ -65,8 +65,8 @@
   .nav-row {
     position: fixed; top: 60px; left: 0; right: 0; z-index: 40;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    padding: 12px 32px; background: #FFFFFF; border-bottom: 1px solid var(--line);
-    height: 48px;
+    padding: 8px 32px; background: #FFFFFF; border-bottom: 1px solid var(--line);
+    height: 40px;
   }
   .nav-dots { display: flex; gap: 8px; align-items: center; }
   .nav-dot {
@@ -91,47 +91,58 @@
 
   /* Agency note */
   .agency-note {
-    position: fixed; top: 108px; left: 0; right: 0; z-index: 30;
+    position: fixed; top: 100px; left: 0; right: 0; z-index: 30;
     padding: 0 32px;
   }
   .agency-note-card {
     max-width: 1200px; margin: 0 auto;
-    background: #FAF8F5; border: 1px solid #E8E4DF; border-radius: 16px;
-    padding: 16px 20px; display: flex; gap: 12px; align-items: flex-start;
+    background: #FAF8F5; border: 1px solid #E8E4DF; border-radius: 12px;
+    padding: 10px 16px; display: flex; gap: 10px; align-items: center;
+    height: 80px; overflow: hidden; cursor: pointer; user-select: none;
   }
-  .agency-note-icon { font-size: 18px; flex-shrink: 0; line-height: 1.4; }
-  .agency-note-content { flex: 1; }
+  .agency-note-card.collapsed { height: 44px; }
+  .agency-note-card.collapsed .agency-note-text { display: none; }
+  .agency-note-icon { font-size: 16px; flex-shrink: 0; line-height: 1; }
+  .agency-note-content { flex: 1; min-width: 0; }
   .agency-note-label {
     font-size: 11px; font-weight: 600; color: var(--text-03);
-    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
+    text-transform: uppercase; letter-spacing: 0.8px;
   }
-  .agency-note-text { font-size: 14px; color: var(--text-02); line-height: 1.5; }
+  .agency-note-text {
+    font-size: 13px; color: var(--text-02); line-height: 1.4;
+    margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .agency-note-toggle {
+    flex-shrink: 0; font-size: 12px; color: var(--text-03); transition: transform 0.2s;
+  }
+  .agency-note-card.collapsed .agency-note-toggle { transform: rotate(180deg); }
 
-  /* Main content area */
+  /* Main content area — fills remaining viewport */
   .main-area {
     position: fixed;
-    top: 200px; bottom: 68px; left: 0; right: 0;
-    display: flex; align-items: center; justify-content: center;
+    top: 180px; bottom: 70px; left: 0; right: 0;
+    display: flex; align-items: stretch; justify-content: center;
   }
   .content-stage {
     position: relative;
     width: 100%; max-width: 1100px;
     height: 100%;
     padding: 0 64px;
-    display: flex; align-items: center;
+    display: flex; align-items: stretch;
   }
 
   /* Slide container */
   .slide-wrapper {
     width: 100%; height: 100%;
-    overflow: hidden; overflow-x: hidden; position: relative;
+    overflow: hidden; position: relative;
   }
   .slide {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    display: grid; grid-template-columns: 55% 45%; gap: 28px;
-    align-items: start; padding: 12px 0;
+    display: grid; grid-template-columns: 50% 50%; gap: 24px;
+    align-items: stretch; padding: 12px 0;
     transition: transform 0.25s ease, opacity 0.25s ease;
-    overflow-y: auto; overflow-x: hidden;
+    overflow: hidden;
   }
   .slide.active { transform: translateX(0); opacity: 1; }
   .slide.exit-left { transform: translateX(-100%); opacity: 0; }
@@ -147,10 +158,12 @@
     background: #FFFFFF; border-radius: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     overflow: hidden; position: relative;
+    display: flex; flex-direction: column;
+    height: 100%;
   }
   .mock-profile {
     display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px;
+    padding: 14px 16px; flex-shrink: 0;
   }
   .mock-avatar {
     width: 36px; height: 36px; border-radius: 50%;
@@ -160,14 +173,21 @@
   .mock-username { font-size: 14px; font-weight: 600; color: #262626; }
   .mock-location { font-size: 12px; color: #999; }
   .mock-image {
-    width: 100%; aspect-ratio: 1 / 1;
+    width: 100%; flex: 1; min-height: 0;
     background: linear-gradient(135deg, #FFE0CC, #F5C6D0, #F0E2FF);
     display: flex; align-items: center; justify-content: center;
   }
   .mock-image svg { opacity: 0.12; }
-  .mock-image-landscape { aspect-ratio: 16 / 9; }
-  .mock-image-portrait { aspect-ratio: 9 / 16; max-height: 380px; background: linear-gradient(135deg, #1a1a2e, #16213e); }
+  .mock-image-landscape { background: linear-gradient(135deg, #FFE0CC, #F5C6D0, #F0E2FF); }
+  .mock-image-portrait {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+  }
   .mock-image-portrait svg { opacity: 0.5; }
+  .mock-actions {
+    flex-shrink: 0; padding: 10px 16px 12px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .mock-actions svg { opacity: 0.3; }
 
   /* Approved overlay on mockup card */
   .approved-overlay {
@@ -184,11 +204,15 @@
   }
 
   /* Right column */
-  .detail-col { display: flex; flex-direction: column; gap: 20px; padding-top: 4px; }
+  .detail-col {
+    display: flex; flex-direction: column; gap: 12px; padding-top: 4px;
+    height: 100%; min-height: 0; overflow: hidden;
+  }
   .platform-badge {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 6px 14px 6px 8px; border-radius: 20px;
     background: var(--bg-secondary); width: fit-content;
+    flex-shrink: 0; height: 36px;
   }
   .platform-badge-icon {
     width: 28px; height: 28px; border-radius: 50%;
@@ -197,12 +221,21 @@
   .platform-badge-icon svg { width: 14px; height: 14px; }
   .platform-badge-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
 
-  .caption-box { display: flex; flex-direction: column; gap: 8px; }
-  .caption-label { font-size: 12px; font-weight: 600; color: var(--text-03); text-transform: uppercase; letter-spacing: 0.5px; }
+  .caption-box {
+    display: flex; flex-direction: column; gap: 6px;
+    flex: 1; min-height: 0; overflow: hidden;
+  }
+  .caption-label {
+    font-size: 12px; font-weight: 600; color: var(--text-03);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    flex-shrink: 0; height: 24px; line-height: 24px;
+  }
   .caption-content {
     border: 2px solid var(--blue); border-radius: 12px;
-    padding: 16px; font-size: 14px; color: var(--text-01); line-height: 1.65;
-    background: #FBFCFF; min-height: 120px;
+    padding: 16px; font-size: 15px; color: var(--text-01); line-height: 1.6;
+    background: #FBFCFF;
+    flex: 1; min-height: 0;
+    overflow-y: auto;
   }
 
   /* Navigation arrows */
@@ -223,10 +256,12 @@
   /* Bottom action bar */
   .bottom-bar {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 12px 32px; background: #FFFFFF; border-top: 1px solid var(--line);
-    height: 68px;
+    height: 70px;
   }
+  .bottom-bar-left { display: flex; align-items: center; gap: 12px; }
+  .bottom-bar-right { display: flex; align-items: center; gap: 12px; }
   .btn-request {
     padding: 0 28px; height: 44px; border-radius: 10px;
     font-size: 14px; font-weight: 600; background: white;
@@ -247,30 +282,107 @@
   }
   .btn-approve:hover { background: var(--primary-hover); }
   .btn-approve.approved-state { background: var(--success); pointer-events: none; }
-  .btn-approved-disabled {
-    padding: 0 28px; height: 44px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; background: var(--bg-secondary);
-    color: var(--text-03); border: 1.5px solid var(--line);
-    cursor: default; font-family: 'Satoshi', sans-serif; min-width: 160px;
+
+  .flagged-link {
+    font-size: 14px; font-weight: 600; color: var(--primary);
+    cursor: pointer; background: none; border: none;
+    font-family: 'Satoshi', sans-serif; white-space: nowrap;
+  }
+  .flagged-link:hover { text-decoration: underline; }
+
+  /* Full-screen approve overlay */
+  .approve-all-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.92); z-index: 500;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .approve-all-overlay.visible { opacity: 1; pointer-events: auto; }
+  .approve-all-overlay .checkmark {
+    width: 80px; height: 80px; border-radius: 50%; background: var(--success);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    animation: popIn 0.3s ease;
+  }
+  @keyframes popIn {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .approve-all-overlay .checkmark svg { width: 40px; height: 40px; }
+  .approve-all-overlay .overlay-text {
+    font-size: 24px; font-weight: 700; color: var(--text-01);
   }
 
-  /* Sticky feedback bar */
-  .sticky-feedback-bar {
-    position: fixed; bottom: 68px; left: 0; right: 0; z-index: 45;
-    background: #FFFFFF; border-top: 1px solid var(--line);
-    padding: 12px 32px;
+  /* Completed state */
+  .completed-state {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: #FAFAFA; z-index: 400;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .completed-state.visible { opacity: 1; pointer-events: auto; }
+  .completed-state .completed-dots { display: flex; gap: 8px; margin-bottom: 8px; }
+  .completed-state .completed-dot {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--success);
+  }
+  .completed-state .completed-msg {
+    font-size: 18px; font-weight: 600; color: var(--text-01); text-align: center;
+    max-width: 400px; line-height: 1.5;
+  }
+  .completed-state .completed-sub {
+    font-size: 14px; color: var(--text-02); text-align: center;
+  }
+  .btn-view-summary {
+    margin-top: 8px; padding: 0 28px; height: 44px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: white;
+    color: var(--text-01); border: 1.5px solid var(--border);
+    cursor: pointer; font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+  }
+  .btn-view-summary:hover { background: var(--bg-secondary); }
+
+  /* Summary modal */
+  .summary-backdrop {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4); z-index: 410;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .summary-backdrop.visible { opacity: 1; pointer-events: auto; }
+  .summary-modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: white; border-radius: 20px; padding: 28px;
+    max-width: 480px; width: 90%; z-index: 420;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .summary-modal.visible { opacity: 1; pointer-events: auto; }
+  .summary-modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .summary-item {
     display: flex; align-items: center; justify-content: space-between;
-    transform: translateY(100%); transition: transform 0.3s ease;
+    padding: 10px 0; border-bottom: 1px solid var(--line);
   }
-  .sticky-feedback-bar.visible { transform: translateY(0); }
-  .sticky-feedback-bar-text { font-size: 14px; font-weight: 600; color: var(--text-02); }
-  .btn-send-all {
-    padding: 0 24px; height: 40px; border-radius: 10px;
-    font-size: 14px; font-weight: 600; background: var(--primary);
-    color: white; border: none; cursor: pointer;
-    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+  .summary-item:last-child { border-bottom: none; }
+  .summary-item-left { display: flex; align-items: center; gap: 10px; }
+  .summary-item-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
   }
-  .btn-send-all:hover { background: var(--primary-hover); }
+  .summary-item-icon svg { width: 14px; height: 14px; }
+  .summary-item-name { font-size: 14px; font-weight: 600; }
+  .summary-status {
+    font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+  }
+  .summary-status.approved { background: var(--success-light); color: var(--success); }
+  .summary-status.changes { background: var(--error-light); color: var(--error); }
+  .summary-close-btn {
+    margin-top: 16px; width: 100%; height: 44px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: var(--bg-secondary);
+    color: var(--text-01); border: none; cursor: pointer;
+    font-family: 'Satoshi', sans-serif;
+  }
+  .summary-close-btn:hover { background: var(--line); }
 
   /* Bottom sheet backdrop */
   .sheet-backdrop {
@@ -363,13 +475,11 @@
     .top-bar, .bottom-bar { padding: 12px 16px; }
     .nav-arrow-left { left: 2px; }
     .nav-arrow-right { right: 2px; }
-    .main-area { top: 194px; }
-    .sticky-feedback-bar { padding: 12px 16px; }
     .sheet-header, .sheet-body, .sheet-footer { padding-left: 20px; padding-right: 20px; }
   }
   @media (max-width: 600px) {
     .content-stage { padding: 0 44px; }
-    .btn-request, .btn-approve, .btn-approved-disabled { min-width: 120px; padding: 0 16px; font-size: 13px; }
+    .btn-request, .btn-approve { min-width: 120px; padding: 0 16px; font-size: 13px; }
   }
 </style>
 </head>
@@ -407,12 +517,13 @@
 
 <!-- Agency Note -->
 <div class="agency-note">
-  <div class="agency-note-card">
+  <div class="agency-note-card" onclick="toggleNote()">
     <span class="agency-note-icon">&#9998;</span>
     <div class="agency-note-content">
       <div class="agency-note-label">Note from your agency</div>
       <div class="agency-note-text">Hey Sarah! Here are this week's posts ready for your review. Let me know if anything needs tweaking &#128522;</div>
     </div>
+    <span class="agency-note-toggle">&#9660;</span>
   </div>
 </div>
 
@@ -436,14 +547,35 @@
 
 <!-- Bottom Action Bar -->
 <div class="bottom-bar" id="bottomBar">
-  <button class="btn-request" id="btnRequest" onclick="toggleFlag()">Request Changes</button>
-  <button class="btn-approve" id="btnApprove" onclick="approvePost()">Approve</button>
+  <div class="bottom-bar-left" id="bottomBarLeft">
+    <button class="btn-request" id="btnRequest" onclick="flagCurrentPost()">Request Changes</button>
+  </div>
+  <div class="bottom-bar-right" id="bottomBarRight">
+    <button class="btn-approve" id="btnApprove" onclick="approveAll()">Approve All</button>
+  </div>
 </div>
 
-<!-- Sticky Feedback Bar -->
-<div class="sticky-feedback-bar" id="stickyFeedbackBar">
-  <span class="sticky-feedback-bar-text" id="stickyBarText">0 posts flagged for changes</span>
-  <button class="btn-send-all" onclick="openSheet()">Send All Feedback &rarr;</button>
+<!-- Full-screen Approve All Overlay -->
+<div class="approve-all-overlay" id="approveAllOverlay">
+  <div class="checkmark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="overlay-text">All posts approved! &#127881;</div>
+</div>
+
+<!-- Completed State -->
+<div class="completed-state" id="completedState">
+  <div class="completed-dots" id="completedDots"></div>
+  <div class="completed-msg">You've reviewed all posts.<br>Your agency has been notified.</div>
+  <button class="btn-view-summary" onclick="openSummary()">View Summary</button>
+</div>
+
+<!-- Summary Modal -->
+<div class="summary-backdrop" id="summaryBackdrop" onclick="closeSummary()"></div>
+<div class="summary-modal" id="summaryModal">
+  <h3>Post Summary</h3>
+  <div id="summaryBody"></div>
+  <button class="summary-close-btn" onclick="closeSummary()">Close</button>
 </div>
 
 <!-- Bottom Sheet Backdrop -->
@@ -525,6 +657,10 @@ var posts = [
     feedback: ''
   }
 ];
+
+function toggleNote() {
+  document.querySelector('.agency-note-card').classList.toggle('collapsed');
+}
 
 function buildSlides() {
   var wrapper = document.getElementById('slideWrapper');
@@ -620,51 +756,9 @@ function updateUI() {
   });
 
   // Pending count
-  var pending = posts.filter(function(p) { return p.status === 'pending'; }).length;
-  document.getElementById('pendingText').textContent = pending + ' pending';
-
-  // Bottom bar buttons
-  var post = posts[currentSlide];
-  var btnApprove = document.getElementById('btnApprove');
-  var btnRequest = document.getElementById('btnRequest');
-
-  if (post.status === 'approved') {
-    // Replace buttons with greyed-out approved state
-    btnApprove.style.display = 'none';
-    btnRequest.style.display = 'none';
-    // Show a disabled approved button
-    var disabledBtn = document.getElementById('btnApprovedDisabled');
-    if (!disabledBtn) {
-      disabledBtn = document.createElement('button');
-      disabledBtn.id = 'btnApprovedDisabled';
-      disabledBtn.className = 'btn-approved-disabled';
-      document.getElementById('bottomBar').appendChild(disabledBtn);
-    }
-    disabledBtn.textContent = 'Approved \u2713';
-    disabledBtn.style.display = '';
-    // Show overlay on mockup
-    var overlay = document.getElementById('approved-overlay-' + currentSlide);
-    if (overlay) overlay.style.display = '';
-  } else {
-    // Remove disabled button if exists
-    var disabledBtn = document.getElementById('btnApprovedDisabled');
-    if (disabledBtn) disabledBtn.style.display = 'none';
-
-    btnApprove.style.display = '';
-    btnApprove.textContent = 'Approve';
-    btnApprove.className = 'btn-approve';
-    btnRequest.style.display = '';
-
-    if (post.flagged) {
-      btnRequest.textContent = '\u270F\uFE0F Feedback added';
-      btnRequest.className = 'btn-request flagged-state';
-    } else if (post.status === 'changes') {
-      btnRequest.style.display = 'none';
-    } else {
-      btnRequest.textContent = 'Request Changes';
-      btnRequest.className = 'btn-request';
-    }
-  }
+  var pending = posts.filter(function(p) { return p.status === 'pending' && !p.flagged; }).length;
+  var flagged = posts.filter(function(p) { return p.flagged && p.status === 'pending'; }).length;
+  document.getElementById('pendingText').textContent = (pending + flagged) + ' pending';
 
   // Show/hide approved overlays for all slides
   posts.forEach(function(p, i) {
@@ -672,46 +766,140 @@ function updateUI() {
     if (overlay) overlay.style.display = p.status === 'approved' ? '' : 'none';
   });
 
-  // Sticky feedback bar
-  updateStickyBar();
+  // Bottom bar
+  updateBottomBar();
 }
 
-function updateStickyBar() {
+function updateBottomBar() {
   var flaggedCount = posts.filter(function(p) { return p.flagged && p.status === 'pending'; }).length;
-  var bar = document.getElementById('stickyFeedbackBar');
-  var text = document.getElementById('stickyBarText');
+  var pendingCount = posts.filter(function(p) { return p.status === 'pending' && !p.flagged; }).length;
+  var allDone = posts.every(function(p) { return p.status === 'approved' || p.status === 'changes'; });
+  var post = posts[currentSlide];
+
+  var leftDiv = document.getElementById('bottomBarLeft');
+  var rightDiv = document.getElementById('bottomBarRight');
+
+  if (allDone) {
+    leftDiv.innerHTML = '';
+    rightDiv.innerHTML = '';
+    return;
+  }
 
   if (flaggedCount > 0) {
-    text.textContent = flaggedCount + ' post' + (flaggedCount > 1 ? 's' : '') + ' flagged for changes';
-    bar.classList.add('visible');
-    // Shift main area bottom up to account for sticky bar
-    document.querySelector('.main-area').style.bottom = '120px';
+    // State B: some posts flagged
+    leftDiv.innerHTML = '<button class="flagged-link" onclick="openSheet()">' +
+      flaggedCount + ' post' + (flaggedCount > 1 ? 's' : '') + ' flagged &middot; Send Feedback &rarr;</button>';
+    rightDiv.innerHTML = '<button class="btn-approve" onclick="approveRemaining()">Approve Remaining (' + pendingCount + ')</button>';
   } else {
-    bar.classList.remove('visible');
-    document.querySelector('.main-area').style.bottom = '68px';
+    // State A: no posts flagged
+    if (post.status === 'pending') {
+      leftDiv.innerHTML = '<button class="btn-request" onclick="flagCurrentPost()">Request Changes</button>';
+    } else if (post.flagged) {
+      leftDiv.innerHTML = '<button class="btn-request flagged-state">&#9999;&#65039; Feedback added</button>';
+    } else {
+      leftDiv.innerHTML = '<button class="btn-request" onclick="flagCurrentPost()">Request Changes</button>';
+    }
+    rightDiv.innerHTML = '<button class="btn-approve" onclick="approveAll()">Approve All</button>';
   }
 }
 
-function toggleFlag() {
+function flagCurrentPost() {
   var post = posts[currentSlide];
   if (post.status !== 'pending') return;
 
-  post.flagged = !post.flagged;
+  post.flagged = true;
   updateUI();
+
+  // Navigate to next unflagged pending post
+  var nextUnflagged = -1;
+  for (var i = currentSlide + 1; i < posts.length; i++) {
+    if (posts[i].status === 'pending' && !posts[i].flagged) { nextUnflagged = i; break; }
+  }
+  if (nextUnflagged === -1) {
+    for (var i = 0; i < currentSlide; i++) {
+      if (posts[i].status === 'pending' && !posts[i].flagged) { nextUnflagged = i; break; }
+    }
+  }
+  if (nextUnflagged !== -1) {
+    setTimeout(function() { goToSlide(nextUnflagged); }, 400);
+  }
 }
 
-function approvePost() {
-  var post = posts[currentSlide];
-  if (post.status === 'approved') return;
-
-  post.status = 'approved';
-  post.flagged = false;
+function approveAll() {
+  // Approve all pending (non-flagged) posts
+  posts.forEach(function(p) {
+    if (p.status === 'pending' && !p.flagged) {
+      p.status = 'approved';
+    }
+  });
   updateUI();
-  showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Post approved!');
+  showApproveOverlay();
+}
 
-  if (currentSlide < posts.length - 1) {
-    setTimeout(function() { goToSlide(currentSlide + 1); }, 800);
+function approveRemaining() {
+  // Approve all pending non-flagged posts
+  posts.forEach(function(p) {
+    if (p.status === 'pending' && !p.flagged) {
+      p.status = 'approved';
+    }
+  });
+  updateUI();
+
+  var allApprovedOrChanges = posts.every(function(p) { return p.status === 'approved' || p.status === 'changes'; });
+  if (allApprovedOrChanges) {
+    showApproveOverlay();
+  } else {
+    showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Remaining posts approved!');
   }
+}
+
+function showApproveOverlay() {
+  var overlay = document.getElementById('approveAllOverlay');
+  overlay.classList.add('visible');
+
+  setTimeout(function() {
+    overlay.classList.remove('visible');
+    showCompletedState();
+  }, 1500);
+}
+
+function showCompletedState() {
+  // Build dots
+  var dotsDiv = document.getElementById('completedDots');
+  dotsDiv.innerHTML = '';
+  posts.forEach(function(p) {
+    var dot = document.createElement('div');
+    dot.className = 'completed-dot';
+    dot.style.background = p.status === 'approved' ? 'var(--success)' : 'var(--error)';
+    dotsDiv.appendChild(dot);
+  });
+
+  document.getElementById('completedState').classList.add('visible');
+}
+
+function openSummary() {
+  var body = document.getElementById('summaryBody');
+  body.innerHTML = '';
+  posts.forEach(function(p) {
+    var statusClass = p.status === 'approved' ? 'approved' : 'changes';
+    var statusText = p.status === 'approved' ? 'Approved' : 'Changes Requested';
+    body.innerHTML +=
+      '<div class="summary-item">' +
+        '<div class="summary-item-left">' +
+          '<div class="summary-item-icon" style="background:' + p.platformColor + ';">' + p.platformIcon + '</div>' +
+          '<span class="summary-item-name">' + p.platform + '</span>' +
+        '</div>' +
+        '<span class="summary-status ' + statusClass + '">' + statusText + '</span>' +
+      '</div>';
+  });
+
+  document.getElementById('summaryBackdrop').classList.add('visible');
+  document.getElementById('summaryModal').classList.add('visible');
+}
+
+function closeSummary() {
+  document.getElementById('summaryBackdrop').classList.remove('visible');
+  document.getElementById('summaryModal').classList.remove('visible');
 }
 
 function openSheet() {
@@ -762,6 +950,12 @@ function submitAllFeedback() {
   closeSheet();
   updateUI();
   showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Feedback sent to your agency');
+
+  // Check if all done now
+  var allDone = posts.every(function(p) { return p.status === 'approved' || p.status === 'changes'; });
+  if (allDone) {
+    setTimeout(function() { showCompletedState(); }, 1000);
+  }
 }
 
 function showToast(html) {
