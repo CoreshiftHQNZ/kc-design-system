@@ -77,13 +77,16 @@
   .topic-pending-badge {
     font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
     background: var(--primary-light); color: var(--primary); white-space: nowrap;
+    transition: all 0.2s;
   }
+  .topic-pending-badge.done { background: var(--success-light); color: var(--success); }
 
   /* Approval cards */
   .approval-card {
     background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
     overflow: hidden; margin-bottom: 16px; transition: all 0.2s;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    animation: fadeIn 0.3s ease;
   }
   .approval-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
   .approval-card.approved { opacity: 0.7; }
@@ -98,11 +101,10 @@
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .approval-platform-icon svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; }
-  .approval-platform-icon img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; }
   .approval-platform-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
   .approval-status {
     margin-left: auto; font-size: 12px; font-weight: 600; padding: 3px 10px;
-    border-radius: 8px; white-space: nowrap;
+    border-radius: 8px; white-space: nowrap; transition: all 0.2s;
   }
   .status-pending { background: var(--primary-light); color: var(--primary); }
   .status-changes { background: var(--error-light); color: var(--error); }
@@ -179,8 +181,18 @@
   .feedback-callout-label { font-size: 11px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
   .feedback-callout-text { font-size: 13px; color: var(--text-02); line-height: 1.5; }
 
+  /* Toast */
+  .toast-bar {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--text-01); color: white; padding: 12px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 600; font-family: 'Satoshi', sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 300;
+    opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast-bar.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-  .approval-card { animation: fadeIn 0.3s ease; }
   .approval-card:nth-child(2) { animation-delay: 0.05s; }
   .approval-card:nth-child(3) { animation-delay: 0.1s; }
   .approval-card:nth-child(4) { animation-delay: 0.15s; }
@@ -192,7 +204,7 @@
 <div class="top-bar">
   <div class="top-bar-left">
     <div class="top-bar-logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     </div>
     <span class="top-bar-title">Content Approval Portal</span>
   </div>
@@ -207,30 +219,30 @@
 <div class="page-body">
 
   <!-- Pending count badge -->
-  <div class="pending-badge">
+  <div class="pending-badge" id="pendingBadge">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    6 posts pending review
+    <span id="pendingText">6 posts pending review</span>
   </div>
 
   <!-- Agency note -->
   <div class="agency-note">
-    <span class="agency-note-icon">📝</span>
+    <span class="agency-note-icon">&#128221;</span>
     <div>
       <div class="agency-note-label">Note from your agency</div>
-      <div class="agency-note-text">Hey Sarah! Here are this week's posts ready for your review. Let me know if anything needs tweaking 😊</div>
+      <div class="agency-note-text">Hey Sarah! Here are this week's posts ready for your review. Let me know if anything needs tweaking &#128522;</div>
     </div>
   </div>
 
-  <!-- Topic group -->
-  <div class="topic-group">
+  <!-- Topic group 1 -->
+  <div class="topic-group" id="topic-1">
     <div class="topic-header">
       <div class="topic-icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
       <div class="topic-title">How Retail Tech is Transforming NZ Small Business</div>
-      <span class="topic-pending-badge">3 pending</span>
+      <span class="topic-pending-badge" id="topic-1-badge">3 pending</span>
     </div>
 
     <!-- Card 1: Instagram -->
-    <div class="approval-card" id="card-instagram">
+    <div class="approval-card" id="card-instagram" data-topic="1">
       <div class="approval-card-header">
         <div class="approval-platform-icon" style="background:linear-gradient(45deg,#f09433,#dc2743);">
           <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
@@ -253,12 +265,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.8" style="margin-left:auto;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           </div>
-          <div class="mf-caption"><strong>storepro_nz</strong> Revolutionise your retail game! 🚀 Our POS Terminal handles everything from sales to stock — so you can focus on your customers.<br><br>#RetailTech #NZBusiness #Storepro #POS</div>
+          <div class="mf-caption"><strong>storepro_nz</strong> Revolutionise your retail game! &#128640; Our POS Terminal handles everything from sales to stock &mdash; so you can focus on your customers.<br><br>#RetailTech #NZBusiness #Storepro #POS</div>
         </div>
       </div>
       <div class="approval-actions" id="actions-instagram">
-        <button class="btn-approve" onclick="approveCard('instagram')">✓ Approve</button>
-        <button class="btn-request-changes" onclick="requestChanges('instagram')">✗ Request Changes</button>
+        <button class="btn-approve" onclick="approveCard('instagram')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('instagram')">&#10007; Request Changes</button>
       </div>
       <div class="feedback-area" id="feedback-instagram">
         <textarea class="feedback-textarea" id="feedback-text-instagram" placeholder="Describe what changes you'd like..."></textarea>
@@ -271,7 +283,7 @@
     </div>
 
     <!-- Card 2: Facebook -->
-    <div class="approval-card" id="card-facebook">
+    <div class="approval-card" id="card-facebook" data-topic="1">
       <div class="approval-card-header">
         <div class="approval-platform-icon" style="background:#1877F2;">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -283,20 +295,20 @@
         <div class="mock-frame">
           <div class="mf-header">
             <div class="mf-avatar" style="background:#1877F2;"></div>
-            <div><div class="mf-user">Storepro NZ</div><div class="mf-sub">Sponsored · 🌐</div></div>
+            <div><div class="mf-user">Storepro NZ</div><div class="mf-sub">Sponsored &middot; &#127760;</div></div>
           </div>
-          <div class="mf-caption">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront of this transformation with our latest POS innovations. 🚀<br><br>Key takeaways:<br>• Real-time inventory tracking<br>• Contactless payment integration<br>• Cloud-based analytics</div>
+          <div class="mf-caption">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront of this transformation with our latest POS innovations. &#128640;<br><br>Key takeaways:<br>&bull; Real-time inventory tracking<br>&bull; Contactless payment integration<br>&bull; Cloud-based analytics</div>
           <div class="mf-img" style="aspect-ratio:1.91/1;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
           </div>
           <div class="mf-reactions">
-            <span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span>
+            <span>&#128077; Like</span><span>&#128172; Comment</span><span>&#8599; Share</span>
           </div>
         </div>
       </div>
       <div class="approval-actions" id="actions-facebook">
-        <button class="btn-approve" onclick="approveCard('facebook')">✓ Approve</button>
-        <button class="btn-request-changes" onclick="requestChanges('facebook')">✗ Request Changes</button>
+        <button class="btn-approve" onclick="approveCard('facebook')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('facebook')">&#10007; Request Changes</button>
       </div>
       <div class="feedback-area" id="feedback-facebook">
         <textarea class="feedback-textarea" id="feedback-text-facebook" placeholder="Describe what changes you'd like..."></textarea>
@@ -309,7 +321,7 @@
     </div>
 
     <!-- Card 3: LinkedIn -->
-    <div class="approval-card" id="card-linkedin">
+    <div class="approval-card" id="card-linkedin" data-topic="1">
       <div class="approval-card-header">
         <div class="approval-platform-icon" style="background:#0A66C2;">
           <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 0 0-4 0"/></svg>
@@ -321,20 +333,20 @@
         <div class="mock-frame">
           <div class="mf-header">
             <div class="mf-avatar" style="background:#0A66C2;"></div>
-            <div><div class="mf-user">Storepro</div><div class="mf-sub">1,234 followers · Just now</div></div>
+            <div><div class="mf-user">Storepro</div><div class="mf-sub">4,200 followers &middot; Just now</div></div>
           </div>
-          <div class="mf-caption">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront with our POS innovations. 🚀<br><br>Key takeaways:<br>• Real-time inventory tracking<br>• Contactless payment integration<br>• Cloud-based analytics<br><br>#RetailTech #Innovation #NZBusiness</div>
+          <div class="mf-caption">The retail landscape in NZ is evolving rapidly. We're proud to be at the forefront with our POS innovations. &#128640;<br><br>Key takeaways:<br>&bull; Real-time inventory tracking<br>&bull; Contactless payment integration<br>&bull; Cloud-based analytics<br><br>#RetailTech #Innovation #NZBusiness</div>
           <div class="mf-img" style="aspect-ratio:1.91/1;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
           </div>
           <div class="mf-reactions">
-            <span>👍 Like</span><span>💬 Comment</span><span>🔄 Repost</span><span>✉️ Send</span>
+            <span>&#128077; Like</span><span>&#128172; Comment</span><span>&#128260; Repost</span><span>&#9993;&#65039; Send</span>
           </div>
         </div>
       </div>
       <div class="approval-actions" id="actions-linkedin">
-        <button class="btn-approve" onclick="approveCard('linkedin')">✓ Approve</button>
-        <button class="btn-request-changes" onclick="requestChanges('linkedin')">✗ Request Changes</button>
+        <button class="btn-approve" onclick="approveCard('linkedin')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('linkedin')">&#10007; Request Changes</button>
       </div>
       <div class="feedback-area" id="feedback-linkedin">
         <textarea class="feedback-textarea" id="feedback-text-linkedin" placeholder="Describe what changes you'd like..."></textarea>
@@ -345,100 +357,196 @@
         <div class="feedback-callout-text" id="callout-text-linkedin"></div>
       </div>
     </div>
+  </div>
 
-    <!-- Card 4: X / Twitter (pre-approved for variety) -->
-    <div class="approval-card approved" id="card-twitter">
+  <!-- Topic group 2 -->
+  <div class="topic-group" id="topic-2">
+    <div class="topic-header">
+      <div class="topic-icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="topic-title">5 Ways to Boost In-Store Customer Experience</div>
+      <span class="topic-pending-badge" id="topic-2-badge">3 pending</span>
+    </div>
+
+    <!-- Card 4: X / Twitter -->
+    <div class="approval-card" id="card-twitter" data-topic="2">
       <div class="approval-card-header">
         <div class="approval-platform-icon" style="background:#111827;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <span class="approval-platform-name">X / Twitter</span>
-        <span class="approval-status status-approved" id="status-twitter">Approved</span>
+        <span class="approval-status status-pending" id="status-twitter">Pending</span>
       </div>
       <div class="approval-mock">
         <div class="mock-frame">
           <div class="mf-header">
             <div class="mf-avatar" style="background:#111827;"></div>
-            <div><div class="mf-user">Storepro NZ <span style="font-weight:400;color:#999;">@storepro_nz</span></div><div class="mf-sub">Just now</div></div>
+            <div><div class="mf-user">Storepro NZ <span style="font-weight:400;color:#999;">@storepro_nz</span></div></div>
           </div>
-          <div class="mf-caption">Revolutionise your retail game! 🚀 Modern POS tech is transforming NZ small business. Real-time analytics, contactless payments, cloud inventory — all in one.<br><br>#RetailTech #NZBusiness</div>
+          <div class="mf-caption">5 ways to level up your in-store customer experience &#128640;<br><br>1&#65039;&#8419; Personalised greetings powered by CRM<br>2&#65039;&#8419; Self-service kiosks that actually work<br>3&#65039;&#8419; Mobile checkout anywhere in-store<br>4&#65039;&#8419; Real-time loyalty rewards<br>5&#65039;&#8419; Post-purchase follow-ups via SMS<br><br>Which one are you implementing first?<br><br>#CX #RetailTech #NZBusiness</div>
           <div class="mf-reactions">
-            <span>💬 12</span><span>🔄 34</span><span>❤️ 89</span>
+            <span>&#128172; 12</span><span>&#128260; 34</span><span>&#10084;&#65039; 89</span>
           </div>
         </div>
       </div>
-      <div class="approval-actions" id="actions-twitter" style="display:none;">
-        <button class="btn-approve approved-state">✓ Approved</button>
+      <div class="approval-actions" id="actions-twitter">
+        <button class="btn-approve" onclick="approveCard('twitter')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('twitter')">&#10007; Request Changes</button>
+      </div>
+      <div class="feedback-area" id="feedback-twitter">
+        <textarea class="feedback-textarea" id="feedback-text-twitter" placeholder="Describe what changes you'd like..."></textarea>
+        <button class="btn-send-feedback" onclick="submitFeedback('twitter')">Send Feedback</button>
+      </div>
+      <div class="feedback-callout" id="callout-twitter">
+        <div class="feedback-callout-label">Changes Requested</div>
+        <div class="feedback-callout-text" id="callout-text-twitter"></div>
       </div>
     </div>
 
+    <!-- Card 5: TikTok -->
+    <div class="approval-card" id="card-tiktok" data-topic="2">
+      <div class="approval-card-header">
+        <div class="approval-platform-icon" style="background:#111827;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.88-2.89 2.89 2.89 0 0 1 2.88-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.19a8.16 8.16 0 0 0 4.76 1.53v-3.5a4.83 4.83 0 0 1-1-.53z"/></svg>
+        </div>
+        <span class="approval-platform-name">TikTok</span>
+        <span class="approval-status status-pending" id="status-tiktok">Pending</span>
+      </div>
+      <div class="approval-mock">
+        <div class="mock-frame">
+          <div class="mf-img" style="aspect-ratio:9/16;max-height:320px;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+            <div style="text-align:center;color:white;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="white" opacity="0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <div style="font-size:12px;opacity:0.6;margin-top:6px;">Short Video Preview</div>
+            </div>
+          </div>
+          <div class="mf-caption"><strong>@storepro_nz</strong> 5 game-changing ways to boost your in-store experience &#128171; #RetailTech #SmallBiz #NZ</div>
+        </div>
+      </div>
+      <div class="approval-actions" id="actions-tiktok">
+        <button class="btn-approve" onclick="approveCard('tiktok')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('tiktok')">&#10007; Request Changes</button>
+      </div>
+      <div class="feedback-area" id="feedback-tiktok">
+        <textarea class="feedback-textarea" id="feedback-text-tiktok" placeholder="Describe what changes you'd like..."></textarea>
+        <button class="btn-send-feedback" onclick="submitFeedback('tiktok')">Send Feedback</button>
+      </div>
+      <div class="feedback-callout" id="callout-tiktok">
+        <div class="feedback-callout-label">Changes Requested</div>
+        <div class="feedback-callout-text" id="callout-text-tiktok"></div>
+      </div>
+    </div>
+
+    <!-- Card 6: YouTube Shorts -->
+    <div class="approval-card" id="card-youtube" data-topic="2">
+      <div class="approval-card-header">
+        <div class="approval-platform-icon" style="background:#FF0000;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <span class="approval-platform-name">YouTube Shorts</span>
+        <span class="approval-status status-pending" id="status-youtube">Pending</span>
+      </div>
+      <div class="approval-mock">
+        <div class="mock-frame">
+          <div class="mf-img" style="aspect-ratio:9/16;max-height:320px;background:linear-gradient(135deg,#1a1a2e,#16213e);">
+            <div style="text-align:center;color:white;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="white" opacity="0.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <div style="font-size:12px;opacity:0.6;margin-top:6px;">Short Video Preview</div>
+            </div>
+          </div>
+          <div class="mf-caption"><strong>Storepro NZ</strong> 5 Ways to Boost In-Store Customer Experience | Retail Tech Tips &#127891;</div>
+        </div>
+      </div>
+      <div class="approval-actions" id="actions-youtube">
+        <button class="btn-approve" onclick="approveCard('youtube')">&#10003; Approve</button>
+        <button class="btn-request-changes" onclick="requestChanges('youtube')">&#10007; Request Changes</button>
+      </div>
+      <div class="feedback-area" id="feedback-youtube">
+        <textarea class="feedback-textarea" id="feedback-text-youtube" placeholder="Describe what changes you'd like..."></textarea>
+        <button class="btn-send-feedback" onclick="submitFeedback('youtube')">Send Feedback</button>
+      </div>
+      <div class="feedback-callout" id="callout-youtube">
+        <div class="feedback-callout-label">Changes Requested</div>
+        <div class="feedback-callout-text" id="callout-text-youtube"></div>
+      </div>
+    </div>
   </div>
+
 </div>
 
-<script>
-function approveCard(platform) {
-  const card = document.getElementById('card-' + platform);
-  const status = document.getElementById('status-' + platform);
-  const actions = document.getElementById('actions-' + platform);
-  const feedbackArea = document.getElementById('feedback-' + platform);
+<!-- Toast -->
+<div class="toast-bar" id="toastBar"></div>
 
-  // Update status badge
+<script>
+function showToast(html) {
+  var toast = document.getElementById('toastBar');
+  toast.innerHTML = html;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+function approveCard(platform) {
+  var card = document.getElementById('card-' + platform);
+  var status = document.getElementById('status-' + platform);
+  var actions = document.getElementById('actions-' + platform);
+  var feedbackArea = document.getElementById('feedback-' + platform);
+
   status.className = 'approval-status status-approved';
   status.textContent = 'Approved';
-
-  // Update actions
-  actions.innerHTML = '<button class="btn-approve approved-state">✓ Approved</button>';
-
-  // Close feedback if open
+  actions.innerHTML = '<button class="btn-approve approved-state">&#10003; Approved</button>';
   feedbackArea.classList.remove('open');
-
-  // Fade card
   card.classList.add('approved');
 
-  updatePendingCount();
+  showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Post approved!');
+  updateCounts();
 }
 
 function requestChanges(platform) {
-  const feedbackArea = document.getElementById('feedback-' + platform);
+  var feedbackArea = document.getElementById('feedback-' + platform);
   feedbackArea.classList.toggle('open');
-
-  // Focus textarea
   if (feedbackArea.classList.contains('open')) {
-    setTimeout(() => {
+    setTimeout(function() {
       document.getElementById('feedback-text-' + platform).focus();
     }, 100);
   }
 }
 
 function submitFeedback(platform) {
-  const text = document.getElementById('feedback-text-' + platform).value.trim();
+  var text = document.getElementById('feedback-text-' + platform).value.trim();
   if (!text) return;
 
-  const status = document.getElementById('status-' + platform);
-  const feedbackArea = document.getElementById('feedback-' + platform);
-  const callout = document.getElementById('callout-' + platform);
-  const calloutText = document.getElementById('callout-text-' + platform);
+  var status = document.getElementById('status-' + platform);
+  var feedbackArea = document.getElementById('feedback-' + platform);
+  var actions = document.getElementById('actions-' + platform);
+  var callout = document.getElementById('callout-' + platform);
+  var calloutText = document.getElementById('callout-text-' + platform);
 
-  // Update status
   status.className = 'approval-status status-changes';
   status.textContent = 'Changes Requested';
-
-  // Close feedback area
   feedbackArea.classList.remove('open');
-
-  // Show callout
+  actions.style.display = 'none';
   calloutText.textContent = text;
   callout.classList.add('show');
 
-  updatePendingCount();
+  showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Feedback sent to agency');
+  updateCounts();
 }
 
-function updatePendingCount() {
-  const pending = document.querySelectorAll('.status-pending').length;
-  const badge = document.querySelector('.pending-badge');
-  const topicBadge = document.querySelector('.topic-pending-badge');
-  badge.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + (pending + document.querySelectorAll('.status-changes').length) + ' posts pending review';
-  topicBadge.textContent = pending + ' pending';
+function updateCounts() {
+  var allPending = document.querySelectorAll('.status-pending').length;
+  document.getElementById('pendingText').textContent = allPending + ' post' + (allPending !== 1 ? 's' : '') + ' pending review';
+
+  ['1', '2'].forEach(function(topicId) {
+    var group = document.getElementById('topic-' + topicId);
+    var badge = document.getElementById('topic-' + topicId + '-badge');
+    var pending = group.querySelectorAll('.status-pending').length;
+    badge.textContent = pending + ' pending';
+    if (pending === 0) {
+      badge.classList.add('done');
+      badge.textContent = 'All reviewed';
+    } else {
+      badge.classList.remove('done');
+    }
+  });
 }
 </script>
 </body>
