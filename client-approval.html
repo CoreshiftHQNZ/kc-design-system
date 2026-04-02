@@ -34,11 +34,32 @@
   }
   .top-bar-logo svg { width: 20px; height: 20px; }
   .top-bar-title { font-size: 16px; font-weight: 700; color: var(--text-01); }
+  .top-bar-right { display: flex; align-items: center; gap: 12px; }
   .pending-badge {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 5px 14px; border-radius: 20px; background: var(--primary-light);
     font-size: 13px; font-weight: 600; color: var(--primary);
   }
+  .round-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 5px 14px; border-radius: 20px;
+    border: 1.5px solid var(--border); background: white;
+    font-size: 13px; font-weight: 600; color: var(--text-02);
+    cursor: default; position: relative;
+  }
+  .round-pill .tooltip {
+    display: none; position: absolute; top: calc(100% + 8px); right: 0;
+    background: var(--text-01); color: white; padding: 8px 12px;
+    border-radius: 8px; font-size: 12px; font-weight: 500;
+    white-space: nowrap; z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .round-pill .tooltip::before {
+    content: ''; position: absolute; top: -4px; right: 16px;
+    width: 8px; height: 8px; background: var(--text-01);
+    transform: rotate(45deg);
+  }
+  .round-pill:hover .tooltip { display: block; }
 
   /* Nav row */
   .nav-row {
@@ -51,9 +72,21 @@
   .nav-dot {
     width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--text-03);
     background: transparent; cursor: pointer; transition: all 0.2s; padding: 0;
+    position: relative; display: flex; align-items: center; justify-content: center;
+    font-size: 0; overflow: visible;
   }
   .nav-dot.active { background: var(--primary); border-color: var(--primary); }
   .nav-dot.reviewed { background: var(--success); border-color: var(--success); }
+  .nav-dot.flagged {
+    background: var(--primary); border-color: var(--primary);
+    width: 18px; height: 18px; border-radius: 50%;
+  }
+  .nav-dot.flagged::after {
+    content: '\270F'; font-size: 9px; color: white; line-height: 1;
+  }
+  .nav-dot.changes-requested {
+    background: var(--error); border-color: var(--error);
+  }
   .nav-counter { font-size: 14px; font-weight: 600; color: var(--text-02); margin-left: 4px; }
 
   /* Agency note */
@@ -91,14 +124,14 @@
   /* Slide container */
   .slide-wrapper {
     width: 100%; height: 100%;
-    overflow: hidden; position: relative;
+    overflow: hidden; overflow-x: hidden; position: relative;
   }
   .slide {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     display: grid; grid-template-columns: 55% 45%; gap: 28px;
     align-items: start; padding: 12px 0;
     transition: transform 0.25s ease, opacity 0.25s ease;
-    overflow-y: auto;
+    overflow-y: auto; overflow-x: hidden;
   }
   .slide.active { transform: translateX(0); opacity: 1; }
   .slide.exit-left { transform: translateX(-100%); opacity: 0; }
@@ -109,11 +142,11 @@
     transform: translateX(100%); opacity: 0; pointer-events: none;
   }
 
-  /* Left column — SNS mockup */
+  /* Left column -- SNS mockup */
   .mock-card {
     background: #FFFFFF; border-radius: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    overflow: hidden;
+    overflow: hidden; position: relative;
   }
   .mock-profile {
     display: flex; align-items: center; gap: 10px;
@@ -136,6 +169,20 @@
   .mock-image-portrait { aspect-ratio: 9 / 16; max-height: 380px; background: linear-gradient(135deg, #1a1a2e, #16213e); }
   .mock-image-portrait svg { opacity: 0.5; }
 
+  /* Approved overlay on mockup card */
+  .approved-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.6); z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .approved-overlay-badge {
+    background: var(--success); color: white; padding: 10px 24px;
+    border-radius: 12px; font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(39,200,125,0.3);
+  }
+
   /* Right column */
   .detail-col { display: flex; flex-direction: column; gap: 20px; padding-top: 4px; }
   .platform-badge {
@@ -157,36 +204,6 @@
     padding: 16px; font-size: 14px; color: var(--text-01); line-height: 1.65;
     background: #FBFCFF; min-height: 120px;
   }
-
-  /* Feedback panel */
-  .feedback-panel {
-    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-  }
-  .feedback-panel.open { max-height: 220px; }
-  .feedback-panel-inner { padding-top: 12px; }
-  .feedback-textarea {
-    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
-    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
-    background: var(--bg-secondary); resize: vertical; min-height: 72px; line-height: 1.5;
-    transition: all 0.15s; margin-bottom: 10px;
-  }
-  .feedback-textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px var(--primary-ring); }
-  .feedback-textarea::placeholder { color: var(--text-03); }
-  .btn-send-feedback {
-    padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
-    background: var(--text-01); color: white; border: none; cursor: pointer;
-    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
-  }
-  .btn-send-feedback:hover { background: #1a1a2e; }
-
-  .feedback-callout {
-    margin-top: 12px; padding: 12px 16px; border-radius: 10px;
-    background: var(--primary-light); border: 1px solid rgba(255,107,53,0.2);
-    display: none;
-  }
-  .feedback-callout.show { display: block; }
-  .feedback-callout-label { font-size: 11px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .feedback-callout-text { font-size: 13px; color: var(--text-02); line-height: 1.5; }
 
   /* Navigation arrows */
   .nav-arrow {
@@ -218,6 +235,10 @@
     transition: all 0.15s; min-width: 160px;
   }
   .btn-request:hover { background: var(--bg-secondary); border-color: var(--text-03); }
+  .btn-request.flagged-state {
+    background: white; color: var(--primary);
+    border: 1.5px solid var(--primary); pointer-events: none;
+  }
   .btn-approve {
     padding: 0 28px; height: 44px; border-radius: 10px;
     font-size: 14px; font-weight: 600; background: var(--primary);
@@ -226,6 +247,102 @@
   }
   .btn-approve:hover { background: var(--primary-hover); }
   .btn-approve.approved-state { background: var(--success); pointer-events: none; }
+  .btn-approved-disabled {
+    padding: 0 28px; height: 44px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: var(--bg-secondary);
+    color: var(--text-03); border: 1.5px solid var(--line);
+    cursor: default; font-family: 'Satoshi', sans-serif; min-width: 160px;
+  }
+
+  /* Sticky feedback bar */
+  .sticky-feedback-bar {
+    position: fixed; bottom: 68px; left: 0; right: 0; z-index: 45;
+    background: #FFFFFF; border-top: 1px solid var(--line);
+    padding: 12px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    transform: translateY(100%); transition: transform 0.3s ease;
+  }
+  .sticky-feedback-bar.visible { transform: translateY(0); }
+  .sticky-feedback-bar-text { font-size: 14px; font-weight: 600; color: var(--text-02); }
+  .btn-send-all {
+    padding: 0 24px; height: 40px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: var(--primary);
+    color: white; border: none; cursor: pointer;
+    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+  }
+  .btn-send-all:hover { background: var(--primary-hover); }
+
+  /* Bottom sheet backdrop */
+  .sheet-backdrop {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4); z-index: 200;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .sheet-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+  /* Bottom sheet */
+  .bottom-sheet {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 210;
+    background: white; border-radius: 24px 24px 0 0;
+    max-height: 80vh; display: flex; flex-direction: column;
+    transform: translateY(100%); transition: transform 0.3s ease;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+  }
+  .bottom-sheet.visible { transform: translateY(0); }
+  .sheet-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px 16px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+  }
+  .sheet-header-title { font-size: 18px; font-weight: 700; color: var(--text-01); }
+  .sheet-close {
+    width: 36px; height: 36px; border-radius: 50%; border: none;
+    background: var(--bg-secondary); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-02); transition: background 0.15s;
+  }
+  .sheet-close:hover { background: var(--line); }
+  .sheet-body {
+    flex: 1; overflow-y: auto; padding: 20px 28px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .sheet-post-item {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .sheet-post-header {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sheet-post-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .sheet-post-icon svg { width: 14px; height: 14px; }
+  .sheet-post-name { font-size: 14px; font-weight: 600; color: var(--text-01); }
+  .sheet-textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: 'Satoshi', sans-serif; color: var(--text-01);
+    background: var(--bg-secondary); resize: vertical; min-height: 72px; line-height: 1.5;
+    transition: all 0.15s;
+  }
+  .sheet-textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px var(--primary-ring); }
+  .sheet-textarea::placeholder { color: var(--text-03); }
+  .sheet-footer {
+    display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+    padding: 16px 28px 24px; border-top: 1px solid var(--line); flex-shrink: 0;
+  }
+  .btn-sheet-cancel {
+    padding: 0 24px; height: 44px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: transparent;
+    color: var(--text-02); border: none; cursor: pointer;
+    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+  }
+  .btn-sheet-cancel:hover { background: var(--bg-secondary); }
+  .btn-sheet-send {
+    flex: 1; max-width: 320px; height: 44px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: var(--primary);
+    color: white; border: none; cursor: pointer;
+    font-family: 'Satoshi', sans-serif; transition: all 0.15s;
+  }
+  .btn-sheet-send:hover { background: var(--primary-hover); }
 
   /* Toast */
   .toast-bar {
@@ -247,10 +364,12 @@
     .nav-arrow-left { left: 2px; }
     .nav-arrow-right { right: 2px; }
     .main-area { top: 194px; }
+    .sticky-feedback-bar { padding: 12px 16px; }
+    .sheet-header, .sheet-body, .sheet-footer { padding-left: 20px; padding-right: 20px; }
   }
   @media (max-width: 600px) {
     .content-stage { padding: 0 44px; }
-    .btn-request, .btn-approve { min-width: 120px; padding: 0 16px; font-size: 13px; }
+    .btn-request, .btn-approve, .btn-approved-disabled { min-width: 120px; padding: 0 16px; font-size: 13px; }
   }
 </style>
 </head>
@@ -264,8 +383,14 @@
     </div>
     <span class="top-bar-title">Content Approval Portal</span>
   </div>
-  <div class="pending-badge" id="pendingBadge">
-    <span id="pendingText">4 pending</span>
+  <div class="top-bar-right">
+    <div class="round-pill">
+      Round 1
+      <div class="tooltip">Your agency will resubmit updated posts for your review</div>
+    </div>
+    <div class="pending-badge" id="pendingBadge">
+      <span id="pendingText">4 pending</span>
+    </div>
   </div>
 </div>
 
@@ -310,9 +435,33 @@
 </div>
 
 <!-- Bottom Action Bar -->
-<div class="bottom-bar">
-  <button class="btn-request" id="btnRequest" onclick="requestChange()">Request Change</button>
+<div class="bottom-bar" id="bottomBar">
+  <button class="btn-request" id="btnRequest" onclick="toggleFlag()">Request Changes</button>
   <button class="btn-approve" id="btnApprove" onclick="approvePost()">Approve</button>
+</div>
+
+<!-- Sticky Feedback Bar -->
+<div class="sticky-feedback-bar" id="stickyFeedbackBar">
+  <span class="sticky-feedback-bar-text" id="stickyBarText">0 posts flagged for changes</span>
+  <button class="btn-send-all" onclick="openSheet()">Send All Feedback &rarr;</button>
+</div>
+
+<!-- Bottom Sheet Backdrop -->
+<div class="sheet-backdrop" id="sheetBackdrop" onclick="closeSheet()"></div>
+
+<!-- Bottom Sheet -->
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="sheet-header">
+    <span class="sheet-header-title">Your Feedback</span>
+    <button class="sheet-close" onclick="closeSheet()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-footer">
+    <button class="btn-sheet-cancel" onclick="closeSheet()">Cancel</button>
+    <button class="btn-sheet-send" onclick="submitAllFeedback()">Send Feedback</button>
+  </div>
 </div>
 
 <!-- Toast -->
@@ -333,6 +482,7 @@ var posts = [
     caption: '5 Ways Retail Tech is Transforming NZ Small Business. From smart inventory to contactless payments, here\'s how local retailers are staying ahead of the curve.\n\n#RetailTech #NZBusiness #SmallBiz #Innovation',
     mockType: 'square',
     status: 'pending',
+    flagged: false,
     feedback: ''
   },
   {
@@ -345,6 +495,7 @@ var posts = [
     caption: 'Is your retail business ready for 2026? Here are 3 tech trends NZ small businesses can\'t ignore:\n\n1. AI-powered inventory management\n2. Seamless omnichannel experiences\n3. Contactless everything\n\nDon\'t get left behind. #RetailTech #NZBusiness',
     mockType: 'landscape',
     status: 'pending',
+    flagged: false,
     feedback: ''
   },
   {
@@ -357,6 +508,7 @@ var posts = [
     caption: 'The future of NZ retail is here. Small businesses that embrace technology are seeing 40% better customer retention and 25% higher average transaction values.\n\nHere\'s what the data tells us about the retail tech revolution in New Zealand.\n\n#RetailTech #Innovation #NZBusiness #FutureOfRetail',
     mockType: 'landscape',
     status: 'pending',
+    flagged: false,
     feedback: ''
   },
   {
@@ -369,6 +521,7 @@ var posts = [
     caption: 'POV: Your retail store runs itself \ud83e\udd16 Here\'s how NZ small businesses are using AI to serve customers better, manage stock automatically, and boost sales while they sleep.\n\n#RetailTech #SmallBiz #NZ #AI #FYP',
     mockType: 'portrait',
     status: 'pending',
+    flagged: false,
     feedback: ''
   }
 ];
@@ -400,6 +553,12 @@ function buildSlides() {
           '</div>' +
         '</div>' +
         '<div class="' + mockImageClass + '">' + mockImageContent + '</div>' +
+        '<div class="approved-overlay" id="approved-overlay-' + i + '" style="display:none;">' +
+          '<div class="approved-overlay-badge">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' +
+            'Approved' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<div class="detail-col">' +
         '<div class="platform-badge">' +
@@ -409,16 +568,6 @@ function buildSlides() {
         '<div class="caption-box">' +
           '<div class="caption-label">Caption</div>' +
           '<div class="caption-content">' + post.caption.replace(/\n/g, '<br>') + '</div>' +
-        '</div>' +
-        '<div class="feedback-panel" id="feedback-panel-' + i + '">' +
-          '<div class="feedback-panel-inner">' +
-            '<textarea class="feedback-textarea" id="feedback-text-' + i + '" placeholder="Describe what changes you\'d like..."></textarea>' +
-            '<button class="btn-send-feedback" onclick="submitFeedback(' + i + ')">Send Feedback</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="feedback-callout" id="callout-' + i + '">' +
-          '<div class="feedback-callout-label">Changes Requested</div>' +
-          '<div class="feedback-callout-text" id="callout-text-' + i + '"></div>' +
         '</div>' +
       '</div>';
 
@@ -440,12 +589,9 @@ function goToSlide(index) {
   var newSlide = document.getElementById('slide-' + index);
   var goingForward = index > currentSlide;
 
-  // Set new slide entry position
   newSlide.className = 'slide ' + (goingForward ? 'enter-right' : 'enter-left');
-  // Force reflow
   newSlide.offsetHeight;
 
-  // Animate old out, new in
   oldSlide.className = 'slide ' + (goingForward ? 'exit-left' : 'exit-right');
   newSlide.className = 'slide active';
 
@@ -469,7 +615,8 @@ function updateUI() {
     dot.className = 'nav-dot';
     if (i === currentSlide) dot.classList.add('active');
     if (posts[i].status === 'approved') dot.classList.add('reviewed');
-    if (posts[i].status === 'changes') dot.classList.add('reviewed');
+    if (posts[i].status === 'changes') dot.classList.add('changes-requested');
+    if (posts[i].flagged && posts[i].status === 'pending') dot.classList.add('flagged');
   });
 
   // Pending count
@@ -480,19 +627,77 @@ function updateUI() {
   var post = posts[currentSlide];
   var btnApprove = document.getElementById('btnApprove');
   var btnRequest = document.getElementById('btnRequest');
+
   if (post.status === 'approved') {
-    btnApprove.textContent = 'Approved';
-    btnApprove.className = 'btn-approve approved-state';
+    // Replace buttons with greyed-out approved state
+    btnApprove.style.display = 'none';
     btnRequest.style.display = 'none';
-  } else if (post.status === 'changes') {
-    btnApprove.textContent = 'Approve';
-    btnApprove.className = 'btn-approve';
-    btnRequest.style.display = 'none';
+    // Show a disabled approved button
+    var disabledBtn = document.getElementById('btnApprovedDisabled');
+    if (!disabledBtn) {
+      disabledBtn = document.createElement('button');
+      disabledBtn.id = 'btnApprovedDisabled';
+      disabledBtn.className = 'btn-approved-disabled';
+      document.getElementById('bottomBar').appendChild(disabledBtn);
+    }
+    disabledBtn.textContent = 'Approved \u2713';
+    disabledBtn.style.display = '';
+    // Show overlay on mockup
+    var overlay = document.getElementById('approved-overlay-' + currentSlide);
+    if (overlay) overlay.style.display = '';
   } else {
+    // Remove disabled button if exists
+    var disabledBtn = document.getElementById('btnApprovedDisabled');
+    if (disabledBtn) disabledBtn.style.display = 'none';
+
+    btnApprove.style.display = '';
     btnApprove.textContent = 'Approve';
     btnApprove.className = 'btn-approve';
     btnRequest.style.display = '';
+
+    if (post.flagged) {
+      btnRequest.textContent = '\u270F\uFE0F Feedback added';
+      btnRequest.className = 'btn-request flagged-state';
+    } else if (post.status === 'changes') {
+      btnRequest.style.display = 'none';
+    } else {
+      btnRequest.textContent = 'Request Changes';
+      btnRequest.className = 'btn-request';
+    }
   }
+
+  // Show/hide approved overlays for all slides
+  posts.forEach(function(p, i) {
+    var overlay = document.getElementById('approved-overlay-' + i);
+    if (overlay) overlay.style.display = p.status === 'approved' ? '' : 'none';
+  });
+
+  // Sticky feedback bar
+  updateStickyBar();
+}
+
+function updateStickyBar() {
+  var flaggedCount = posts.filter(function(p) { return p.flagged && p.status === 'pending'; }).length;
+  var bar = document.getElementById('stickyFeedbackBar');
+  var text = document.getElementById('stickyBarText');
+
+  if (flaggedCount > 0) {
+    text.textContent = flaggedCount + ' post' + (flaggedCount > 1 ? 's' : '') + ' flagged for changes';
+    bar.classList.add('visible');
+    // Shift main area bottom up to account for sticky bar
+    document.querySelector('.main-area').style.bottom = '120px';
+  } else {
+    bar.classList.remove('visible');
+    document.querySelector('.main-area').style.bottom = '68px';
+  }
+}
+
+function toggleFlag() {
+  var post = posts[currentSlide];
+  if (post.status !== 'pending') return;
+
+  post.flagged = !post.flagged;
+  updateUI();
 }
 
 function approvePost() {
@@ -500,46 +705,63 @@ function approvePost() {
   if (post.status === 'approved') return;
 
   post.status = 'approved';
+  post.flagged = false;
   updateUI();
   showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Post approved!');
 
-  // Auto-advance after 0.8s
   if (currentSlide < posts.length - 1) {
     setTimeout(function() { goToSlide(currentSlide + 1); }, 800);
   }
 }
 
-function requestChange() {
-  var panel = document.getElementById('feedback-panel-' + currentSlide);
-  panel.classList.toggle('open');
-  if (panel.classList.contains('open')) {
-    setTimeout(function() {
-      document.getElementById('feedback-text-' + currentSlide).focus();
-    }, 100);
-  }
+function openSheet() {
+  var flagged = [];
+  posts.forEach(function(p, i) {
+    if (p.flagged && p.status === 'pending') flagged.push({ post: p, index: i });
+  });
+  if (flagged.length === 0) return;
+
+  var body = document.getElementById('sheetBody');
+  body.innerHTML = '';
+
+  flagged.forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'sheet-post-item';
+    div.innerHTML =
+      '<div class="sheet-post-header">' +
+        '<div class="sheet-post-icon" style="background:' + item.post.platformColor + ';">' + item.post.platformIcon + '</div>' +
+        '<span class="sheet-post-name">' + item.post.platform + '</span>' +
+      '</div>' +
+      '<textarea class="sheet-textarea" id="sheet-text-' + item.index + '" placeholder="e.g. Can we make the tone a bit more casual?"></textarea>';
+    body.appendChild(div);
+  });
+
+  document.getElementById('sheetBackdrop').classList.add('visible');
+  document.getElementById('bottomSheet').classList.add('visible');
 }
 
-function submitFeedback(index) {
-  var text = document.getElementById('feedback-text-' + index).value.trim();
-  if (!text) return;
+function closeSheet() {
+  document.getElementById('sheetBackdrop').classList.remove('visible');
+  document.getElementById('bottomSheet').classList.remove('visible');
+}
 
-  posts[index].status = 'changes';
-  posts[index].feedback = text;
+function submitAllFeedback() {
+  var flagged = [];
+  posts.forEach(function(p, i) {
+    if (p.flagged && p.status === 'pending') flagged.push(i);
+  });
 
-  var panel = document.getElementById('feedback-panel-' + index);
-  panel.classList.remove('open');
+  flagged.forEach(function(i) {
+    var textarea = document.getElementById('sheet-text-' + i);
+    var text = textarea ? textarea.value.trim() : '';
+    posts[i].status = 'changes';
+    posts[i].flagged = false;
+    posts[i].feedback = text;
+  });
 
-  var callout = document.getElementById('callout-' + index);
-  document.getElementById('callout-text-' + index).textContent = text;
-  callout.classList.add('show');
-
+  closeSheet();
   updateUI();
-  showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Feedback sent to agency');
-
-  // Auto-advance
-  if (index < posts.length - 1) {
-    setTimeout(function() { goToSlide(index + 1); }, 800);
-  }
+  showToast('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#27C87D" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Feedback sent to your agency');
 }
 
 function showToast(html) {
